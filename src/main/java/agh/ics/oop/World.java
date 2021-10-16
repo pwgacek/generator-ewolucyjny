@@ -41,6 +41,7 @@ public class World {
                 }
                 case LEFT -> {
                     finalString.append("zwierzak idzie w lewo,");
+
                 }
             }
         }

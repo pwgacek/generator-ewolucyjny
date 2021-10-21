@@ -4,11 +4,16 @@ import java.util.ArrayList;
 
 public class World {
     public static void main(String[] args) {
-        System.out.println("start");
-        String[] moves =  {"l","r","dfs","b","fd"};
-
-        run(convert(moves));
-        System.out.println("stop");
+//        System.out.println("start");
+//        String[] moves =  {"l","r","dfs","b","fd"};
+//
+//        run(convert(moves));
+//        System.out.println("stop");
+        Vector2d position1 = new Vector2d(1,2);
+        System.out.println(position1);
+        Vector2d position2 = new Vector2d(-2,1);
+        System.out.println(position2);
+        System.out.println(position1.add(position2));
     }
     static ArrayList<Direction> convert(String[] args){
         ArrayList<Direction> directions = new ArrayList<>();

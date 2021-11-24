@@ -49,7 +49,7 @@ public class Vector2dTest {
     void subtractTest(){
         Vector2d v1 = new Vector2d(1,1);
         Vector2d v2 = new Vector2d(-1,-1);
-        assertEquals(v1.substract(v2),new Vector2d(2,2));
+        assertEquals(v1.subtract(v2),new Vector2d(2,2));
     }
     @Test
     void oppositeTest(){

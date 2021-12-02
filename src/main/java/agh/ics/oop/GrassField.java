@@ -1,17 +1,22 @@
 package agh.ics.oop;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class GrassField extends AbstractWorldMap {
 
     private final int grassQuantity;
     private final ArrayList<Grass> grassList;
+    private final Map<Vector2d,Grass> grassMap;
 
     public GrassField(int grassQuantity) {
         this.grassQuantity = grassQuantity;
         animals = new ArrayList<>();
         grassList = new ArrayList<>();
+        this.animalsMap = new HashMap<>();
+        this.grassMap = new HashMap<>();
 
         for(int i =0;i<grassQuantity;i++){
             Vector2d position = generateGrassCords();
@@ -19,6 +24,7 @@ public class GrassField extends AbstractWorldMap {
                 position = generateGrassCords();
             }
             grassList.add(new Grass(position));
+            grassMap.put(position,new Grass(position));
         }
 
     }
@@ -46,12 +52,9 @@ public class GrassField extends AbstractWorldMap {
 
     @Override
     public Object objectAt(Vector2d position) {
-        for(Animal animal:animals){
-            if(animal.isAt(position)) return animal;
-        }
-        for(Grass grass:grassList){
-            if(grass.getPosition().equals(position)) return grass;
-        }
+        Object animal = super.objectAt(position);
+        if(animal != null) return animal;
+        if(grassMap.containsKey(position)) return grassMap.get(position);
         return null;
     }
     private void getUpperRightBound(){

@@ -1,6 +1,7 @@
 package agh.ics.oop;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class RectangularMap extends AbstractWorldMap{
 
@@ -8,6 +9,7 @@ public class RectangularMap extends AbstractWorldMap{
         this.width = width;
         this.height = height;
         this.animals = new ArrayList<>();
+        this.animalsMap = new HashMap<>();
 
     }
 
@@ -20,13 +22,7 @@ public class RectangularMap extends AbstractWorldMap{
         return false;
     }
 
-    @Override
-    public Animal objectAt(Vector2d position) {
-        for( Animal animal:animals){
-            if(animal.isAt(position)) return animal;
-        }
-        return null;
-    }
+
 
 
 

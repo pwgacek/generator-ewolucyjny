@@ -23,6 +23,9 @@ public class GrassField extends AbstractWorldMap {
             while(isGrassAt(position)){
                 position = generateGrassCords();
             }
+            mapBoundary.addtoboundGrassX(position);
+            mapBoundary.addtoboundGrassY(position);
+
             grassList.add(new Grass(position));
             grassMap.put(position,new Grass(position));
         }
@@ -50,6 +53,7 @@ public class GrassField extends AbstractWorldMap {
     }
 
 
+
     @Override
     public Object objectAt(Vector2d position) {
         Object animal = super.objectAt(position);
@@ -57,27 +61,12 @@ public class GrassField extends AbstractWorldMap {
         if(grassMap.containsKey(position)) return grassMap.get(position);
         return null;
     }
-    private void getUpperRightBound(){
-        int x=0;
-        int y=0;
-        for(Animal animal :animals){
-            if(x<animal.getPosition().x)x = animal.getPosition().x;
-            if(y<animal.getPosition().y)y = animal.getPosition().y;
 
-        }
-        for(Grass grass :grassList){
-            if(x<grass.getPosition().x)x = grass.getPosition().x;
-            if(y<grass.getPosition().y)y = grass.getPosition().y;
-
-        }
-
-        height = y;
-        width = x;
-    }
 
     @Override
     public String toString() {
-       getUpperRightBound();
+       height = Math.max(mapBoundary.getboundAnimalY(), mapBoundary.getboundGrassY());
+       width = Math.max(mapBoundary.getboundAnimalX(), mapBoundary.getboundGrassX());
         return super.toString();
     }
 }

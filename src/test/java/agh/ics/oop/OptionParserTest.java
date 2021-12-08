@@ -17,8 +17,13 @@ public class OptionParserTest {
         directions.add(MoveDirection.BACKWARD);
         directions.add(MoveDirection.BACKWARD);
 
+        try{
+            assertEquals(parser.parse(new String[]{"ala","r","left","t","forward","f","b","d","back"}) ,directions);
+        }catch(IllegalArgumentException e){
+            System.out.println(e.getMessage());
 
-        assertEquals(parser.parse(new String[]{"ala","r","left","t","forward","f","b","d","back"}) ,directions);
+        }
+
 
     }
 }

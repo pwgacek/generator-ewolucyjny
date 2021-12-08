@@ -8,7 +8,7 @@ public abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObser
     protected  int width;
     public ArrayList<Animal> animals;
     public Map<Vector2d,Animal> animalsMap;
-
+    public MapBoundary mapBoundary = new MapBoundary();
 
     @Override
     public boolean place(Animal animal) {
@@ -16,9 +16,15 @@ public abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObser
             animals.add(animal);
             animalsMap.put(animal.getPosition(),animal);
             animal.addObserver(this);
+            mapBoundary.addtoboundAnimalX(animal.getPosition());
+            mapBoundary.addtoboundAnimalY(animal.getPosition());
+            animal.addObserver(mapBoundary);
             return true;
         }
-        return false;
+        else{
+            throw new IllegalArgumentException("position: "+animal.getPosition() + " is occupied, can not place animal");
+        }
+
     }
 
     @Override

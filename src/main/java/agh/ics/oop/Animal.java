@@ -2,7 +2,7 @@ package agh.ics.oop;
 
 import java.util.ArrayList;
 
-public class Animal {
+public class Animal  {
 
     private MapDirection direction ;
     private Vector2d position;
@@ -77,8 +77,6 @@ public class Animal {
         }
 
     }
-
-
 
 
 

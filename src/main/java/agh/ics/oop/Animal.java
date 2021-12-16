@@ -2,7 +2,7 @@ package agh.ics.oop;
 
 import java.util.ArrayList;
 
-public class Animal  {
+public class Animal implements IMapElement {
 
     private MapDirection direction ;
     private Vector2d position;
@@ -26,6 +26,16 @@ public class Animal  {
     public MapDirection getDirection() { return direction; }
     public Vector2d getPosition() {
         return position;
+    }
+
+    @Override
+    public String getImgPath() {
+        switch(this.direction){
+            case EAST -> { return "src/main/resources/right.png"; }
+            case NORTH -> {return "src/main/resources/up.png";}
+            case SOUTH -> {return "src/main/resources/down.png";}
+            default ->  {return "src/main/resources/left.png";}
+        }
     }
 
     @Override

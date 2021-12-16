@@ -10,6 +10,14 @@ public abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObser
     public Map<Vector2d,Animal> animalsMap;
     public MapBoundary mapBoundary = new MapBoundary();
 
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
     @Override
     public boolean place(Animal animal) {
         if(!isOccupied(animal.getPosition())){

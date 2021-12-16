@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class EngineTest {
+    /*
     @Test
     public void engineTest1(){ //sprawdza czy nie stawia zwierząt na tej samej pozycji i czy nie powoduje to błędow
         ArrayList<MoveDirection> moves = (new OptionParser().parse(new String[]{"r", "r","f","f","f"}));
@@ -66,5 +67,5 @@ public class EngineTest {
 
     }
 
-
+*/
 }

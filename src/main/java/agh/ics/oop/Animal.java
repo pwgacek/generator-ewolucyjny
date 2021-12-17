@@ -20,6 +20,7 @@ public class Animal implements IMapElement {
         observerList = new ArrayList<>();
         this.energy = 50;
         this.genotype = generateGenotype();
+        System.out.println(Arrays.toString(this.genotype));
     }
 
 
@@ -66,7 +67,7 @@ public class Animal implements IMapElement {
     public void move(int rotation){
         int x = this.getPosition().x;
         int y = this.getPosition().y;
-
+        System.out.println("chosen gen: "+ rotation);
         switch (rotation) {
             case 0 -> {
                 if (map.canMoveTo(this.position.add(this.direction.toUnitVector())) )

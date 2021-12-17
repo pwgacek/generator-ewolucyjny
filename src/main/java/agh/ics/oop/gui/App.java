@@ -23,7 +23,7 @@ public class  App extends Application  {
 
         try{
 
-            AbstractWorldMap map = new GrassField(10);
+            AbstractWorldMap map = new GrassField(10,10,10);
             ArrayList<Vector2d> positions = new ArrayList<>();
 
             positions.add(new Vector2d(1,2));

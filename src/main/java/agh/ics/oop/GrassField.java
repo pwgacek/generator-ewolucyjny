@@ -11,14 +11,14 @@ public class GrassField extends AbstractWorldMap {
     private final ArrayList<Grass> grassList;
     private final Map<Vector2d,Grass> grassMap;
 
-    public GrassField(int grassQuantity) {
+    public GrassField(int grassQuantity,int width,int height) {
         this.grassQuantity = grassQuantity;
         animals = new ArrayList<>();
         grassList = new ArrayList<>();
         this.animalsMap = new HashMap<>();
         this.grassMap = new HashMap<>();
-        this.height = 10;
-        this.width = 10;
+        this.height = height;
+        this.width = width;
 
         for(int i =0;i<grassQuantity;i++){
             Vector2d position = generateGrassCords();
@@ -35,8 +35,8 @@ public class GrassField extends AbstractWorldMap {
 
     private Vector2d generateGrassCords(){
         Random random = new Random();
-        int x = random.nextInt((int)Math.sqrt(grassQuantity*10));
-        int y = random.nextInt((int)Math.sqrt(grassQuantity*10));
+        int x = random.nextInt(width);
+        int y = random.nextInt(height);
         return new Vector2d(x,y);
     }
     private boolean isGrassAt(Vector2d position){

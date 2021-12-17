@@ -7,14 +7,14 @@ import java.util.ArrayList;
 
 public class SimulationEngine  implements  Runnable{
     private ArrayList<MoveDirection> moves;
-    private final IWorldMap map;
+    private final AbstractWorldMap map;
     private final ArrayList<Vector2d> positions = new ArrayList<>();
     private final MapVisualizer observer;
     private final int moveDelay;
 
 
 
-    public SimulationEngine(IWorldMap map, ArrayList<Vector2d> initialPositions, MapVisualizer mapVisualizer, int moveDelay) {
+    public SimulationEngine(AbstractWorldMap map, ArrayList<Vector2d> initialPositions, MapVisualizer mapVisualizer, int moveDelay) {
 
         this.map = map;
         this.moveDelay = moveDelay;
@@ -26,24 +26,29 @@ public class SimulationEngine  implements  Runnable{
 
     }
 
-    public void setDirections(String[] moves)throws IllegalArgumentException {
-        this.moves = new OptionParser().parse(moves);
-    }
+
 
     @Override
     public void run() {
         Platform.runLater(observer::positionChanged);
         System.out.println(map);
         int positionIterator = 0;
+        while(!map.animals.isEmpty()){
+            ArrayList<Animal> animalsToRemove = new ArrayList<>();
+            for(Animal animal : map.animals){
+                if(animal.getEnergy() > 0) {
+                    animal.move(animal.getRandomGen());
+                    animal.loseEnergy(5);
 
+                }
+                else{
+                    animalsToRemove.add(animal);
+                }
 
-
-        for(MoveDirection move:moves){
-
-
-            if(positionIterator == positions.size()) positionIterator = 0;
-            Animal a = (Animal) map.objectAt(positions.get(positionIterator));
-            Vector2d oldPosition = new Vector2d(a.getPosition().x, a.getPosition().y);
+            }
+            for(Animal animal : animalsToRemove){
+                map.removeAnimal(animal);
+            }
 
             try {
                 Thread.sleep(moveDelay);
@@ -51,15 +56,12 @@ public class SimulationEngine  implements  Runnable{
                 e.printStackTrace();
                 System.out.println(e.getMessage());
             }
-            a.move(move);
+
             Platform.runLater(observer::positionChanged);
-
-
-
-
-            positions.set(positionIterator++,a.getPosition());
             System.out.println(map);
         }
+
+
 
     }
 

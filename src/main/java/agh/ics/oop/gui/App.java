@@ -23,7 +23,7 @@ public class  App extends Application  {
 
         try{
 
-            AbstractWorldMap map = new GrassField(6);
+            AbstractWorldMap map = new GrassField(10);
             ArrayList<Vector2d> positions = new ArrayList<>();
 
             positions.add(new Vector2d(1,2));
@@ -34,9 +34,9 @@ public class  App extends Application  {
 
 
             Button startBtn = new Button("start");
-            TextField textField = new TextField();
 
-            VBox vBox = new VBox(textField,startBtn);
+
+            VBox vBox = new VBox(startBtn);
             vBox.setAlignment(Pos.CENTER);
             vBox.setSpacing(10);
             gridPane.getColumnConstraints().add(new ColumnConstraints(50));
@@ -51,7 +51,7 @@ public class  App extends Application  {
                 MapVisualizer mapVisualizer = new MapVisualizer(map,primaryStage);
                 SimulationEngine engine = new SimulationEngine(map, positions, mapVisualizer,moveDelay);
                 try{
-                    engine.setDirections(textField.getText().split(" "));
+
                     Thread engineThread = new Thread(engine);
                     engineThread.start();
                 }catch (IllegalArgumentException ex){

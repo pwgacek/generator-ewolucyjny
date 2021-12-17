@@ -1,19 +1,16 @@
 package agh.ics.oop;
-
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
 
 public class Animal implements IMapElement {
 
     private MapDirection direction ;
     private Vector2d position;
-    private IWorldMap map;
+    private final IWorldMap map;
     private final ArrayList<IPositionChangeObserver> observerList;
-
-    public Animal() {
-        this.direction = MapDirection.NORTH;
-        this.position = new Vector2d(2,2);
-        observerList = new ArrayList<>();
-    }
+    private int energy;
+    private final int[] genotype;
 
 
     public Animal(IWorldMap map, Vector2d initialPosition){
@@ -21,12 +18,39 @@ public class Animal implements IMapElement {
         this.position = initialPosition;
         this.direction = MapDirection.NORTH;
         observerList = new ArrayList<>();
+        this.energy = 50;
+        this.genotype = generateGenotype();
     }
+
 
     public MapDirection getDirection() { return direction; }
     public Vector2d getPosition() {
         return position;
     }
+
+    public int getEnergy() {
+        return energy;
+    }
+
+    public void loseEnergy(int energy) {
+        this.energy -=energy;
+    }
+
+    private int[] generateGenotype(){
+        Random rd = new Random();
+        int[] genotype = new int[32];
+        for(int i=0;i<32;i++){
+            genotype[i] = rd.nextInt(8);
+        }
+        Arrays.sort(genotype);
+        return genotype;
+    }
+
+    public int getRandomGen(){
+        int randomIndex = new Random().nextInt(32);
+        return genotype[randomIndex];
+    }
+
 
     @Override
     public String getImgPath() {
@@ -38,38 +62,22 @@ public class Animal implements IMapElement {
         }
     }
 
-    @Override
-    public String toString() {
-        switch(direction){
-            case EAST -> { return "E";}
-            case NORTH -> {return "N";}
-            case SOUTH -> {return "S";}
-            default ->  {return "W";}
 
-        }
-
-    }
-
-    public boolean isAt(Vector2d position){
-        return this.position.equals(position);
-    }
-
-    public void move(MoveDirection direction){
+    public void move(int rotation){
         int x = this.getPosition().x;
         int y = this.getPosition().y;
 
-        switch (direction) {
-            case LEFT -> this.direction = this.direction.previous();
-            case RIGHT -> this.direction = this.direction.next();
-            case FORWARD -> {
+        switch (rotation) {
+            case 0 -> {
                 if (map.canMoveTo(this.position.add(this.direction.toUnitVector())) )
                     this.position = this.position.add(this.direction.toUnitVector());
             }
-            case BACKWARD -> {
+            case 4 -> {
                 if (map.canMoveTo(this.position.subtract(this.direction.toUnitVector())))
                     this.position = this.position.subtract(this.direction.toUnitVector());
-
             }
+
+            default ->this.direction = this.direction.rotate(rotation);
         }
 
         positionChanged(new Vector2d(x,y));
@@ -89,5 +97,19 @@ public class Animal implements IMapElement {
     }
 
 
+    @Override
+    public String toString() {
+        return switch(direction){
+            case NORTH ->  "N";
+            case NORTHEAST -> "NE";
+            case EAST -> "E";
+            case SOUTHEAST -> "SE";
+            case SOUTH ->  "S";
+            case SOUTHWEST -> "SW";
+            case WEST ->  "W";
+            case NORTHWEST ->  "NW";
 
+        };
+
+    }
 }

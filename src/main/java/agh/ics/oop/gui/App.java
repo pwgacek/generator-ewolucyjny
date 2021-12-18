@@ -23,13 +23,18 @@ public class  App extends Application  {
 
         try{
 
-            AbstractWorldMap map = new GrassField(10,10,10);
+            AbstractWorldMap map = new GrassField(20,10,10);
             ArrayList<Vector2d> positions = new ArrayList<>();
 
             positions.add(new Vector2d(1,2));
             positions.add(new Vector2d(2,1));
             positions.add(new Vector2d(3,4));
-            int moveDelay =700;
+
+            positions.add(new Vector2d(0,0));
+            positions.add(new Vector2d(10,10));
+            positions.add(new Vector2d(0,10));
+            positions.add(new Vector2d(10,0));
+            int moveDelay =200;
 
 
 

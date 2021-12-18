@@ -35,8 +35,8 @@ public class GrassField extends AbstractWorldMap {
 
     private Vector2d generateGrassCords(){
         Random random = new Random();
-        int x = random.nextInt(width);
-        int y = random.nextInt(height);
+        int x = random.nextInt(width+1);
+        int y = random.nextInt(height+1);
         return new Vector2d(x,y);
     }
     private boolean isGrassAt(Vector2d position){
@@ -45,10 +45,11 @@ public class GrassField extends AbstractWorldMap {
         }
         return false;
     }
+    @Override
     public boolean canMoveTo(Vector2d position) {
-        if (position.x >=0 &&  position.y >=0)
+        if (position.x <= width && position.x >=0 && position.y <= height && position.y >=0)
         {
-           return !isOccupied(position);
+            return !isOccupied(position);
         }
         return false;
     }

@@ -1,6 +1,7 @@
 package agh.ics.oop;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Random;
 
 public class Animal implements IMapElement {
@@ -11,6 +12,7 @@ public class Animal implements IMapElement {
     private final ArrayList<IPositionChangeObserver> observerList;
     private int energy;
     private final int[] genotype;
+    public ArrayList<String> reports;
 
 
     public Animal(IWorldMap map, Vector2d initialPosition){
@@ -21,6 +23,8 @@ public class Animal implements IMapElement {
         this.energy = 50;
         this.genotype = generateGenotype();
         System.out.println(Arrays.toString(this.genotype));
+        this.reports = new ArrayList<>();
+        reports.add("--genotype: "+ Arrays.toString(this.genotype) + "position: " + position.toString() + "energy: " + this.energy );
     }
 
 
@@ -55,18 +59,20 @@ public class Animal implements IMapElement {
 
     @Override
     public String getImgPath() {
-        switch(this.direction){
-            case EAST -> { return "src/main/resources/right.png"; }
-            case NORTH -> {return "src/main/resources/up.png";}
-            case SOUTH -> {return "src/main/resources/down.png";}
-            default ->  {return "src/main/resources/left.png";}
-        }
+        if (this.energy > 40) return "src/main/resources/yellow.png";
+        if (this.energy > 30) return "src/main/resources/light_orange.png";
+        if (this.energy > 20) return "src/main/resources/orange.png";
+        if (this.energy > 10) return "src/main/resources/red.png";
+        return "src/main/resources/brown.png";
+
+
     }
 
 
     public void move(int rotation){
         int x = this.getPosition().x;
         int y = this.getPosition().y;
+        MapDirection oldDirection = this.direction;
         System.out.println("chosen gen: "+ rotation);
         switch (rotation) {
             case 0 -> {
@@ -82,6 +88,7 @@ public class Animal implements IMapElement {
         }
 
         positionChanged(new Vector2d(x,y));
+        reports.add("---rotation: " + rotation+" oldDirection: " + oldDirection + " newDirection:" +this.direction +" oldPosition: "+ new Vector2d(x,y) +" newPosition: " + position + " energy: " + this.energy );
     }
 
     public void addObserver(IPositionChangeObserver observer){

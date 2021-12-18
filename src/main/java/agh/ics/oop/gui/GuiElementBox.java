@@ -18,12 +18,12 @@ public class GuiElementBox {
         try {
             Image image = new Image(new FileInputStream(mapElement.getImgPath()));
             ImageView imageView = new ImageView(image);
-            imageView.setFitWidth(20);
-            imageView.setFitHeight(20);
+            imageView.setFitWidth(28);
+            imageView.setFitHeight(28);
 
-            Label label = new Label(mapElement.getPosition().toString());
-            label.setFont(new Font(9));
-           this.verticalBox = new VBox(imageView,label);
+
+
+           this.verticalBox = new VBox(imageView);
             verticalBox.setAlignment(Pos.CENTER);
         } catch (FileNotFoundException e) {
 

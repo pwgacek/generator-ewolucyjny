@@ -12,7 +12,7 @@ public class SimulationEngine  implements  Runnable{
     private final ArrayList<Vector2d> positions = new ArrayList<>();
     private final MapVisualizer observer;
     private final int moveDelay;
-    private boolean transfer = true;
+
 
 
 
@@ -32,80 +32,58 @@ public class SimulationEngine  implements  Runnable{
 
     @Override
     public void run() {
-        waitForRunLater();
+
         Platform.runLater(observer::positionChanged);
+        waitForRunLater();
         System.out.println(map);
 
         while(!map.animals.isEmpty()){
-            send();
-            receive();
-        }
-
-    }
-
-
-
-    public synchronized void send() {
-        while (!transfer) {
-            try {
-                wait();
-            } catch (InterruptedException e)  {
-                Thread.currentThread().interrupt();
-                System.out.println(e.getMessage());
+            ArrayList<Animal> animalsToRemove = new ArrayList<>();
+            // usuwanie martwych zwierząt
+            for(Animal animal : map.animals){
+                if(animal.getEnergy() == 0) animalsToRemove.add(animal);
             }
-        }
-        transfer = false;
-        System.out.println("---"+map.animals.toString());
-        ArrayList<Animal> animalsToRemove = new ArrayList<>();
+            for(Animal deadAnimal : animalsToRemove){
+                System.out.println(deadAnimal.reports);
+                deadAnimal.removeObserver(this.map);
+                map.removeAnimal(deadAnimal);
+            }
 
-        for(Animal animal : map.animals){
-
-            if(animal.getEnergy() > 0) {
+            // ruch albo skręt zwierzęcia
+            for(Animal animal : map.animals){
                 animal.move(animal.getRandomGen());
-                animal.loseEnergy(5);
-
+                animal.changeEnergy(-5);
             }
-            else{
-                animalsToRemove.add(animal);
+            //jedzenie roślin
+            for(Animal animal : map.animals){
+                if(map.grassMap.containsKey(animal.getPosition())){
+                    animal.changeEnergy(10);
+                    map.removeGrass(map.grassMap.get(animal.getPosition()));
+
+                }
             }
 
-        }
+            // dodanie nowych roślin
+            this.map.addGrass(1);
 
 
-        for(Animal animal : animalsToRemove){
-            System.out.println(animal.reports.toString());
-            map.removeAnimal(animal);
-        }
 
-
-        notifyAll();
-    }
-
-    public synchronized void receive() {
-        while (transfer) {
             try {
-                wait();
-            } catch (InterruptedException e)  {
-                Thread.currentThread().interrupt();
+                Thread.sleep(moveDelay);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
                 System.out.println(e.getMessage());
             }
-        }
-        transfer = true;
-        try {
-            Thread.sleep(moveDelay);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            System.out.println(e.getMessage());
+
+            Platform.runLater(observer::positionChanged);
+            waitForRunLater();
+            System.out.println(map);
         }
 
-        Platform.runLater(observer::positionChanged);
-        waitForRunLater();
-
-
-        System.out.println(map);
-        notifyAll();
 
     }
+
+
     public static void waitForRunLater()  {
         Semaphore semaphore = new Semaphore(0);
         Platform.runLater(() -> semaphore.release());

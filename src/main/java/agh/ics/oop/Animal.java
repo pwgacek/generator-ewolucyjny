@@ -37,8 +37,8 @@ public class Animal implements IMapElement {
         return energy;
     }
 
-    public void loseEnergy(int energy) {
-        this.energy -=energy;
+    public void changeEnergy(int energy) {
+        this.energy +=energy;
     }
 
     private int[] generateGenotype(){
@@ -73,7 +73,7 @@ public class Animal implements IMapElement {
         int x = this.getPosition().x;
         int y = this.getPosition().y;
         MapDirection oldDirection = this.direction;
-        System.out.println("chosen gen: "+ rotation);
+
         switch (rotation) {
             case 0 -> {
                 if (map.canMoveTo(this.position.add(this.direction.toUnitVector())) )

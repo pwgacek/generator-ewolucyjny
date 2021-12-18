@@ -2,6 +2,7 @@ package agh.ics.oop;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.stream.Stream;
 
 public class RectangularMap extends AbstractWorldMap{
 
@@ -15,11 +16,7 @@ public class RectangularMap extends AbstractWorldMap{
 
     @Override
     public boolean canMoveTo(Vector2d position) {
-        if (position.x <= width && position.x >=0 && position.y <= height && position.y >=0)
-        {
-            return !isOccupied(position);
-        }
-        return false;
+        return position.x <= width && position.x >= 0 && position.y <= height && position.y >= 0;
     }
 
 

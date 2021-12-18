@@ -28,11 +28,7 @@ public class GrassField extends AbstractWorldMap {
 
     @Override
     public boolean canMoveTo(Vector2d position) {
-        if (position.x <= width && position.x >=0 && position.y <= height && position.y >=0)
-        {
-            return !isOccupied(position);
-        }
-        return false;
+        return position.x <= width && position.x >= 0 && position.y <= height && position.y >= 0;
     }
 
     @Override

@@ -21,19 +21,21 @@ public class  App extends Application  {
     public void start(Stage primaryStage){
         //String[] moves = this.getParameters().getRaw().toArray(new String[0]);
 
+
         try{
 
-            AbstractWorldMap map = new GrassField(20,10,10);
+            AbstractWorldMap map = new GrassField(30,10,10);
             ArrayList<Vector2d> positions = new ArrayList<>();
 
-            positions.add(new Vector2d(1,2));
-            positions.add(new Vector2d(2,1));
-            positions.add(new Vector2d(3,4));
+            positions.add(new Vector2d(4,4));
+            positions.add(new Vector2d(4,5));
+            positions.add(new Vector2d(5,4));
+            positions.add(new Vector2d(5,5));
+            positions.add(new Vector2d(4,4));
+            positions.add(new Vector2d(4,5));
+            positions.add(new Vector2d(5,4));
+            positions.add(new Vector2d(5,5));
 
-            positions.add(new Vector2d(0,0));
-            positions.add(new Vector2d(10,10));
-            positions.add(new Vector2d(0,10));
-            positions.add(new Vector2d(10,0));
             int moveDelay =200;
 
 

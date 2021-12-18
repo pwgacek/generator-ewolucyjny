@@ -2,16 +2,13 @@ package agh.ics.oop;
 
 import javafx.collections.transformation.SortedList;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Random;
-import java.util.TreeSet;
+import java.util.*;
 
 public abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObserver{
     protected  int height;
     protected  int width;
     public ArrayList<Animal> animals;
-    public Map<Vector2d, Animal> animalsMap;
+    public Map<Vector2d, ArrayList<Animal>> animalsMap;
     protected  int grassQuantity;
     protected  ArrayList<Grass> grassList;
     protected  Map<Vector2d,Grass> grassMap;
@@ -52,15 +49,20 @@ public abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObser
 
     @Override
     public boolean place(Animal animal) {
-        if(!isOccupied(animal.getPosition())){
-            animals.add(animal);
-            animalsMap.put(animal.getPosition(),animal);
-            animal.addObserver(this);
-            return true;
+
+        animals.add(animal);
+        if(animalsMap.containsKey(animal.getPosition())){
+            animalsMap.get(animal.getPosition()).add(animal);
+            Collections.sort(animalsMap.get(animal.getPosition()));
         }
         else{
-            throw new IllegalArgumentException("position: "+animal.getPosition() + " is occupied, can not place animal");
+            animalsMap.put(animal.getPosition(),new ArrayList<>());
+            animalsMap.get(animal.getPosition()).add(animal);
         }
+
+        animal.addObserver(this);
+        return true;
+
 
     }
 
@@ -70,7 +72,7 @@ public abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObser
     }
     @Override
     public Object objectAt(Vector2d position) {
-        if(animalsMap.containsKey(position)) return animalsMap.get(position);
+        if(animalsMap.containsKey(position)) return animalsMap.get(position).get(0);
         return null;
     }
 
@@ -79,17 +81,33 @@ public abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObser
         return  (new MapVisualizer(this).draw(new Vector2d(0,0),new Vector2d(width,height)));
     }
     @Override
-    public void positionChanged(Vector2d oldPosition, Vector2d newPosition){
+    public void positionChanged(Vector2d oldPosition,Animal animal){
 
-        if(!oldPosition.equals(newPosition)) {
-            animalsMap.put(newPosition, animalsMap.get(oldPosition));
-            animalsMap.remove(oldPosition, animalsMap.get(oldPosition));
+        if(!oldPosition.equals(animal.getPosition())) {
+            if(animalsMap.containsKey(animal.getPosition())){
+                animalsMap.get(animal.getPosition()).add(animal);
+                Collections.sort(animalsMap.get(animal.getPosition()));
+            }
+            else{
+                animalsMap.put(animal.getPosition(),new ArrayList<>());
+                animalsMap.get(animal.getPosition()).add(animal);
+            }
+            animalsMap.get(oldPosition).remove(animal);
+            if(animalsMap.get(oldPosition).isEmpty()){
+                animalsMap.remove(oldPosition);
+            }
+
+
         }
     }
 
     public void removeAnimal(Animal animal){
         animals.remove(animal);
-        animalsMap.remove(animal.getPosition());
+        animalsMap.get(animal.getPosition()).remove(animal);
+        if(animalsMap.get(animal.getPosition()).isEmpty()){
+            animalsMap.remove(animal.getPosition());
+        }
+
     }
 
     public void removeGrass(Grass grass){

@@ -1,10 +1,7 @@
 package agh.ics.oop;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
-public class Animal implements IMapElement {
+public class Animal implements IMapElement, Comparable<Animal> {
 
     private MapDirection direction ;
     private Vector2d position;
@@ -20,12 +17,30 @@ public class Animal implements IMapElement {
         this.position = initialPosition;
         this.direction = MapDirection.NORTH;
         observerList = new ArrayList<>();
-        this.energy = 50;
+        this.energy =40+ new Random().nextInt(10);
         this.genotype = generateGenotype();
         System.out.println(Arrays.toString(this.genotype));
         this.reports = new ArrayList<>();
         reports.add("--genotype: "+ Arrays.toString(this.genotype) + "position: " + position.toString() + "energy: " + this.energy );
     }
+    public Animal(IWorldMap map, Vector2d initialPosition,Animal strongerParent,Animal weakerParent){
+        this.map = map;
+        this.position = initialPosition;
+        this.direction = MapDirection.NORTH;
+        observerList = new ArrayList<>();
+        System.out.println("Rozmnazanie: matka: " + strongerParent.getPosition() + " energia: "+ strongerParent.getEnergy() +" genotyp: " + Arrays.toString(strongerParent.genotype) + " ojciec: " + weakerParent.getPosition() + " energia: "+weakerParent.getEnergy()+" genotyp: " + Arrays.toString(weakerParent.genotype));
+
+        this.energy = getChildsEnergy(strongerParent,weakerParent);
+        strongerParent.changeEnergy(-(int)(strongerParent.getEnergy()/4));
+        weakerParent.changeEnergy(-(int)(weakerParent.getEnergy()/4));
+        this.genotype = getChildsGenotype(strongerParent,weakerParent);
+        System.out.println("Po rozmnożeniu: genotyp: "+ Arrays.toString(this.genotype)+ " energia: "+ this.energy);
+        System.out.println("energia rodzicow: "+ strongerParent.getEnergy() +", "+weakerParent.getEnergy());
+        this.reports = new ArrayList<>();
+        reports.add("--genotype: "+ Arrays.toString(this.genotype) + "position: " + position.toString() + "energy: " + this.energy );
+
+    }
+
 
 
     public MapDirection getDirection() { return direction; }
@@ -99,7 +114,7 @@ public class Animal implements IMapElement {
     }
     public void positionChanged(Vector2d oldPosition){
         for(IPositionChangeObserver observer:observerList){
-            observer.positionChanged(oldPosition,this.position);
+            observer.positionChanged(oldPosition,this);
         }
 
     }
@@ -120,4 +135,51 @@ public class Animal implements IMapElement {
         };
 
     }
+
+    @Override
+    public int compareTo(Animal other) {
+        return other.energy - this.energy;
+    }
+
+    private int[] getChildsGenotype(Animal strongerParent,Animal weakerParent){
+
+        int[] childsGenotype = new int[32];
+
+
+        int energySum = weakerParent.getEnergy() + strongerParent.getEnergy();
+        int gensTakenFromStronger = (int)((strongerParent.getEnergy()/energySum)*32);
+        boolean takeLeftSideFromStronger = new Random().nextBoolean();
+
+        if(takeLeftSideFromStronger){
+            for(int i=0;i<32;i++){
+                if(i<gensTakenFromStronger){
+                    childsGenotype[i] = strongerParent.genotype[i];
+                }
+                else{
+                    childsGenotype[i] = weakerParent.genotype[i];
+                }
+
+            }
+        }
+        else{
+            for(int i=0;i<32;i++){
+                if(i<32-gensTakenFromStronger){
+                    childsGenotype[i] = weakerParent.genotype[i];
+                }
+                else{
+                    childsGenotype[i] = strongerParent.genotype[i];
+                }
+
+            }
+        }
+        Arrays.sort(childsGenotype);
+        return childsGenotype;
+    }
+
+    private int getChildsEnergy(Animal mother,Animal father){
+        return (int)((mother.getEnergy() + father.getEnergy())/4);
+    }
+
+
+
 }

@@ -12,7 +12,7 @@ public class GrassField extends AbstractWorldMap {
     public GrassField(int grassQuantity,int width,int height) {
         this.grassQuantity = grassQuantity;
         animals = new ArrayList<>();
-        grassList = new ArrayList<>();
+
         this.animalsMap = new HashMap<>();
         this.grassMap = new HashMap<>();
         this.height = height;

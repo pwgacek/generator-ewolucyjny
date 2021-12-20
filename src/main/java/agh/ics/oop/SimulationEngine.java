@@ -45,6 +45,7 @@ public class SimulationEngine  implements  Runnable{
         while(!map.animals.isEmpty()){
             System.out.println("********DZIEN NR " + dayCounter + "********");
             System.out.println("");
+            
 
             ArrayList<Animal> animalsToRemove = new ArrayList<>();
             // usuwanie martwych zwierząt
@@ -64,14 +65,16 @@ public class SimulationEngine  implements  Runnable{
 
             for(Animal animal : map.animals){
                 animal.move(animal.getRandomGen());
-                System.out.println("ID: "+animal.myID+" nowa pozycja: "+ animal.getPosition()+ " nowy kierunek: "+ animal.getDirection() + " pozostało energii: " + (animal.getEnergy()-5));
             }
             for(Animal animal :map.animals){
-                animal.changeEnergy(-5);
+                animal.changeEnergy(-1);
+                System.out.println("ID: "+animal.myID+" nowa pozycja: "+ animal.getPosition()+ " nowy kierunek: "+ animal.getDirection() + " pozostało energii: " + (animal.getEnergy()));
+
             }
 
             //jedzenie roślin
             System.out.println("***JEDZENIE ROSLIN***");
+            ArrayList<Grass> grassToRemove = new ArrayList<>();
             for(Vector2d position : map.animalsMap.keySet()){
                 if(map.grassMap.containsKey(position)){
 
@@ -94,8 +97,11 @@ public class SimulationEngine  implements  Runnable{
                     }
                     eatingReportBuilder.append(" zyskują: ").append(10 / banqueters.size()).append(" energi");
                     System.out.println(eatingReportBuilder);
-                    map.removeGrass(map.grassMap.get(position));
+                    grassToRemove.add(map.grassMap.get(position));
                 }
+            }
+            for(Grass grass : grassToRemove){
+                map.grassMap.remove(grass.getPosition());
             }
             // rozmnażanie zwierząt
             System.out.println("***ROZMNAŻANIE***");
@@ -144,6 +150,7 @@ public class SimulationEngine  implements  Runnable{
 
 
             // dodanie nowych roślin
+
             this.map.addGrass(1);
 
 

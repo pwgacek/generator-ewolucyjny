@@ -10,7 +10,7 @@ public abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObser
     public ArrayList<Animal> animals;
     public Map<Vector2d, ArrayList<Animal>> animalsMap;
     protected  int grassQuantity;
-    protected  ArrayList<Grass> grassList;
+
     protected  Map<Vector2d,Grass> grassMap;
 
 
@@ -29,10 +29,8 @@ public abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObser
         return new Vector2d(x,y);
     }
     protected boolean isGrassAt(Vector2d position){
-        for(Grass grass:grassList){
-            if(grass.getPosition().equals(position)) return true;
-        }
-        return false;
+        return grassMap.containsKey(position);
+
     }
     public void addGrass(int grassQuantity) {
         for(int i = 0; i< grassQuantity; i++){
@@ -42,7 +40,7 @@ public abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObser
             }
 
 
-            grassList.add(new Grass(position));
+
             grassMap.put(position,new Grass(position));
         }
     }
@@ -110,10 +108,6 @@ public abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObser
 
     }
 
-    public void removeGrass(Grass grass){
-        grassList.remove(grass);
-        grassMap.remove(grass.getPosition());
-    }
 
 
 }

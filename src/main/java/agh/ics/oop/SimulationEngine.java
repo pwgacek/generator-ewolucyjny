@@ -1,6 +1,7 @@
 package agh.ics.oop;
 
 import agh.ics.oop.gui.MapVisualizer;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import javafx.application.Platform;
 
 import java.util.ArrayList;
@@ -40,46 +41,71 @@ public class SimulationEngine  implements  Runnable{
         Platform.runLater(observer::positionChanged);
         waitForRunLater();
         System.out.println(map);
-
+        int dayCounter = 1;
         while(!map.animals.isEmpty()){
-
+            System.out.println("********DZIEN NR " + dayCounter + "********");
+            System.out.println("");
 
             ArrayList<Animal> animalsToRemove = new ArrayList<>();
             // usuwanie martwych zwierząt
+            System.out.println("***USUWANIE MARTWYCH***");
             for(Animal animal : map.animals){
                 if(animal.getEnergy() <= 0) animalsToRemove.add(animal);
             }
             for(Animal deadAnimal : animalsToRemove){
-                System.out.println(deadAnimal.reports);
+
+                System.out.println("USUWAM: " +deadAnimal.reports);
                 deadAnimal.removeObserver(this.map);
                 map.removeAnimal(deadAnimal);
             }
 
             // ruch albo skręt zwierzęcia
+            System.out.println("***RUCH ZWIERZAT***");
+
             for(Animal animal : map.animals){
                 animal.move(animal.getRandomGen());
+                System.out.println("ID: "+animal.myID+" nowa pozycja: "+ animal.getPosition()+ " nowy kierunek: "+ animal.getDirection() + " pozostało energii: " + (animal.getEnergy()-5));
+            }
+            for(Animal animal :map.animals){
                 animal.changeEnergy(-5);
             }
-            //jedzenie roślin
 
+            //jedzenie roślin
+            System.out.println("***JEDZENIE ROSLIN***");
             for(Vector2d position : map.animalsMap.keySet()){
                 if(map.grassMap.containsKey(position)){
-                    System.out.println("jemy na pozycji: "+position);
+
+                    StringBuilder eatingReportBuilder = new StringBuilder();
+                    eatingReportBuilder.append("jemy na pozycji: ").append(position).append(" Obecni: ");
+                    for(Animal a :map.animalsMap.get(position)){
+                        eatingReportBuilder.append(a.myID).append(", ");
+                    }
+
 
                     int maxEnergy = map.animalsMap.get(position).get(0).getEnergy();
-                    System.out.println(" potrzebna energia: " + maxEnergy);
+                    eatingReportBuilder.append(" potrzebna energia: ").append(maxEnergy);
                     List<Animal> banqueters = map.animalsMap.get(position).stream().filter(a -> a.getEnergy() == maxEnergy).collect(Collectors.toList());
-                    System.out.println(" kto je: "+banqueters.toString());
+                    eatingReportBuilder.append(" kto je: ");
+                    for( Animal a :banqueters){
+                        eatingReportBuilder.append(a.myID).append(", ");
+                    }
                     for(Animal animal:banqueters){
                         animal.changeEnergy(10/banqueters.size());
                     }
+                    eatingReportBuilder.append(" zyskują: ").append(10 / banqueters.size()).append(" energi");
+                    System.out.println(eatingReportBuilder);
                     map.removeGrass(map.grassMap.get(position));
                 }
             }
             // rozmnażanie zwierząt
+            System.out.println("***ROZMNAŻANIE***");
             for(Vector2d position : map.animalsMap.keySet()){
                 if(map.animalsMap.get(position).size() > 1){
-
+                    StringBuilder breedingReportBuilder = new StringBuilder();
+                    breedingReportBuilder.append("Na pozycji: ").append(position).append("stoją zwierzęta: ");
+                    for(Animal a :map.animalsMap.get(position)){
+                        breedingReportBuilder.append(a.myID).append(" energia: ").append(a.getEnergy()).append(", ");
+                    }
                     Animal strongerParent,weakerParent;
                     int maxEnergy = map.animalsMap.get(position).get(0).getEnergy();
                     ArrayList<Animal> candidats = (ArrayList<Animal>) map.animalsMap.get(position).stream().filter(a -> a.getEnergy() == maxEnergy).collect(Collectors.toList());
@@ -96,14 +122,21 @@ public class SimulationEngine  implements  Runnable{
                         weakerParent = drawParents(candidats,1).get(0);
 
                     }
+                    breedingReportBuilder.append("WYBRANO: ").append(strongerParent.myID).append(", ").append(weakerParent.myID);
 
                     if(weakerParent.getEnergy() > 20){
+                        breedingReportBuilder.append(" ZWIERZETA ROZMNAZAJA SIE! ");
                         Animal child = new Animal(map,position,strongerParent,weakerParent);
+                        breedingReportBuilder.append("id dziecka: ").append(child.myID).append(" energia dziecka: ").append(child.getEnergy());
                         map.animals.add(child);
                         map.animalsMap.get(position).add(child);
                         Collections.sort(map.animalsMap.get(position));
                         child.addObserver(map);
                     }
+                    else{
+                        breedingReportBuilder.append(" NIE ROZMNAZAJA SIE!");
+                    }
+                    System.out.println(breedingReportBuilder);
 
 
                 }
@@ -112,13 +145,8 @@ public class SimulationEngine  implements  Runnable{
 
             // dodanie nowych roślin
             this.map.addGrass(1);
-            
-            for(ArrayList<Animal> t : map.animalsMap.values()){
-                System.out.println("----");
-                for(Animal a : t){
-                    System.out.println(a.toString() +" energy: " +a.getEnergy());
-                }
-            }
+
+
 
             try {
                 Thread.sleep(moveDelay);
@@ -130,7 +158,9 @@ public class SimulationEngine  implements  Runnable{
             Platform.runLater(observer::positionChanged);
             waitForRunLater();
             System.out.println(map);
+            System.out.println("*******KONIEC DNIA NR: "+ dayCounter++ + "**********");
         }
+
 
 
     }

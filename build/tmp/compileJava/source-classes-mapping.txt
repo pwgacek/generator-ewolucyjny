@@ -13,10 +13,8 @@ agh/ics/oop/IMapElement.java
  agh.ics.oop.IMapElement
 agh/ics/oop/Grass.java
  agh.ics.oop.Grass
-agh/ics/oop/gui/MapVisualizer.java
- agh.ics.oop.gui.MapVisualizer
-agh/ics/oop/MapVisualizer.java
- agh.ics.oop.MapVisualizer
+agh/ics/oop/SimulationEngine.java
+ agh.ics.oop.SimulationEngine
 agh/ics/oop/RectangularMap.java
  agh.ics.oop.RectangularMap
 agh/ics/oop/IWorldMap.java
@@ -30,7 +28,9 @@ agh/ics/oop/AbstractWorldMap.java
  agh.ics.oop.AbstractWorldMap
 agh/ics/oop/GrassField.java
  agh.ics.oop.GrassField
-agh/ics/oop/SimulationEngine.java
- agh.ics.oop.SimulationEngine
+agh/ics/oop/gui/MapVisualizer.java
+ agh.ics.oop.gui.MapVisualizer
 agh/ics/oop/gui/App.java
  agh.ics.oop.gui.App
+agh/ics/oop/MapVisualizer.java
+ agh.ics.oop.MapVisualizer

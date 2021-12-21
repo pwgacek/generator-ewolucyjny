@@ -9,9 +9,16 @@ public abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObser
     protected  int width;
     public ArrayList<Animal> animals;
     public Map<Vector2d, ArrayList<Animal>> animalsMap;
-    protected  int grassQuantity;
+    protected Vector2d jungleCord1 = new Vector2d(4,4);
+    protected Vector2d jungleCord2 = new Vector2d(6,6);
 
     protected  Map<Vector2d,Grass> grassMap;
+    protected Map<Vector2d,Grass> grassAtSawanna;
+    protected Map<Vector2d,Grass> grassAtJungle;
+    public Map<Vector2d,Grass> emptyAtSawanna;
+    public Map<Vector2d,Grass> emptyAtJungle;
+
+
 
 
     public int getHeight() {
@@ -22,28 +29,39 @@ public abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObser
         return width;
     }
 
-    protected Vector2d generateGrassCords(){
-        Random random = new Random();
-        int x = random.nextInt(width+1);
-        int y = random.nextInt(height+1);
-        return new Vector2d(x,y);
+
+
+
+    public void addGrassToSawanna(){
+        Vector2d chosenPosition = (Vector2d) emptyAtSawanna.keySet().toArray()[new Random().nextInt(emptyAtSawanna.size())];
+        Grass chosenGrass  = emptyAtSawanna.get(chosenPosition);
+
+        emptyAtSawanna.remove(chosenPosition);
+        grassAtSawanna.put(chosenPosition,chosenGrass);
     }
-    protected boolean isGrassAt(Vector2d position){
-        return grassMap.containsKey(position);
 
+    public void addGrassToJungle(){
+        Vector2d chosenVector = (Vector2d) emptyAtJungle.keySet().toArray()[new Random().nextInt(emptyAtJungle.size())];
+        Grass chosenGrass  = emptyAtJungle.get(chosenVector);
+
+        emptyAtJungle.remove(chosenVector);
+        grassAtJungle.put(chosenVector,chosenGrass);
     }
-    public void addGrass(int grassQuantity) {
-        for(int i = 0; i< grassQuantity; i++){
-            Vector2d position = generateGrassCords();
-            while(isGrassAt(position)){
-                position = generateGrassCords();
-            }
 
-
-
-            grassMap.put(position,new Grass(position));
-        }
+    public void removeGrassFromSawanna(Vector2d position){
+        Grass grass = grassAtSawanna.get(position);
+        emptyAtSawanna.put(position,grass);
+        grassAtSawanna.remove(position);
     }
+
+    public void removeGrassFromJungle(Vector2d position){
+        Grass grass = grassAtJungle.get(position);
+        emptyAtJungle.put(position,grass);
+        grassAtJungle.remove(position);
+    }
+
+
+
 
     @Override
     public boolean place(Animal animal) {

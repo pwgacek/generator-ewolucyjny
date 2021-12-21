@@ -9,16 +9,33 @@ public class GrassField extends AbstractWorldMap {
 
 
 
-    public GrassField(int grassQuantity,int width,int height) {
-        this.grassQuantity = grassQuantity;
+    public GrassField(int width,int height) {
+
         animals = new ArrayList<>();
 
         this.animalsMap = new HashMap<>();
         this.grassMap = new HashMap<>();
         this.height = height;
         this.width = width;
+        this.grassAtJungle = new HashMap<>();
+        this.grassAtSawanna = new HashMap<>();
+        this.emptyAtJungle = new HashMap<>();
+        this.emptyAtSawanna = new HashMap<>();
 
-        addGrass(grassQuantity);
+        for(int y=0;y<=this.height;y++){
+            for(int x=0;x<=this.width;x++){
+                Vector2d vector = new Vector2d(x,y);
+                Grass grass = new Grass(vector);
+                if(this.jungleCord1.precedes(vector) && this.jungleCord2.follows(vector)){
+                    this.emptyAtJungle.put(vector,grass);
+                }
+                else{
+                    this.emptyAtSawanna.put(vector,grass);
+                }
+            }
+        }
+
+        //addGrass(grassQuantity);
 
     }
 
@@ -35,7 +52,8 @@ public class GrassField extends AbstractWorldMap {
     public Object objectAt(Vector2d position) {
         Object animal = super.objectAt(position);
         if(animal != null) return animal;
-        if(grassMap.containsKey(position)) return grassMap.get(position);
+        if(grassAtSawanna.containsKey(position)) return grassAtSawanna.get(position);
+        if(grassAtJungle.containsKey(position)) return grassAtJungle.get(position);
         return null;
     }
 }

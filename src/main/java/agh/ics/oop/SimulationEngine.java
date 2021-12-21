@@ -1,7 +1,6 @@
 package agh.ics.oop;
 
 import agh.ics.oop.gui.MapVisualizer;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import javafx.application.Platform;
 
 import java.util.ArrayList;
@@ -12,23 +11,23 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
-public class SimulationEngine  implements  Runnable{
+public class SimulationEngine  extends MyThread{
 
     private final AbstractWorldMap map;
     private final ArrayList<Vector2d> positions = new ArrayList<>();
     private final MapVisualizer observer;
     private final int moveDelay;
-    private AtomicBoolean stop;
+    private AtomicBoolean isRunning;
 
 
 
 
-    public SimulationEngine(AbstractWorldMap map, ArrayList<Vector2d> initialPositions, MapVisualizer mapVisualizer, int moveDelay,AtomicBoolean stop) {
+    public SimulationEngine(AbstractWorldMap map, ArrayList<Vector2d> initialPositions, MapVisualizer mapVisualizer, int moveDelay,AtomicBoolean isRunning) {
 
         this.map = map;
         this.moveDelay = moveDelay;
         this.observer = mapVisualizer;
-        this.stop = stop;
+        this.isRunning = isRunning;
 
         for(Vector2d position : initialPositions){
             if(map.place(new Animal(this.map,position))) positions.add(position) ;
@@ -39,13 +38,17 @@ public class SimulationEngine  implements  Runnable{
 
 
     @Override
-    public void run() {
+    public void  run() {
 
         Platform.runLater(observer::positionChanged);
         waitForRunLater();
         System.out.println(map);
         int dayCounter = 1;
         while(!map.animals.isEmpty()){
+
+            if(!isRunning.get()){
+                suspendMe();
+            }
 
             System.out.println("********DZIEN NR " + dayCounter + "********");
             System.out.println("");
@@ -81,7 +84,7 @@ public class SimulationEngine  implements  Runnable{
             System.out.println("***JEDZENIE ROSLIN***");
             ArrayList<Grass> grassToRemove = new ArrayList<>();
             for(Vector2d position : map.animalsMap.keySet()){
-                if(map.grassMap.containsKey(position)){
+                if(map.grassAtJungle.containsKey(position) || map.grassAtSawanna.containsKey(position)){
 
                     StringBuilder eatingReportBuilder = new StringBuilder();
                     eatingReportBuilder.append("jemy na pozycji: ").append(position).append(" Obecni: ");
@@ -102,12 +105,14 @@ public class SimulationEngine  implements  Runnable{
                     }
                     eatingReportBuilder.append(" zyskują: ").append(10 / banqueters.size()).append(" energi");
                     System.out.println(eatingReportBuilder);
-                    grassToRemove.add(map.grassMap.get(position));
+                    if(map.grassAtSawanna.containsKey(position))map.removeGrassFromSawanna(position);
+                    if(map.grassAtJungle.containsKey(position))map.removeGrassFromJungle(position);
+                   // grassToRemove.add(map.grassMap.get(position));
                 }
             }
-            for(Grass grass : grassToRemove){
-                map.grassMap.remove(grass.getPosition());
-            }
+//            for(Grass grass : grassToRemove){
+//                map.grassMap.remove(grass.getPosition());
+//            }
             // rozmnażanie zwierząt
             System.out.println("***ROZMNAŻANIE***");
             for(Vector2d position : map.animalsMap.keySet()){
@@ -156,7 +161,9 @@ public class SimulationEngine  implements  Runnable{
 
             // dodanie nowych roślin
 
-            this.map.addGrass(1);
+            //this.map.addGrass(1);
+            if(map.emptyAtJungle.size() > 0)map.addGrassToJungle();
+            if(map.emptyAtSawanna.size() > 0)map.addGrassToSawanna();
 
 
 
@@ -199,5 +206,9 @@ public class SimulationEngine  implements  Runnable{
         }
 
     }
+
+
+
+
 
 }

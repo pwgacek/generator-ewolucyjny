@@ -68,17 +68,23 @@ public class MapVisualizer {
             gridPane.getRowConstraints().add(new RowConstraints(30));
 
         }
-
+        boolean isJungle;
         for(int y = 0; y<=map.getHeight();y++){
             for(int x = 0;x <=map.getWidth();x++){
                 IMapElement element = (IMapElement) map.objectAt(new Vector2d(x,y));
-
+                GuiElementBox guiElementBox;
+                isJungle = y>3 && y<7 && x>3 && x<7;
                 if(element !=null){
 
-                    GuiElementBox guiElementBox = new GuiElementBox(element);
-                    gridPane.add(guiElementBox.getVerticalBox(),x+1,map.getHeight()-y +1);
-                    GridPane.setHalignment(guiElementBox.getVerticalBox(), HPos.CENTER);
+                    guiElementBox = new GuiElementBox(element,isJungle);
+
                 }
+                else{
+                    guiElementBox = new GuiElementBox(isJungle);
+
+                }
+                gridPane.add(guiElementBox.getVerticalBox(),x+1,map.getHeight()-y +1);
+                GridPane.setHalignment(guiElementBox.getVerticalBox(), HPos.CENTER);
             }
         }
 

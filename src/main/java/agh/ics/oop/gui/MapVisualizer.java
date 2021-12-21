@@ -3,6 +3,7 @@ package agh.ics.oop.gui;
 import agh.ics.oop.*;
 import javafx.geometry.HPos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -11,31 +12,43 @@ import javafx.stage.Stage;
 
 public class MapVisualizer {
     private GridPane gridPane;
+
     private final AbstractWorldMap map;
     private final Stage primaryStage;
+    private final  Scene scene;
 
 
 
 
-    MapVisualizer(AbstractWorldMap map, Stage primaryStage){
-        this.gridPane = new GridPane();
+    MapVisualizer(GridPane gridPane,Scene scene, AbstractWorldMap map, Stage primaryStage){
+        this.gridPane = gridPane;
+        gridPane.setMinHeight(360);
+        gridPane.setMaxHeight(360);
+        gridPane.setMinWidth(360);
+        gridPane.setMaxWidth(360);
+
+
+
         this.map = map;
         this.primaryStage = primaryStage;
+        this.scene = scene;
+        this.primaryStage.setScene(this.scene);
 
 
 
-
-    }
-
-    public GridPane getGridPane() {
-        return gridPane;
     }
 
 
 
     public void positionChanged() {
-        this.gridPane = new GridPane();
-        gridPane.setGridLinesVisible(true);
+        //this.gridPane = new GridPane();
+        gridPane.setGridLinesVisible(false);
+
+        gridPane.getChildren().clear();
+
+        //gridPane.setGridLinesVisible(true);
+
+
         Label label = new Label("y/x");
         gridPane.add(label,0,0);
         gridPane.getColumnConstraints().add(new ColumnConstraints(30));
@@ -69,7 +82,7 @@ public class MapVisualizer {
             }
         }
 
-        this.primaryStage.setScene(new Scene(this.getGridPane(),this.getGridPane().getColumnCount()*30,this.getGridPane().getRowCount()*30));
+        //this.primaryStage.setScene(new Scene(this.getGridPane(),this.getGridPane().getColumnCount()*30,this.getGridPane().getRowCount()*30));
         this.primaryStage.show();
     }
 }

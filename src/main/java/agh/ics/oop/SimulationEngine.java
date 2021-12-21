@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 public class SimulationEngine  implements  Runnable{
@@ -17,15 +18,17 @@ public class SimulationEngine  implements  Runnable{
     private final ArrayList<Vector2d> positions = new ArrayList<>();
     private final MapVisualizer observer;
     private final int moveDelay;
+    private AtomicBoolean stop;
 
 
 
 
-    public SimulationEngine(AbstractWorldMap map, ArrayList<Vector2d> initialPositions, MapVisualizer mapVisualizer, int moveDelay) {
+    public SimulationEngine(AbstractWorldMap map, ArrayList<Vector2d> initialPositions, MapVisualizer mapVisualizer, int moveDelay,AtomicBoolean stop) {
 
         this.map = map;
         this.moveDelay = moveDelay;
         this.observer = mapVisualizer;
+        this.stop = stop;
 
         for(Vector2d position : initialPositions){
             if(map.place(new Animal(this.map,position))) positions.add(position) ;
@@ -43,9 +46,10 @@ public class SimulationEngine  implements  Runnable{
         System.out.println(map);
         int dayCounter = 1;
         while(!map.animals.isEmpty()){
+
             System.out.println("********DZIEN NR " + dayCounter + "********");
             System.out.println("");
-            
+
 
             ArrayList<Animal> animalsToRemove = new ArrayList<>();
             // usuwanie martwych zwierząt
@@ -65,6 +69,7 @@ public class SimulationEngine  implements  Runnable{
 
             for(Animal animal : map.animals){
                 animal.move(animal.getRandomGen());
+
             }
             for(Animal animal :map.animals){
                 animal.changeEnergy(-1);

@@ -25,6 +25,8 @@ public class GuiElementBox {
 
            this.verticalBox = new VBox(imageView);
             verticalBox.setAlignment(Pos.CENTER);
+
+
         } catch (FileNotFoundException e) {
 
             e.printStackTrace();

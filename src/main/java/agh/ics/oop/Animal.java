@@ -5,7 +5,7 @@ public class Animal implements IMapElement, Comparable<Animal> {
 
     private MapDirection direction ;
     private Vector2d position;
-    private final IWorldMap map;
+    private final AbstractWorldMap map;
     private final ArrayList<IPositionChangeObserver> observerList;
     private int energy;
     private final int[] genotype;
@@ -14,7 +14,7 @@ public class Animal implements IMapElement, Comparable<Animal> {
     public final int myID;
 
 
-    public Animal(IWorldMap map, Vector2d initialPosition){
+    public Animal(AbstractWorldMap map, Vector2d initialPosition){
         this.map = map;
         this.position = initialPosition;
         this.direction = MapDirection.NORTH;
@@ -23,11 +23,11 @@ public class Animal implements IMapElement, Comparable<Animal> {
         this.genotype = generateGenotype();
         System.out.println(Arrays.toString(this.genotype));
         this.reports = new ArrayList<>();
-        this.myID = getID();
+        this.myID = setID();
         reports.add("ID: "+ this.myID +"--genotype: "+ Arrays.toString(this.genotype) + "position: " + position.toString() + "energy: " + this.energy );
 
     }
-    public Animal(IWorldMap map, Vector2d initialPosition,Animal strongerParent,Animal weakerParent){
+    public Animal(AbstractWorldMap map, Vector2d initialPosition,Animal strongerParent,Animal weakerParent){
         this.map = map;
         this.position = initialPosition;
         this.direction = MapDirection.NORTH;
@@ -38,12 +38,12 @@ public class Animal implements IMapElement, Comparable<Animal> {
         this.genotype = getChildsGenotype(strongerParent,weakerParent);
 
         this.reports = new ArrayList<>();
-        this.myID = getID();
+        this.myID = setID();
         reports.add("ID: " + this.myID + "--genotype: "+ Arrays.toString(this.genotype) + "position: " + position.toString() + "energy: " + this.energy );
 
 
     }
-    static int getID(){
+    static int setID(){
         return id++;
 
     }
@@ -100,7 +100,12 @@ public class Animal implements IMapElement, Comparable<Animal> {
         switch (rotation) {
             case 0 -> {
                 if (map.canMoveTo(this.position.add(this.direction.toUnitVector())) )
+                {
                     this.position = this.position.add(this.direction.toUnitVector());
+
+                }
+
+
             }
             case 4 -> {
                 if (map.canMoveTo(this.position.subtract(this.direction.toUnitVector())))
@@ -186,7 +191,7 @@ public class Animal implements IMapElement, Comparable<Animal> {
     }
 
     private int getChildsEnergy(Animal mother,Animal father){
-        return (int)((mother.getEnergy() + father.getEnergy())/4);
+        return ((mother.getEnergy() + father.getEnergy())/4);
     }
 
 

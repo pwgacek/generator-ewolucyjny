@@ -2,10 +2,7 @@ package agh.ics.oop.gui;
 
 import agh.ics.oop.*;
 import javafx.geometry.HPos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -25,10 +22,7 @@ public class MapVisualizer {
 
     MapVisualizer(GridPane gridPane, AbstractWorldMap map, Stage primaryStage){
         this.gridPane = gridPane;
-//        gridPane.setMinHeight(360);
-//        gridPane.setMaxHeight(360);
-//        gridPane.setMinWidth(360);
-//        gridPane.setMaxWidth(360);
+
         for(int x=0;x<=map.getWidth()+1;x++){
             gridPane.getColumnConstraints().add(new ColumnConstraints(30));
         }
@@ -56,12 +50,14 @@ public class MapVisualizer {
 
         for(int y=0;y<=map.getHeight();y++){
             for(int x=0;x<=map.getWidth();x++){
-                boolean isJungle = y>3 && y<7 && x>3 && x<7;
+                Vector2d cords = new Vector2d(x,y);
+                boolean isJungle = map.jungleCord1.precedes(cords) && map.jungleCord2.follows(cords);
                 guiElementBoxArray[x][y] = new GuiElementBox(isJungle);
                 gridPane.add(guiElementBoxArray[x][y].getVerticalBox(),x+1,map.getHeight()-y +1);
                 GridPane.setHalignment(guiElementBoxArray[x][y].getVerticalBox(), HPos.CENTER);
             }
         }
+        gridPane.setGridLinesVisible(true);
 
 
         this.map = map;
@@ -73,11 +69,6 @@ public class MapVisualizer {
 
 
     public void positionChanged() {
-        gridPane.setGridLinesVisible(false);
-        //gridPane.getChildren().clear();
-        gridPane.setGridLinesVisible(true);
-
-
 
         for(int y = 0; y<=map.getHeight();y++){
             for(int x = 0;x <=map.getWidth();x++){

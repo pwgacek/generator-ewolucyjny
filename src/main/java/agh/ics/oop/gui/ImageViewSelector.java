@@ -10,11 +10,10 @@ import java.util.Map;
 
 public class ImageViewSelector {
     private final Map<String, ImageView> imageViewMap;
-    private final String[] paths;
 
     public ImageViewSelector(){
         imageViewMap = new HashMap<>();
-        paths = new String[]{ "src/main/resources/yellow.png", "src/main/resources/light_orange.png","src/main/resources/orange.png", "src/main/resources/red.png", "src/main/resources/brown.png","src/main/resources/green.png"};
+        String[] paths = new String[]{"src/main/resources/yellow.png", "src/main/resources/light_orange.png", "src/main/resources/orange.png", "src/main/resources/red.png", "src/main/resources/brown.png", "src/main/resources/green.png"};
 
         for (String path : paths) {
             try {

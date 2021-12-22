@@ -1,7 +1,4 @@
 package agh.ics.oop;
-
-import javafx.collections.transformation.SortedList;
-
 import java.util.*;
 
 public abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObserver{
@@ -9,14 +6,42 @@ public abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObser
     protected  int width;
     public ArrayList<Animal> animals;
     public Map<Vector2d, ArrayList<Animal>> animalsMap;
-    protected Vector2d jungleCord1 = new Vector2d(4,4);
-    protected Vector2d jungleCord2 = new Vector2d(6,6);
+    public Vector2d jungleCord1 = new Vector2d(7,7);
+    public Vector2d jungleCord2 = new Vector2d(13,13);
 
-    protected  Map<Vector2d,Grass> grassMap;
+
     protected Map<Vector2d,Grass> grassAtSawanna;
     protected Map<Vector2d,Grass> grassAtJungle;
     public Map<Vector2d,Grass> emptyAtSawanna;
     public Map<Vector2d,Grass> emptyAtJungle;
+
+    public AbstractWorldMap(int width,int height) {
+
+        animals = new ArrayList<>();
+        this.animalsMap = new HashMap<>();
+        this.height = height;
+        this.width = width;
+        this.grassAtJungle = new HashMap<>();
+        this.grassAtSawanna = new HashMap<>();
+        this.emptyAtJungle = new HashMap<>();
+        this.emptyAtSawanna = new HashMap<>();
+
+        for(int y=0;y<=this.height;y++){
+            for(int x=0;x<=this.width;x++){
+                Vector2d vector = new Vector2d(x,y);
+                Grass grass = new Grass(vector);
+                if(this.jungleCord1.precedes(vector) && this.jungleCord2.follows(vector)){
+                    this.emptyAtJungle.put(vector,grass);
+                }
+                else{
+                    this.emptyAtSawanna.put(vector,grass);
+                }
+            }
+        }
+
+        //addGrass(grassQuantity);
+
+    }
 
 
 
@@ -86,9 +111,12 @@ public abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObser
     public boolean isOccupied(Vector2d position) {
         return animalsMap.containsKey(position);
     }
+
     @Override
     public Object objectAt(Vector2d position) {
         if(animalsMap.containsKey(position)) return animalsMap.get(position).get(0);
+        if(grassAtSawanna.containsKey(position)) return grassAtSawanna.get(position);
+        if(grassAtJungle.containsKey(position)) return grassAtJungle.get(position);
         return null;
     }
 

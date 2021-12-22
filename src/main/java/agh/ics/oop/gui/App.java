@@ -4,7 +4,6 @@ import agh.ics.oop.*;
 import javafx.application.Application;
 
 import javafx.geometry.HPos;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
@@ -15,7 +14,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class  App extends Application  {
-    private AtomicBoolean isRunning = new AtomicBoolean();
+    private final AtomicBoolean isRunning = new AtomicBoolean();
 
 
 
@@ -25,17 +24,18 @@ public class  App extends Application  {
 
         try{
             this.isRunning.set(false);
-            AbstractWorldMap map = new GrassField(10,10);
+            AbstractWorldMap map = new GrassField(20,20);
             ArrayList<Vector2d> positions = new ArrayList<>();
 
-            positions.add(new Vector2d(4,4));
-            positions.add(new Vector2d(4,5));
-            positions.add(new Vector2d(5,4));
-            positions.add(new Vector2d(5,5));
-            positions.add(new Vector2d(4,4));
-            positions.add(new Vector2d(4,5));
-            positions.add(new Vector2d(5,4));
-            positions.add(new Vector2d(5,5));
+            positions.add(new Vector2d(10,10));
+            positions.add(new Vector2d(11,10));
+            positions.add(new Vector2d(10,11));
+            positions.add(new Vector2d(11,11));
+            positions.add(new Vector2d(10,9));
+            positions.add(new Vector2d(9,10));
+            positions.add(new Vector2d(9,11));
+            positions.add(new Vector2d(11,9));
+            positions.add(new Vector2d(9,9));
 
             int moveDelay =50;
 
@@ -47,7 +47,7 @@ public class  App extends Application  {
             GridPane.setConstraints(stopStartBtn,0,1);
             generalPane.getChildren().add(stopStartBtn);
             GridPane.setHalignment(stopStartBtn, HPos.CENTER);
-            Scene scene = new Scene(generalPane,30*12,30*12+100);
+            Scene scene = new Scene(generalPane,30*(map.getWidth()+2),30*(map.getHeight()+2)+100);
             primaryStage.setScene(scene);
 
 

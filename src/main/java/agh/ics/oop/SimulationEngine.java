@@ -14,10 +14,10 @@ import java.util.stream.Collectors;
 public class SimulationEngine  extends MyThread{
 
     private final AbstractWorldMap map;
-    private final ArrayList<Vector2d> positions = new ArrayList<>();
+
     private final MapVisualizer observer;
     private final int moveDelay;
-    private AtomicBoolean isRunning;
+    private final AtomicBoolean isRunning;
 
 
 
@@ -30,7 +30,7 @@ public class SimulationEngine  extends MyThread{
         this.isRunning = isRunning;
 
         for(Vector2d position : initialPositions){
-            if(map.place(new Animal(this.map,position))) positions.add(position) ;
+            map.place(new Animal(this.map,position));
         }
 
     }
@@ -51,7 +51,7 @@ public class SimulationEngine  extends MyThread{
             }
 
             System.out.println("********DZIEN NR " + dayCounter + "********");
-            System.out.println("");
+            System.out.println();
 
 
             ArrayList<Animal> animalsToRemove = new ArrayList<>();
@@ -82,7 +82,7 @@ public class SimulationEngine  extends MyThread{
 
             //jedzenie roślin
             System.out.println("***JEDZENIE ROSLIN***");
-            ArrayList<Grass> grassToRemove = new ArrayList<>();
+
             for(Vector2d position : map.animalsMap.keySet()){
                 if(map.grassAtJungle.containsKey(position) || map.grassAtSawanna.containsKey(position)){
 
@@ -161,7 +161,7 @@ public class SimulationEngine  extends MyThread{
 
             // dodanie nowych roślin
 
-            //this.map.addGrass(1);
+
             if(map.emptyAtJungle.size() > 0)map.addGrassToJungle();
             if(map.emptyAtSawanna.size() > 0)map.addGrassToSawanna();
 

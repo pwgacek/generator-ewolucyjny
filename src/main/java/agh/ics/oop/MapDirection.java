@@ -1,8 +1,5 @@
 package agh.ics.oop;
 
-import javax.xml.transform.Source;
-import java.util.Map;
-
 public enum MapDirection {
     NORTH,
     NORTHEAST,

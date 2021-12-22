@@ -102,14 +102,16 @@ public class Animal implements IMapElement, Comparable<Animal> {
                 if (map.canMoveTo(this.position.add(this.direction.toUnitVector())) )
                 {
                     this.position = this.position.add(this.direction.toUnitVector());
-
+                    maintainOnMap();
                 }
 
 
             }
             case 4 -> {
-                if (map.canMoveTo(this.position.subtract(this.direction.toUnitVector())))
+                if (map.canMoveTo(this.position.subtract(this.direction.toUnitVector()))) {
                     this.position = this.position.subtract(this.direction.toUnitVector());
+                    maintainOnMap();
+                }
             }
 
             default ->this.direction = this.direction.rotate(rotation);
@@ -193,6 +195,15 @@ public class Animal implements IMapElement, Comparable<Animal> {
     private int getChildsEnergy(Animal mother,Animal father){
         return ((mother.getEnergy() + father.getEnergy())/4);
     }
+
+    private void maintainOnMap(){
+
+        if(this.position.x == -1) this.position = new Vector2d(map.getWidth(),this.position.y);
+        if(this.position.x == map.getWidth()+1) this.position = new Vector2d(0,this.position.y);
+        if(this.position.y == -1) this.position = new Vector2d(this.position.x,map.getHeight());
+        if(this.position.y == map.getHeight()+1) this.position = new Vector2d(this.position.x,0);
+    }
+
 
 
 

@@ -11,10 +11,16 @@ agh/ics/oop/IEngine.java
 agh/ics/oop/MapDirection.java
  agh.ics.oop.MapDirection
  agh.ics.oop.MapDirection$1
-agh/ics/oop/MapVisualizer.java
- agh.ics.oop.MapVisualizer
+agh/ics/oop/GrassField.java
+ agh.ics.oop.GrassField
 agh/ics/oop/gui/GuiElementBox.java
  agh.ics.oop.gui.GuiElementBox
+agh/ics/oop/AbstractWorldMap.java
+ agh.ics.oop.AbstractWorldMap
+agh/ics/oop/MapVisualizer.java
+ agh.ics.oop.MapVisualizer
+agh/ics/oop/RectangularMap.java
+ agh.ics.oop.RectangularMap
 agh/ics/oop/IWorldMap.java
  agh.ics.oop.IWorldMap
 agh/ics/oop/IPositionChangeObserver.java
@@ -22,16 +28,10 @@ agh/ics/oop/IPositionChangeObserver.java
 agh/ics/oop/Animal.java
  agh.ics.oop.Animal
  agh.ics.oop.Animal$1
-agh/ics/oop/SimulationEngine.java
- agh.ics.oop.SimulationEngine
-agh/ics/oop/RectangularMap.java
- agh.ics.oop.RectangularMap
-agh/ics/oop/AbstractWorldMap.java
- agh.ics.oop.AbstractWorldMap
 agh/ics/oop/World.java
  agh.ics.oop.World
-agh/ics/oop/GrassField.java
- agh.ics.oop.GrassField
+agh/ics/oop/SimulationEngine.java
+ agh.ics.oop.SimulationEngine
 agh/ics/oop/gui/MapVisualizer.java
  agh.ics.oop.gui.MapVisualizer
 agh/ics/oop/gui/App.java

@@ -166,7 +166,7 @@ public class SimulationEngine  extends MyThread{
             if(map.emptyAtSawanna.size() > 0)map.addGrassToSawanna();
 
 
-
+            Platform.runLater(observer::positionChanged);
             try {
                 Thread.sleep(moveDelay);
             } catch (InterruptedException e) {
@@ -174,7 +174,7 @@ public class SimulationEngine  extends MyThread{
                 System.out.println(e.getMessage());
             }
 
-            Platform.runLater(observer::positionChanged);
+
             waitForRunLater();
             System.out.println(map);
             System.out.println("*******KONIEC DNIA NR: "+ dayCounter++ + "**********");

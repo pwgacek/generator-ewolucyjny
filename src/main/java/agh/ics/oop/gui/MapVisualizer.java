@@ -12,60 +12,54 @@ import javafx.stage.Stage;
 
 public class MapVisualizer {
     private GridPane gridPane;
-
     private final AbstractWorldMap map;
     private final Stage primaryStage;
-    private final  Scene scene;
 
 
 
-
-    MapVisualizer(GridPane gridPane,Scene scene, AbstractWorldMap map, Stage primaryStage){
+    MapVisualizer(GridPane gridPane, AbstractWorldMap map, Stage primaryStage){
         this.gridPane = gridPane;
         gridPane.setMinHeight(360);
         gridPane.setMaxHeight(360);
         gridPane.setMinWidth(360);
         gridPane.setMaxWidth(360);
-
-
+        for(int x=0;x<=map.getWidth()+1;x++){
+            gridPane.getColumnConstraints().add(new ColumnConstraints(30));
+        }
+        for(int y=0;y<=map.getHeight()+1;y++){
+            gridPane.getRowConstraints().add(new RowConstraints(30));
+        }
 
         this.map = map;
         this.primaryStage = primaryStage;
-        this.scene = scene;
-        this.primaryStage.setScene(this.scene);
-
-
+        this.primaryStage.show();
 
     }
 
 
 
     public void positionChanged() {
-        //this.gridPane = new GridPane();
-        gridPane.setGridLinesVisible(false);
 
         gridPane.getChildren().clear();
-
-        //gridPane.setGridLinesVisible(true);
 
 
         Label label = new Label("y/x");
         gridPane.add(label,0,0);
-        gridPane.getColumnConstraints().add(new ColumnConstraints(30));
-        gridPane.getRowConstraints().add(new RowConstraints(30));
+
+
         GridPane.setHalignment(label, HPos.CENTER);
 
         for(int x=0;x<=map.getWidth();x++){
             label = new Label(String.valueOf(x));
             gridPane.add(label,x+1,0);
             GridPane.setHalignment(label, HPos.CENTER);
-            gridPane.getColumnConstraints().add(new ColumnConstraints(30));
+
         }
         for(int y=0;y<=map.getHeight();y++){
             label = new Label(String.valueOf(map.getHeight()-y));
             gridPane.add(label,0,y+1);
             GridPane.setHalignment(label, HPos.CENTER);
-            gridPane.getRowConstraints().add(new RowConstraints(30));
+
 
         }
         boolean isJungle;
@@ -89,6 +83,6 @@ public class MapVisualizer {
         }
 
         //this.primaryStage.setScene(new Scene(this.getGridPane(),this.getGridPane().getColumnCount()*30,this.getGridPane().getRowCount()*30));
-        this.primaryStage.show();
+        //this.primaryStage.show();
     }
 }

@@ -37,7 +37,7 @@ public class  App extends Application  {
             positions.add(new Vector2d(5,4));
             positions.add(new Vector2d(5,5));
 
-            int moveDelay =200;
+            int moveDelay =50;
 
             GridPane generalPane = new GridPane();
             GridPane firstMapPane = new GridPane();
@@ -47,11 +47,12 @@ public class  App extends Application  {
             GridPane.setConstraints(stopStartBtn,0,1);
             generalPane.getChildren().add(stopStartBtn);
             GridPane.setHalignment(stopStartBtn, HPos.CENTER);
-            Scene scene2 = new Scene(generalPane,30*12,30*12+100);
+            Scene scene = new Scene(generalPane,30*12,30*12+100);
+            primaryStage.setScene(scene);
 
 
 
-            MapVisualizer mapVisualizer = new MapVisualizer(firstMapPane,scene2, map,primaryStage);
+            MapVisualizer mapVisualizer = new MapVisualizer(firstMapPane, map,primaryStage);
             MyThread engineThread =  new SimulationEngine(map, positions, mapVisualizer,moveDelay, isRunning);
 
             try{
@@ -73,16 +74,6 @@ public class  App extends Application  {
                 primaryStage.close();
                 System.out.println(e.getMessage());
             }
-
-
-
-
-
-
-
-
-
-
 
         }catch(IllegalArgumentException e){
             primaryStage.close();

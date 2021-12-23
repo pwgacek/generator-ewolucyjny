@@ -17,7 +17,7 @@ public class Animal implements IMapElement, Comparable<Animal> {
     public Animal(AbstractWorldMap map, Vector2d initialPosition){
         this.map = map;
         this.position = initialPosition;
-        this.direction = MapDirection.NORTH;
+        this.direction = MapDirection.NORTH.generateMapDirection();
         observerList = new ArrayList<>();
         this.energy =50; //40+ new Random().nextInt(10);
         this.genotype = generateGenotype();
@@ -30,7 +30,7 @@ public class Animal implements IMapElement, Comparable<Animal> {
     public Animal(AbstractWorldMap map, Vector2d initialPosition,Animal strongerParent,Animal weakerParent){
         this.map = map;
         this.position = initialPosition;
-        this.direction = MapDirection.NORTH;
+        this.direction = MapDirection.NORTH.generateMapDirection();
         observerList = new ArrayList<>();
         this.energy = getChildsEnergy(strongerParent,weakerParent);
         strongerParent.changeEnergy(-(int)(strongerParent.getEnergy()/4));

@@ -24,19 +24,14 @@ public class  App extends Application  {
         try{
             this.isRunning.set(false);
             this.isRunning2.set(false);
-            AbstractWorldMap map = new GrassField(20,20);
-            AbstractWorldMap map2 = new TorusGrassField(20,20);
+            AbstractWorldMap map = new TorusGrassField(20,20);
+            AbstractWorldMap map2 = new GrassField(20,20);
             ArrayList<Vector2d> positions = new ArrayList<>();
 
-            positions.add(new Vector2d(10,10));
-            positions.add(new Vector2d(11,10));
-            positions.add(new Vector2d(10,11));
-            positions.add(new Vector2d(11,11));
-            positions.add(new Vector2d(10,9));
-            positions.add(new Vector2d(9,10));
-            positions.add(new Vector2d(9,11));
-            positions.add(new Vector2d(11,9));
-            positions.add(new Vector2d(9,9));
+
+
+            int animalQuantity = 441;
+            int animalQuantity2 = 441;
 
             int moveDelay =50;
 
@@ -71,8 +66,8 @@ public class  App extends Application  {
             MapVisualizer mapVisualizer = new MapVisualizer(firstMapPane, map,primaryStage);
             MapVisualizer mapVisualizer2 = new MapVisualizer(secondMapPane, map2,primaryStage);
 
-            MyThread engineThread =  new SimulationEngine(map, positions, mapVisualizer,moveDelay, isRunning);
-            MyThread engineThread2 =  new SimulationEngine(map2, positions, mapVisualizer2,moveDelay, isRunning2);
+            MyThread engineThread =  new SimulationEngine(map, animalQuantity, mapVisualizer,moveDelay, isRunning);
+            MyThread engineThread2 =  new SimulationEngine(map2, animalQuantity2, mapVisualizer2,moveDelay, isRunning2);
 
             try{
 
@@ -116,7 +111,7 @@ public class  App extends Application  {
         }
 
 
-
+        System.out.println("eloddd");
     }
 
 

@@ -3,10 +3,7 @@ package agh.ics.oop;
 import agh.ics.oop.gui.MapVisualizer;
 import javafx.application.Platform;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
@@ -22,16 +19,22 @@ public class SimulationEngine  extends MyThread{
 
 
 
-    public SimulationEngine(AbstractWorldMap map, ArrayList<Vector2d> initialPositions, MapVisualizer mapVisualizer, int moveDelay,AtomicBoolean isRunning) {
+    public SimulationEngine(AbstractWorldMap map, int animalQuantity, MapVisualizer mapVisualizer, int moveDelay,AtomicBoolean isRunning) {
 
         this.map = map;
         this.moveDelay = moveDelay;
         this.observer = mapVisualizer;
         this.isRunning = isRunning;
-
-        for(Vector2d position : initialPositions){
-            map.place(new Animal(this.map,position));
+        ArrayList<Vector2d> positionsWithoutAnimal = new ArrayList<>();
+        for(int x=0; x<=map.getWidth();x++){
+            for(int y=0;y<= map.getHeight();y++){
+                positionsWithoutAnimal.add(new Vector2d(x,y));
+            }
         }
+        for(int i=0;i<animalQuantity;i++){
+            map.place(new Animal(this.map,positionsWithoutAnimal.remove(new Random().nextInt((positionsWithoutAnimal.size())))));
+        }
+
 
     }
 
@@ -143,7 +146,7 @@ public class SimulationEngine  extends MyThread{
                     if(weakerParent.getEnergy() > 20){
                         breedingReportBuilder.append(" ZWIERZETA ROZMNAZAJA SIE! ");
                         Animal child = new Animal(map,position,strongerParent,weakerParent);
-                        breedingReportBuilder.append("id dziecka: ").append(child.myID).append(" energia dziecka: ").append(child.getEnergy());
+                        breedingReportBuilder.append("id dziecka: ").append(child.myID).append(" energia dziecka: ").append(child.getEnergy()).append(" kierunek dziecka: ").append(child.getDirection());
                         map.animals.add(child);
                         map.animalsMap.get(position).add(child);
                         Collections.sort(map.animalsMap.get(position));

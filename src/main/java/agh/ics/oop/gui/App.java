@@ -9,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 
@@ -22,16 +21,22 @@ public class  App extends Application  {
     public void start(Stage primaryStage){
 
         try{
+            double jungleRatio =0.5;
+            double jungleRatio2 =0.5;
+
             this.isRunning.set(false);
             this.isRunning2.set(false);
-            AbstractWorldMap map = new TorusGrassField(20,20);
-            AbstractWorldMap map2 = new GrassField(20,20);
-            ArrayList<Vector2d> positions = new ArrayList<>();
+
+            AbstractWorldMap map = new TorusGrassField(21,20,jungleRatio);
+            AbstractWorldMap map2 = new GrassField(21,20,jungleRatio2);
 
 
 
-            int animalQuantity = 441;
-            int animalQuantity2 = 441;
+
+            int animalQuantity = 60;
+            int animalQuantity2 = 60;
+
+
 
             int moveDelay =50;
 

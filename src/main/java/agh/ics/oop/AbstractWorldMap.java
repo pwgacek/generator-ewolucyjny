@@ -6,8 +6,8 @@ public abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObser
     protected  int width;
     public ArrayList<Animal> animals;
     public Map<Vector2d, ArrayList<Animal>> animalsMap;
-    public Vector2d jungleCord1 = new Vector2d(7,7);
-    public Vector2d jungleCord2 = new Vector2d(13,13);
+    public Vector2d jungleBottomLeftCords;
+    public Vector2d jungleUpperRightCords;
 
 
     protected Map<Vector2d,Grass> grassAtSawanna;
@@ -15,7 +15,7 @@ public abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObser
     public Map<Vector2d,Grass> emptyAtSawanna;
     public Map<Vector2d,Grass> emptyAtJungle;
 
-    public AbstractWorldMap(int width,int height) {
+    public AbstractWorldMap(int width,int height,double jungleRatio) {
 
         animals = new ArrayList<>();
         this.animalsMap = new HashMap<>();
@@ -25,12 +25,13 @@ public abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObser
         this.grassAtSawanna = new HashMap<>();
         this.emptyAtJungle = new HashMap<>();
         this.emptyAtSawanna = new HashMap<>();
+        generateJungleCords(jungleRatio);
 
         for(int y=0;y<=this.height;y++){
             for(int x=0;x<=this.width;x++){
                 Vector2d vector = new Vector2d(x,y);
                 Grass grass = new Grass(vector);
-                if(this.jungleCord1.precedes(vector) && this.jungleCord2.follows(vector)){
+                if(this.jungleBottomLeftCords.precedes(vector) && this.jungleUpperRightCords.follows(vector)){
                     this.emptyAtJungle.put(vector,grass);
                 }
                 else{
@@ -66,11 +67,11 @@ public abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObser
     }
 
     public void addGrassToJungle(){
-        Vector2d chosenVector = (Vector2d) emptyAtJungle.keySet().toArray()[new Random().nextInt(emptyAtJungle.size())];
-        Grass chosenGrass  = emptyAtJungle.get(chosenVector);
+        Vector2d chosenPosition = (Vector2d) emptyAtJungle.keySet().toArray()[new Random().nextInt(emptyAtJungle.size())];
+        Grass chosenGrass  = emptyAtJungle.get(chosenPosition);
 
-        emptyAtJungle.remove(chosenVector);
-        grassAtJungle.put(chosenVector,chosenGrass);
+        emptyAtJungle.remove(chosenPosition);
+        grassAtJungle.put(chosenPosition,chosenGrass);
     }
 
     public void removeGrassFromSawanna(Vector2d position){
@@ -153,6 +154,42 @@ public abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObser
         }
 
     }
+
+    public void generateJungleCords(double ratio){
+        int bottomLeftX,bottomLeftY,upperRightX,upperRightY;
+        int centerW = width/2;
+        int centerH = height/2;
+        int a = (int)((width+1)*Math.sqrt(ratio/2));
+        int b = (int)((height+1)*Math.sqrt(ratio/2));
+        if(width%2==0){
+            if(a%2==0){a++;}
+            bottomLeftX = centerW - a/2;
+            upperRightX = centerW + a/2;
+        }
+        else{
+            if(a%2==1){a++;}
+            bottomLeftX = centerW - a/2 + 1;
+            upperRightX = centerW + a/2;
+        }
+
+        if(height%2==0){
+            if(b%2==0){b++;}
+            bottomLeftY = centerH - b/2;
+            upperRightY = centerH + b/2;
+
+        }
+        else{
+            if(b%2==1){b++;}
+            bottomLeftY = centerH - b/2 + 1;
+            upperRightY = centerH + b/2;
+        }
+        this.jungleBottomLeftCords = new Vector2d(bottomLeftX,bottomLeftY);
+        this.jungleUpperRightCords = new Vector2d(upperRightX,upperRightY);
+
+
+
+    }
+
 
 
 

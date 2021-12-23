@@ -8,8 +8,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
 
-import java.util.Map;
-
 public class MapVisualizer {
     private GridPane gridPane;
     private final AbstractWorldMap map;
@@ -51,7 +49,7 @@ public class MapVisualizer {
         for(int y=0;y<=map.getHeight();y++){
             for(int x=0;x<=map.getWidth();x++){
                 Vector2d cords = new Vector2d(x,y);
-                boolean isJungle = map.jungleCord1.precedes(cords) && map.jungleCord2.follows(cords);
+                boolean isJungle = map.jungleBottomLeftCords.precedes(cords) && map.jungleUpperRightCords.follows(cords);
                 guiElementBoxArray[x][y] = new GuiElementBox(isJungle);
                 gridPane.add(guiElementBoxArray[x][y].getVerticalBox(),x+1,map.getHeight()-y +1);
                 GridPane.setHalignment(guiElementBoxArray[x][y].getVerticalBox(), HPos.CENTER);

@@ -94,7 +94,7 @@ public class  App extends Application  {
                     engineThread2.start();
 
                     stopStartBtn.setOnAction(e2 -> {
-                        if(firstSimulationConditions.getIsRunning()) {
+                        if(firstSimulationConditions.IsRunning()) {
                             firstSimulationConditions.setIsRunning(false);
                             stopStartBtn.setText("START");
                         }
@@ -107,7 +107,7 @@ public class  App extends Application  {
                     });
 
                     stopStartBtn2.setOnAction(e2-> {
-                        if(secondSimulationConditions.getIsRunning()) {
+                        if(secondSimulationConditions.IsRunning()) {
                             secondSimulationConditions.setIsRunning(false);
                             stopStartBtn2.setText("START2");
                         }

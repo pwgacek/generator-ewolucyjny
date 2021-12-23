@@ -48,7 +48,7 @@ public class SimulationEngine  extends MyThread{
         int dayCounter = 1;
         while(!map.animals.isEmpty()){
 
-            if(!conditions.getIsRunning()){
+            if(!conditions.IsRunning()){
                 suspendMe();
             }
 

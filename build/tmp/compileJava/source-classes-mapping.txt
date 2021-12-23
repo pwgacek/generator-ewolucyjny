@@ -1,5 +1,5 @@
-agh/ics/oop/SimulationConditions.java
- agh.ics.oop.SimulationConditions
+agh/ics/oop/gui/OptionsGridPane.java
+ agh.ics.oop.gui.OptionsGridPane
 agh/ics/oop/TorusGrassField.java
  agh.ics.oop.TorusGrassField
 agh/ics/oop/gui/ImageViewSelector.java
@@ -38,10 +38,10 @@ agh/ics/oop/MapConditions.java
  agh.ics.oop.MapConditions
 agh/ics/oop/GrassField.java
  agh.ics.oop.GrassField
+agh/ics/oop/SimulationConditions.java
+ agh.ics.oop.SimulationConditions
 agh/ics/oop/SimulationEngine.java
  agh.ics.oop.SimulationEngine
-agh/ics/oop/gui/OptionsGridPane.java
- agh.ics.oop.gui.OptionsGridPane
 agh/ics/oop/World.java
  agh.ics.oop.World
 agh/ics/oop/gui/App.java

@@ -11,14 +11,13 @@ import javafx.stage.Stage;
 public class MapVisualizer {
     private GridPane gridPane;
     private final AbstractWorldMap map;
-    private final Stage primaryStage;
     private final GuiElementBox[][] guiElementBoxArray;
 
 
 
 
 
-    MapVisualizer(GridPane gridPane, AbstractWorldMap map, Stage primaryStage){
+    MapVisualizer(GridPane gridPane, AbstractWorldMap map){
         this.gridPane = gridPane;
 
         for(int x=0;x<=map.getWidth()+1;x++){
@@ -56,11 +55,8 @@ public class MapVisualizer {
             }
         }
         gridPane.setGridLinesVisible(true);
-
-
         this.map = map;
-        this.primaryStage = primaryStage;
-        this.primaryStage.show();
+
 
     }
 
@@ -86,7 +82,6 @@ public class MapVisualizer {
             }
         }
 
-        //this.primaryStage.setScene(new Scene(this.getGridPane(),this.getGridPane().getColumnCount()*30,this.getGridPane().getRowCount()*30));
-        //this.primaryStage.show();
+
     }
 }

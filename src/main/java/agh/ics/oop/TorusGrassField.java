@@ -1,8 +1,8 @@
 package agh.ics.oop;
 
 public class TorusGrassField extends AbstractWorldMap{
-    public TorusGrassField(int width, int height,double jungleRatio) {
-        super(width, height,jungleRatio);
+    public TorusGrassField(MapConditions mapConditions) {
+        super(mapConditions);
     }
 
     @Override

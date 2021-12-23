@@ -15,17 +15,20 @@ public abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObser
     public Map<Vector2d,Grass> emptyAtSawanna;
     public Map<Vector2d,Grass> emptyAtJungle;
 
-    public AbstractWorldMap(int width,int height,double jungleRatio) {
+    public AbstractWorldMap(MapConditions mapConditions) {
 
         animals = new ArrayList<>();
         this.animalsMap = new HashMap<>();
-        this.height = height;
-        this.width = width;
+
+        this.height = mapConditions.getHeight();
+        this.width = mapConditions.getWidth();
+
         this.grassAtJungle = new HashMap<>();
         this.grassAtSawanna = new HashMap<>();
         this.emptyAtJungle = new HashMap<>();
         this.emptyAtSawanna = new HashMap<>();
-        generateJungleCords(jungleRatio);
+
+        generateJungleCords(mapConditions.getJungleRatio());
 
         for(int y=0;y<=this.height;y++){
             for(int x=0;x<=this.width;x++){

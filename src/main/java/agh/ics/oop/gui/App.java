@@ -9,43 +9,24 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 
 public class  App extends Application  {
-    private final AtomicBoolean isRunning = new AtomicBoolean();
-    private final AtomicBoolean isRunning2 = new AtomicBoolean();
-
 
 
     public void start(Stage primaryStage){
 
         try{
-            double jungleRatio =0.5;
-            double jungleRatio2 =0.5;
+            SimulationConditions firstSimulationConditions = new SimulationConditions(50,false,100,1,10,60);
+            SimulationConditions secondSimulationConditions = new SimulationConditions(50,false,100,1,10,60);
 
-            this.isRunning.set(false);
-            this.isRunning2.set(false);
-
-            AbstractWorldMap map = new TorusGrassField(21,20,jungleRatio);
-            AbstractWorldMap map2 = new GrassField(21,20,jungleRatio2);
-
-            int startEnergy = 100;
-            int startEnergy2 = 100;
-
-            int moveEnergy = 1;
-            int moveEnergy2 = 1;
-
-            int plantEnergy = 10;
-            int plantEnergy2 = 10;
+            MapConditions firstMapConditions = new MapConditions(10,30,0.5);
+            MapConditions secondMapConditions = new MapConditions(30,10,0.5);
 
 
-            int animalQuantity = 60;
-            int animalQuantity2 = 60;
+            AbstractWorldMap firstMap = new TorusGrassField(firstMapConditions);
+            AbstractWorldMap secondMap = new GrassField(secondMapConditions);
 
 
-
-            int moveDelay =50;
 
             GridPane generalPane = new GridPane();
 
@@ -70,16 +51,16 @@ public class  App extends Application  {
             GridPane.setHalignment(stopStartBtn, HPos.CENTER);
             GridPane.setHalignment(stopStartBtn2, HPos.CENTER);
 
-            Scene scene = new Scene(generalPane,(30*(map.getWidth()+2))+(30*(map.getWidth()+2))+20,30*(map.getHeight()+2)+100);
+            Scene scene = new Scene(generalPane,(30*(firstMap.getWidth()+2))+(30*(secondMap.getWidth()+2))+20,30*(Math.max(firstMap.getHeight(),secondMap.getHeight()) +2)+100);
             primaryStage.setScene(scene);
 
 
 
-            MapVisualizer mapVisualizer = new MapVisualizer(firstMapPane, map,primaryStage);
-            MapVisualizer mapVisualizer2 = new MapVisualizer(secondMapPane, map2,primaryStage);
+            MapVisualizer mapVisualizer = new MapVisualizer(firstMapPane, firstMap,primaryStage);
+            MapVisualizer mapVisualizer2 = new MapVisualizer(secondMapPane, secondMap,primaryStage);
 
-            MyThread engineThread =  new SimulationEngine(map, animalQuantity, mapVisualizer,moveDelay, isRunning, startEnergy,moveEnergy,plantEnergy);
-            MyThread engineThread2 =  new SimulationEngine(map2, animalQuantity2, mapVisualizer2,moveDelay, isRunning2, startEnergy2,moveEnergy2,plantEnergy2);
+            MyThread engineThread =  new SimulationEngine(firstMap, mapVisualizer, firstSimulationConditions);
+            MyThread engineThread2 =  new SimulationEngine(secondMap, mapVisualizer2, secondSimulationConditions);
 
             try{
 
@@ -87,12 +68,12 @@ public class  App extends Application  {
                 engineThread2.start();
 
                 stopStartBtn.setOnAction(e -> {
-                    if(isRunning.get()) {
-                        isRunning.set(false);
+                    if(firstSimulationConditions.getIsRunning()) {
+                        firstSimulationConditions.setIsRunning(false);
                         stopStartBtn.setText("START");
                     }
                     else{
-                        isRunning.set(true);
+                        firstSimulationConditions.setIsRunning(true);
                         engineThread.resumeMe();
                         stopStartBtn.setText("STOP");
                     }
@@ -100,12 +81,12 @@ public class  App extends Application  {
                 });
 
                 stopStartBtn2.setOnAction(e -> {
-                    if(isRunning2.get()) {
-                        isRunning2.set(false);
+                    if(secondSimulationConditions.getIsRunning()) {
+                        secondSimulationConditions.setIsRunning(false);
                         stopStartBtn2.setText("START2");
                     }
                     else{
-                        isRunning2.set(true);
+                        secondSimulationConditions.setIsRunning(true);
                         engineThread2.resumeMe();
                         stopStartBtn2.setText("STOP2");
                     }

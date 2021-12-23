@@ -7,8 +7,8 @@ import java.util.HashMap;
 public class GrassField extends AbstractWorldMap {
 
 
-    public GrassField(int width, int height,double jungleRatio) {
-        super(width, height,jungleRatio);
+    public GrassField(MapConditions mapConditions) {
+        super(mapConditions);
     }
 
     @Override

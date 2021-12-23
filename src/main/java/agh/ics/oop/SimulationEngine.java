@@ -15,16 +15,22 @@ public class SimulationEngine  extends MyThread{
     private final MapVisualizer observer;
     private final int moveDelay;
     private final AtomicBoolean isRunning;
+    private final int startEnergy;
+    private final int moveEnergy;
+    private final int plantEnergy;
 
 
 
 
-    public SimulationEngine(AbstractWorldMap map, int animalQuantity, MapVisualizer mapVisualizer, int moveDelay,AtomicBoolean isRunning) {
+    public SimulationEngine(AbstractWorldMap map, int animalQuantity, MapVisualizer mapVisualizer, int moveDelay,AtomicBoolean isRunning,int startEnergy,int moveEnergy,int plantEnergy) {
 
         this.map = map;
         this.moveDelay = moveDelay;
         this.observer = mapVisualizer;
         this.isRunning = isRunning;
+        this.startEnergy = startEnergy;
+        this.moveEnergy = moveEnergy;
+        this.plantEnergy = plantEnergy;
         ArrayList<Vector2d> positionsWithoutAnimal = new ArrayList<>();
         for(int x=0; x<=map.getWidth();x++){
             for(int y=0;y<= map.getHeight();y++){
@@ -32,7 +38,7 @@ public class SimulationEngine  extends MyThread{
             }
         }
         for(int i=0;i<animalQuantity;i++){
-            map.place(new Animal(this.map,positionsWithoutAnimal.remove(new Random().nextInt((positionsWithoutAnimal.size())))));
+            map.place(new Animal(this.map,positionsWithoutAnimal.remove(new Random().nextInt((positionsWithoutAnimal.size()))),this.startEnergy));
         }
 
 
@@ -78,7 +84,7 @@ public class SimulationEngine  extends MyThread{
 
             }
             for(Animal animal :map.animals){
-                animal.changeEnergy(-1);
+                animal.changeEnergy(-moveEnergy);
                 System.out.println("ID: "+animal.myID+" nowa pozycja: "+ animal.getPosition()+ " nowy kierunek: "+ animal.getDirection() + " pozostało energii: " + (animal.getEnergy()));
 
             }
@@ -104,9 +110,9 @@ public class SimulationEngine  extends MyThread{
                         eatingReportBuilder.append(a.myID).append(", ");
                     }
                     for(Animal animal:banqueters){
-                        animal.changeEnergy(10/banqueters.size());
+                        animal.changeEnergy(plantEnergy/banqueters.size());
                     }
-                    eatingReportBuilder.append(" zyskują: ").append(10 / banqueters.size()).append(" energi");
+                    eatingReportBuilder.append(" zyskują: ").append(plantEnergy / banqueters.size()).append(" energi");
                     System.out.println(eatingReportBuilder);
                     if(map.grassAtSawanna.containsKey(position))map.removeGrassFromSawanna(position);
                     if(map.grassAtJungle.containsKey(position))map.removeGrassFromJungle(position);
@@ -143,7 +149,7 @@ public class SimulationEngine  extends MyThread{
                     }
                     breedingReportBuilder.append("WYBRANO: ").append(strongerParent.myID).append(", ").append(weakerParent.myID);
 
-                    if(weakerParent.getEnergy() > 20){
+                    if(weakerParent.getEnergy() >= (startEnergy/2)){
                         breedingReportBuilder.append(" ZWIERZETA ROZMNAZAJA SIE! ");
                         Animal child = new Animal(map,position,strongerParent,weakerParent);
                         breedingReportBuilder.append("id dziecka: ").append(child.myID).append(" energia dziecka: ").append(child.getEnergy()).append(" kierunek dziecka: ").append(child.getDirection());

@@ -30,7 +30,14 @@ public class  App extends Application  {
             AbstractWorldMap map = new TorusGrassField(21,20,jungleRatio);
             AbstractWorldMap map2 = new GrassField(21,20,jungleRatio2);
 
+            int startEnergy = 100;
+            int startEnergy2 = 100;
 
+            int moveEnergy = 1;
+            int moveEnergy2 = 1;
+
+            int plantEnergy = 10;
+            int plantEnergy2 = 10;
 
 
             int animalQuantity = 60;
@@ -71,8 +78,8 @@ public class  App extends Application  {
             MapVisualizer mapVisualizer = new MapVisualizer(firstMapPane, map,primaryStage);
             MapVisualizer mapVisualizer2 = new MapVisualizer(secondMapPane, map2,primaryStage);
 
-            MyThread engineThread =  new SimulationEngine(map, animalQuantity, mapVisualizer,moveDelay, isRunning);
-            MyThread engineThread2 =  new SimulationEngine(map2, animalQuantity2, mapVisualizer2,moveDelay, isRunning2);
+            MyThread engineThread =  new SimulationEngine(map, animalQuantity, mapVisualizer,moveDelay, isRunning, startEnergy,moveEnergy,plantEnergy);
+            MyThread engineThread2 =  new SimulationEngine(map2, animalQuantity2, mapVisualizer2,moveDelay, isRunning2, startEnergy2,moveEnergy2,plantEnergy2);
 
             try{
 

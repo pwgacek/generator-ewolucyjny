@@ -14,12 +14,12 @@ public class Animal implements IMapElement, Comparable<Animal> {
     public final int myID;
 
 
-    public Animal(AbstractWorldMap map, Vector2d initialPosition){
+    public Animal(AbstractWorldMap map, Vector2d initialPosition, int startEnergy){
         this.map = map;
         this.position = initialPosition;
         this.direction = MapDirection.NORTH.generateMapDirection();
         observerList = new ArrayList<>();
-        this.energy =50; //40+ new Random().nextInt(10);
+        this.energy =startEnergy; //40+ new Random().nextInt(10);
         this.genotype = generateGenotype();
         System.out.println(Arrays.toString(this.genotype));
         this.reports = new ArrayList<>();

@@ -164,8 +164,8 @@ public class SimulationEngine  extends MyThread{
             // dodanie nowych roślin
 
 
-            if(map.emptyAtJungle.size() > 0)map.addGrassToJungle();
-            if(map.emptyAtSawanna.size() > 0)map.addGrassToSawanna();
+            map.addGrassToJungle();
+            map.addGrassToSawanna();
 
 
             Platform.runLater(observer::positionChanged);

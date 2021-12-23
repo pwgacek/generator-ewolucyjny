@@ -62,19 +62,36 @@ public abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObser
 
 
     public void addGrassToSawanna(){
-        Vector2d chosenPosition = (Vector2d) emptyAtSawanna.keySet().toArray()[new Random().nextInt(emptyAtSawanna.size())];
-        Grass chosenGrass  = emptyAtSawanna.get(chosenPosition);
+        ArrayList <Vector2d>  availablePositions = new ArrayList<>();
+        for(Vector2d position : emptyAtSawanna.keySet()){
+            if(!animalsMap.containsKey(position)){
+                availablePositions.add(position);
+            }
+        }
+        if(availablePositions.size() > 0){
+            Vector2d chosenPosition =  availablePositions.get(new Random().nextInt(availablePositions.size()));
+            Grass chosenGrass  = emptyAtSawanna.get(chosenPosition);
 
-        emptyAtSawanna.remove(chosenPosition);
-        grassAtSawanna.put(chosenPosition,chosenGrass);
+            emptyAtSawanna.remove(chosenPosition);
+            grassAtSawanna.put(chosenPosition,chosenGrass);
+        }
+
     }
 
     public void addGrassToJungle(){
-        Vector2d chosenPosition = (Vector2d) emptyAtJungle.keySet().toArray()[new Random().nextInt(emptyAtJungle.size())];
-        Grass chosenGrass  = emptyAtJungle.get(chosenPosition);
+        ArrayList <Vector2d>  availablePositions = new ArrayList<>();
+        for(Vector2d position : emptyAtJungle.keySet()){
+            if(!animalsMap.containsKey(position)){
+                availablePositions.add(position);
+            }
+        }
+        if(availablePositions.size() > 0){
+            Vector2d chosenPosition = availablePositions.get(new Random().nextInt(availablePositions.size()));
+            Grass chosenGrass  = emptyAtJungle.get(chosenPosition);
 
-        emptyAtJungle.remove(chosenPosition);
-        grassAtJungle.put(chosenPosition,chosenGrass);
+            emptyAtJungle.remove(chosenPosition);
+            grassAtJungle.put(chosenPosition,chosenGrass);
+        }
     }
 
     public void removeGrassFromSawanna(Vector2d position){

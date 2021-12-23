@@ -16,10 +16,10 @@ public class  App extends Application  {
     public void start(Stage primaryStage){
 
         try{
-            SimulationConditions firstSimulationConditions = new SimulationConditions(50,false,100,1,10,60);
-            SimulationConditions secondSimulationConditions = new SimulationConditions(50,false,100,1,10,60);
+            SimulationConditions firstSimulationConditions = new SimulationConditions(50,false,100,1,10,20);
+            SimulationConditions secondSimulationConditions = new SimulationConditions(50,false,100,1,10,20);
 
-            MapConditions firstMapConditions = new MapConditions(10,30,0.5);
+            MapConditions firstMapConditions = new MapConditions(10,10,0.5);
             MapConditions secondMapConditions = new MapConditions(30,10,0.5);
 
 

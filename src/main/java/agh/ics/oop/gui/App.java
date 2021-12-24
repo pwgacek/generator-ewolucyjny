@@ -4,6 +4,7 @@ import agh.ics.oop.*;
 import javafx.application.Application;
 
 import javafx.geometry.HPos;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -73,15 +74,18 @@ public class  App extends Application  {
                     GridPane.setConstraints(secondMapPane,1,0);
 
                     generalPane.getChildren().add(firstMapPane);
+
                     generalPane.getChildren().add(secondMapPane);
 
-                    generalPane.getColumnConstraints().add(new ColumnConstraints(firstMapPane.getWidth()));
-                    generalPane.getColumnConstraints().add(new ColumnConstraints(secondMapPane.getWidth()));
+
+                    generalPane.getColumnConstraints().add(new ColumnConstraints(640));
+                    generalPane.getColumnConstraints().add(new ColumnConstraints(640));
+                    generalPane.getRowConstraints().add(new RowConstraints(800));
 
 
 
                     //Scene simulationScene = new Scene(generalPane,(30*(firstMap.getWidth()+2))+(30*(secondMap.getWidth()+2))+20,30*(Math.max(firstMap.getHeight(),secondMap.getHeight()) +2)+100);
-                    Scene simulationScene = new Scene(generalPane,firstMapPane.getWidth()+secondMapPane.getWidth(), Math.max(firstMapPane.getHeight(),secondMapPane.getHeight())+50);
+                    Scene simulationScene = new Scene(generalPane,1280, 800);
 
 
 

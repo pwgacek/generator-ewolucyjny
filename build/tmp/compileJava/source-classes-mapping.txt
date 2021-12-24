@@ -2,8 +2,8 @@ agh/ics/oop/MapVisualizer.java
  agh.ics.oop.MapVisualizer
 agh/ics/oop/MapConditions.java
  agh.ics.oop.MapConditions
-agh/ics/oop/gui/ImageViewSelector.java
- agh.ics.oop.gui.ImageViewSelector
+agh/ics/oop/gui/GuiElementBox.java
+ agh.ics.oop.gui.GuiElementBox
 agh/ics/oop/Vector2d.java
  agh.ics.oop.Vector2d
 agh/ics/oop/MyThread.java
@@ -38,13 +38,13 @@ agh/ics/oop/TorusGrassField.java
  agh.ics.oop.TorusGrassField
 agh/ics/oop/AbstractWorldMap.java
  agh.ics.oop.AbstractWorldMap
-agh/ics/oop/gui/GuiElementBox.java
- agh.ics.oop.gui.GuiElementBox
-agh/ics/oop/SimulationEngine.java
- agh.ics.oop.SimulationEngine
-agh/ics/oop/gui/MapVisualizer.java
- agh.ics.oop.gui.MapVisualizer
-agh/ics/oop/gui/MapHandlerGridPane.java
- agh.ics.oop.gui.MapHandlerGridPane
+agh/ics/oop/gui/ImageViewSelector.java
+ agh.ics.oop.gui.ImageViewSelector
 agh/ics/oop/gui/App.java
  agh.ics.oop.gui.App
+agh/ics/oop/SimulationEngine.java
+ agh.ics.oop.SimulationEngine
+agh/ics/oop/gui/MapHandlerGridPane.java
+ agh.ics.oop.gui.MapHandlerGridPane
+agh/ics/oop/gui/MapVisualizer.java
+ agh.ics.oop.gui.MapVisualizer

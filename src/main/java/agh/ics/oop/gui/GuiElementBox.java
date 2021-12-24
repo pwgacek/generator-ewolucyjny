@@ -21,14 +21,14 @@ import java.util.Arrays;
 public class GuiElementBox extends VBox {
 
     ImageViewSelector imageViewSelector;
-
     private IMapElement element;
+    private double cellSize;
 
 
-    public GuiElementBox(boolean isSawanna, Label chosenGenotype){
+    public GuiElementBox(double cellSize,boolean isSawanna, Label chosenGenotype){
         imageViewSelector = new ImageViewSelector();
         //setImageView(mapElement);
-
+        this.cellSize = cellSize;
         this.setAlignment(Pos.CENTER);
         BackgroundFill fill;
         if(isSawanna){
@@ -57,6 +57,8 @@ public class GuiElementBox extends VBox {
         removeImageView();
         this.element = element;
         ImageView imageView = imageViewSelector.getImageView(element.getImgPath());
+        imageView.setFitWidth(cellSize);
+        imageView.setFitHeight(cellSize);
         this.getChildren().add(imageView);
 
     }

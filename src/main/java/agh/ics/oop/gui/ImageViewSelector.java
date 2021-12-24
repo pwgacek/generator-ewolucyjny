@@ -19,8 +19,6 @@ public class ImageViewSelector {
             try {
                 Image image = new Image(new FileInputStream(path));
                 ImageView imageView = new ImageView(image);
-                imageView.setFitWidth(28);
-                imageView.setFitHeight(28);
                 imageViewMap.put(path, imageView);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();

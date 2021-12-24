@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class MapVisualizer {
@@ -17,28 +18,31 @@ public class MapVisualizer {
 
 
 
-    MapVisualizer(GridPane gridPane, AbstractWorldMap map,Label chosenGenotype){
+    MapVisualizer(GridPane gridPane, AbstractWorldMap map,Label chosenGenotype,double cellSize){
         this.gridPane = gridPane;
 
         for(int x=0;x<=map.getWidth()+1;x++){
-            gridPane.getColumnConstraints().add(new ColumnConstraints(30));
+            gridPane.getColumnConstraints().add(new ColumnConstraints(cellSize));
         }
         for(int y=0;y<=map.getHeight()+1;y++){
-            gridPane.getRowConstraints().add(new RowConstraints(30));
+            gridPane.getRowConstraints().add(new RowConstraints(cellSize));
         }
         guiElementBoxArray = new GuiElementBox[(map.getWidth()+1)][(map.getHeight()+1)];
         Label label = new Label("y/x");
+        label.setFont(new Font(0.5*cellSize));
         gridPane.add(label,0,0);
         GridPane.setHalignment(label, HPos.CENTER);
 
         for(int x=0;x<=map.getWidth();x++){
             label = new Label(String.valueOf(x));
+            label.setFont(new Font(0.5*cellSize));
             gridPane.add(label,x+1,0);
             GridPane.setHalignment(label, HPos.CENTER);
 
         }
         for(int y=0;y<=map.getHeight();y++){
             label = new Label(String.valueOf(map.getHeight()-y));
+            label.setFont(new Font(0.5*cellSize));
             gridPane.add(label,0,y+1);
             GridPane.setHalignment(label, HPos.CENTER);
 
@@ -49,7 +53,7 @@ public class MapVisualizer {
             for(int x=0;x<=map.getWidth();x++){
                 Vector2d cords = new Vector2d(x,y);
                 boolean isJungle = map.jungleBottomLeftCords.precedes(cords) && map.jungleUpperRightCords.follows(cords);
-                guiElementBoxArray[x][y] = new GuiElementBox(isJungle,chosenGenotype);
+                guiElementBoxArray[x][y] = new GuiElementBox(cellSize,isJungle,chosenGenotype);
                 gridPane.add(guiElementBoxArray[x][y],x+1,map.getHeight()-y +1);
                 GridPane.setHalignment(guiElementBoxArray[x][y], HPos.CENTER);
             }

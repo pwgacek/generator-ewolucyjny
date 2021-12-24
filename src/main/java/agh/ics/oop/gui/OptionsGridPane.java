@@ -54,36 +54,36 @@ public class OptionsGridPane extends GridPane {
         GridPane.setConstraints(vBox,0,rowIndex);
         this.getChildren().add(vBox);
     }
-    public int getWidthCondition() throws NumberFormatException{
+    public int getWidthCondition(){
 
         return Integer.parseInt(this.widthVBox.textField.getText()) - 1;
     }
 
-    public int getHeightCondition() throws NumberFormatException{
+    public int getHeightCondition(){
 
         return Integer.parseInt(this.heightVBox.textField.getText()) - 1;
     }
 
-    public double getJungleRatio()throws NumberFormatException{
+    public double getJungleRatio(){
         return Double.parseDouble(this.jungleRatioVBox.textField.getText());
     }
 
-    public int getStartEnergyCondition()throws NumberFormatException{
+    public int getStartEnergyCondition(){
 
         return Integer.parseInt(this.startEnergyVBox.textField.getText());
     }
 
-    public int getMoveEnergyCondition()throws NumberFormatException{
+    public int getMoveEnergyCondition(){
 
         return Integer.parseInt(this.moveEnergyVBox.textField.getText());
     }
 
-    public int getPlantEnergyCondition()throws NumberFormatException{
+    public int getPlantEnergyCondition(){
 
         return Integer.parseInt(this.plantEnergyVBox.textField.getText());
     }
 
-    public int getAnimalQuantityCondition()throws NumberFormatException{
+    public int getAnimalQuantityCondition(){
 
         return Integer.parseInt(this.animalQuantityVBox.textField.getText());
     }

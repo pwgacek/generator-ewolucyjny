@@ -75,7 +75,7 @@ public class MapVisualizer {
 
                 }
                 else{
-                    guiElementBoxArray[x][y].getVerticalBox().getChildren().clear();
+                    guiElementBoxArray[x][y].removeImageView();
 
                 }
 

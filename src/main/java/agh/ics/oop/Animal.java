@@ -205,6 +205,7 @@ public class Animal implements IMapElement, Comparable<Animal> {
     }
 
 
-
-
+    public int[] getGenotype() {
+        return genotype;
+    }
 }

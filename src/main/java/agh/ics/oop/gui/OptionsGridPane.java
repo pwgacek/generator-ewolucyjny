@@ -1,25 +1,22 @@
 package agh.ics.oop.gui;
 
-import agh.ics.oop.SimulationConditions;
 import javafx.geometry.HPos;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 public class OptionsGridPane extends GridPane {
 
-    private OptionsElementVBox widthVBox;
-    private OptionsElementVBox heightVBox;
-    private OptionsElementVBox jungleRatioVBox;
-    private OptionsElementVBox startEnergyVBox;
-    private OptionsElementVBox moveEnergyVBox;
-    private OptionsElementVBox plantEnergyVBox;
-    private OptionsElementVBox animalQuantityVBox;
+    private final OptionsElementVBox widthVBox;
+    private final OptionsElementVBox heightVBox;
+    private final OptionsElementVBox jungleRatioVBox;
+    private final OptionsElementVBox startEnergyVBox;
+    private final OptionsElementVBox moveEnergyVBox;
+    private final OptionsElementVBox plantEnergyVBox;
+    private final OptionsElementVBox animalQuantityVBox;
 
     public OptionsGridPane(String name){
 
@@ -33,19 +30,19 @@ public class OptionsGridPane extends GridPane {
         this.getChildren().add(nameLabel);
 
 
-        widthVBox = new OptionsElementVBox(new Label("width:"),new TextField("10"));
+        widthVBox = new OptionsElementVBox(new Label("width:"),new TextField("10"),true);
         this.addElement(widthVBox,1);
-        heightVBox = new OptionsElementVBox(new Label("height:"),new TextField("10"));
+        heightVBox = new OptionsElementVBox(new Label("height:"),new TextField("10"),true);
         this.addElement(heightVBox,2);
-        jungleRatioVBox = new OptionsElementVBox(new Label("jungle ratio:"),new TextField("0.5"));
+        jungleRatioVBox = new OptionsElementVBox(new Label("jungle ratio:"),new TextField("0.5"),false);
         this.addElement(jungleRatioVBox,3);
-        startEnergyVBox = new OptionsElementVBox(new Label("start energy:"),new TextField("100"));
+        startEnergyVBox = new OptionsElementVBox(new Label("start energy:"),new TextField("100"),true);
         this.addElement(startEnergyVBox,4);
-        moveEnergyVBox = new OptionsElementVBox(new Label("move energy:"),new TextField("1"));
+        moveEnergyVBox = new OptionsElementVBox(new Label("move energy:"),new TextField("1"),true);
         this.addElement(moveEnergyVBox,5);
-        plantEnergyVBox = new OptionsElementVBox(new Label("plant energy:"),new TextField("10"));
+        plantEnergyVBox = new OptionsElementVBox(new Label("plant energy:"),new TextField("10"),true);
         this.addElement(plantEnergyVBox,6);
-        animalQuantityVBox = new OptionsElementVBox(new Label("animal quantity:"),new TextField("20"));
+        animalQuantityVBox = new OptionsElementVBox(new Label("animal quantity:"),new TextField("20"),true);
         this.addElement(animalQuantityVBox,7);
 
     }
@@ -57,36 +54,36 @@ public class OptionsGridPane extends GridPane {
         GridPane.setConstraints(vBox,0,rowIndex);
         this.getChildren().add(vBox);
     }
-    public int getWidthCondition(){
+    public int getWidthCondition() throws NumberFormatException{
 
-        return Integer.parseInt(this.widthVBox.textField.getText());
+        return Integer.parseInt(this.widthVBox.textField.getText()) - 1;
     }
 
-    public int getHeightCondition(){
+    public int getHeightCondition() throws NumberFormatException{
 
-        return Integer.parseInt(this.heightVBox.textField.getText());
+        return Integer.parseInt(this.heightVBox.textField.getText()) - 1;
     }
 
-    public double getJungleRatio(){
+    public double getJungleRatio()throws NumberFormatException{
         return Double.parseDouble(this.jungleRatioVBox.textField.getText());
     }
 
-    public int getStartEnergyCondition(){
+    public int getStartEnergyCondition()throws NumberFormatException{
 
         return Integer.parseInt(this.startEnergyVBox.textField.getText());
     }
 
-    public int getMoveEnergyCondition(){
+    public int getMoveEnergyCondition()throws NumberFormatException{
 
         return Integer.parseInt(this.moveEnergyVBox.textField.getText());
     }
 
-    public int getPlantEnergyCondition(){
+    public int getPlantEnergyCondition()throws NumberFormatException{
 
         return Integer.parseInt(this.plantEnergyVBox.textField.getText());
     }
 
-    public int getAnimalQuantityCondition(){
+    public int getAnimalQuantityCondition()throws NumberFormatException{
 
         return Integer.parseInt(this.animalQuantityVBox.textField.getText());
     }

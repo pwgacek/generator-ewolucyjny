@@ -60,7 +60,7 @@ public class SimulationEngine  extends MyThread{
             // usuwanie martwych zwierząt
             System.out.println("***USUWANIE MARTWYCH***");
             for(Animal animal : map.animals){
-                if(animal.getEnergy() <= 0) animalsToRemove.add(animal);
+                if(animal.getEnergy()-conditions.getMoveEnergy() < 0) animalsToRemove.add(animal);
             }
             for(Animal deadAnimal : animalsToRemove){
 

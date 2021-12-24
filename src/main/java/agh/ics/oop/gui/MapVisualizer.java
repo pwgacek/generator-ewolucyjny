@@ -17,7 +17,7 @@ public class MapVisualizer {
 
 
 
-    MapVisualizer(GridPane gridPane, AbstractWorldMap map){
+    MapVisualizer(GridPane gridPane, AbstractWorldMap map,Label chosenGenotype){
         this.gridPane = gridPane;
 
         for(int x=0;x<=map.getWidth()+1;x++){
@@ -49,9 +49,9 @@ public class MapVisualizer {
             for(int x=0;x<=map.getWidth();x++){
                 Vector2d cords = new Vector2d(x,y);
                 boolean isJungle = map.jungleBottomLeftCords.precedes(cords) && map.jungleUpperRightCords.follows(cords);
-                guiElementBoxArray[x][y] = new GuiElementBox(isJungle);
-                gridPane.add(guiElementBoxArray[x][y].getVerticalBox(),x+1,map.getHeight()-y +1);
-                GridPane.setHalignment(guiElementBoxArray[x][y].getVerticalBox(), HPos.CENTER);
+                guiElementBoxArray[x][y] = new GuiElementBox(isJungle,chosenGenotype);
+                gridPane.add(guiElementBoxArray[x][y],x+1,map.getHeight()-y +1);
+                GridPane.setHalignment(guiElementBoxArray[x][y], HPos.CENTER);
             }
         }
         gridPane.setGridLinesVisible(true);

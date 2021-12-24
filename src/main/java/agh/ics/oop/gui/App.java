@@ -65,11 +65,9 @@ public class  App extends Application  {
 
                     GridPane generalPane = new GridPane();
 
-                    GridPane firstMapPane = new GridPane();
-                    GridPane secondMapPane = new GridPane();
+                    MapHandlerGridPane firstMapPane = new MapHandlerGridPane(firstMap,firstSimulationConditions);
+                    MapHandlerGridPane secondMapPane = new MapHandlerGridPane(secondMap,secondSimulationConditions);
 
-                    Button stopStartBtn = new Button("START");
-                    Button stopStartBtn2 = new Button("START2");
 
                     GridPane.setConstraints(firstMapPane,0,0);
                     GridPane.setConstraints(secondMapPane,1,0);
@@ -77,60 +75,22 @@ public class  App extends Application  {
                     generalPane.getChildren().add(firstMapPane);
                     generalPane.getChildren().add(secondMapPane);
 
-                    GridPane.setConstraints(stopStartBtn,0,1);
-                    GridPane.setConstraints(stopStartBtn2,1,1);
+                    generalPane.getColumnConstraints().add(new ColumnConstraints(firstMapPane.getWidth()));
+                    generalPane.getColumnConstraints().add(new ColumnConstraints(secondMapPane.getWidth()));
 
-                    generalPane.getChildren().add(stopStartBtn);
-                    generalPane.getChildren().add(stopStartBtn2);
 
-                    GridPane.setHalignment(stopStartBtn, HPos.CENTER);
-                    GridPane.setHalignment(stopStartBtn2, HPos.CENTER);
 
-                    Scene simulationScene = new Scene(generalPane,(30*(firstMap.getWidth()+2))+(30*(secondMap.getWidth()+2))+20,30*(Math.max(firstMap.getHeight(),secondMap.getHeight()) +2)+100);
+                    //Scene simulationScene = new Scene(generalPane,(30*(firstMap.getWidth()+2))+(30*(secondMap.getWidth()+2))+20,30*(Math.max(firstMap.getHeight(),secondMap.getHeight()) +2)+100);
+                    Scene simulationScene = new Scene(generalPane,firstMapPane.getWidth()+secondMapPane.getWidth(), Math.max(firstMapPane.getHeight(),secondMapPane.getHeight())+50);
 
 
 
 
-                    MapVisualizer mapVisualizer = new MapVisualizer(firstMapPane, firstMap);
-                    MapVisualizer mapVisualizer2 = new MapVisualizer(secondMapPane, secondMap);
+
                     primaryStage.setScene(simulationScene);
-                    MyThread engineThread =  new SimulationEngine(firstMap, mapVisualizer, firstSimulationConditions);
-                    MyThread engineThread2 =  new SimulationEngine(secondMap, mapVisualizer2, secondSimulationConditions);
+                    firstMapPane.startSimulation();
+                    secondMapPane.startSimulation();
 
-                    try{
-
-                        engineThread.start();
-                        engineThread2.start();
-
-                        stopStartBtn.setOnAction(e2 -> {
-                            if(firstSimulationConditions.IsRunning()) {
-                                firstSimulationConditions.setIsRunning(false);
-                                stopStartBtn.setText("START");
-                            }
-                            else{
-                                firstSimulationConditions.setIsRunning(true);
-                                engineThread.resumeMe();
-                                stopStartBtn.setText("STOP");
-                            }
-
-                        });
-
-                        stopStartBtn2.setOnAction(e2-> {
-                            if(secondSimulationConditions.IsRunning()) {
-                                secondSimulationConditions.setIsRunning(false);
-                                stopStartBtn2.setText("START2");
-                            }
-                            else{
-                                secondSimulationConditions.setIsRunning(true);
-                                engineThread2.resumeMe();
-                                stopStartBtn2.setText("STOP2");
-                            }
-
-                        });
-                    }catch (IllegalArgumentException e2){
-                        primaryStage.close();
-                        System.out.println(e2.getMessage());
-                    }
 
                 }catch(Exception exception){
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);

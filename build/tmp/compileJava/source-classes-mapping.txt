@@ -21,12 +21,12 @@ agh/ics/oop/SimulationConditions.java
  agh.ics.oop.SimulationConditions
 agh/ics/oop/gui/OptionsGridPane.java
  agh.ics.oop.gui.OptionsGridPane
-agh/ics/oop/gui/MapVisualizer.java
- agh.ics.oop.gui.MapVisualizer
+agh/ics/oop/World.java
+ agh.ics.oop.World
 agh/ics/oop/IMapElement.java
  agh.ics.oop.IMapElement
-agh/ics/oop/SimulationEngine.java
- agh.ics.oop.SimulationEngine
+agh/ics/oop/GrassField.java
+ agh.ics.oop.GrassField
 agh/ics/oop/IWorldMap.java
  agh.ics.oop.IWorldMap
 agh/ics/oop/IPositionChangeObserver.java
@@ -40,11 +40,11 @@ agh/ics/oop/AbstractWorldMap.java
  agh.ics.oop.AbstractWorldMap
 agh/ics/oop/gui/GuiElementBox.java
  agh.ics.oop.gui.GuiElementBox
-agh/ics/oop/GrassField.java
- agh.ics.oop.GrassField
+agh/ics/oop/SimulationEngine.java
+ agh.ics.oop.SimulationEngine
+agh/ics/oop/gui/MapVisualizer.java
+ agh.ics.oop.gui.MapVisualizer
 agh/ics/oop/gui/MapHandlerGridPane.java
  agh.ics.oop.gui.MapHandlerGridPane
-agh/ics/oop/World.java
- agh.ics.oop.World
 agh/ics/oop/gui/App.java
  agh.ics.oop.gui.App

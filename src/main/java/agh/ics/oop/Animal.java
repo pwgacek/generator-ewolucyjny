@@ -8,7 +8,7 @@ public class Animal implements IMapElement, Comparable<Animal> {
     private final AbstractWorldMap map;
     private final ArrayList<IPositionChangeObserver> observerList;
     private int energy;
-    private final int[] genotype;
+    private final ArrayList<Integer> genotype;
     public ArrayList<String> reports;
     private static int id = 0;
     public final int myID;
@@ -21,10 +21,10 @@ public class Animal implements IMapElement, Comparable<Animal> {
         observerList = new ArrayList<>();
         this.energy =startEnergy; //40+ new Random().nextInt(10);
         this.genotype = generateGenotype();
-        System.out.println(Arrays.toString(this.genotype));
+        System.out.println(this.genotype.toString());
         this.reports = new ArrayList<>();
         this.myID = setID();
-        reports.add("ID: "+ this.myID +"--genotype: "+ Arrays.toString(this.genotype) + "position: " + position.toString() + "energy: " + this.energy );
+        reports.add("ID: "+ this.myID +"--genotype: "+ this.genotype.toString() + "position: " + position.toString() + "energy: " + this.energy );
 
     }
     public Animal(AbstractWorldMap map, Vector2d initialPosition,Animal strongerParent,Animal weakerParent){
@@ -39,7 +39,7 @@ public class Animal implements IMapElement, Comparable<Animal> {
 
         this.reports = new ArrayList<>();
         this.myID = setID();
-        reports.add("ID: " + this.myID + "--genotype: "+ Arrays.toString(this.genotype) + "position: " + position.toString() + "energy: " + this.energy );
+        reports.add("ID: " + this.myID + "--genotype: "+ this.genotype.toString() + "position: " + position.toString() + "energy: " + this.energy );
 
 
     }
@@ -64,19 +64,19 @@ public class Animal implements IMapElement, Comparable<Animal> {
         this.energy +=energy;
     }
 
-    private int[] generateGenotype(){
+    private ArrayList<Integer> generateGenotype(){
         Random rd = new Random();
-        int[] genotype = new int[32];
+        ArrayList<Integer> genotype = new ArrayList<>();
         for(int i=0;i<32;i++){
-            genotype[i] = rd.nextInt(8);
+            genotype.add(rd.nextInt(8));
         }
-        Arrays.sort(genotype);
+        Collections.sort(genotype);
         return genotype;
     }
 
     public int getRandomGen(){
         int randomIndex = new Random().nextInt(32);
-        return genotype[randomIndex];
+        return genotype.get(randomIndex);
     }
 
 
@@ -156,10 +156,10 @@ public class Animal implements IMapElement, Comparable<Animal> {
         return other.energy - this.energy;
     }
 
-    private int[] getChildsGenotype(Animal strongerParent,Animal weakerParent){
+    private ArrayList<Integer> getChildsGenotype(Animal strongerParent,Animal weakerParent){
 
-        int[] childsGenotype = new int[32];
-
+        //int[] childsGenotype = new int[32];
+        ArrayList<Integer> childsGenotype = new ArrayList<>();
 
         int energySum = weakerParent.getEnergy() + strongerParent.getEnergy();
         int gensTakenFromStronger = (32*strongerParent.getEnergy()/energySum);
@@ -169,10 +169,10 @@ public class Animal implements IMapElement, Comparable<Animal> {
         if(takeLeftSideFromStronger){
             for(int i=0;i<32;i++){
                 if(i<gensTakenFromStronger){
-                    childsGenotype[i] = strongerParent.genotype[i];
+                    childsGenotype.add(strongerParent.genotype.get(i));
                 }
                 else{
-                    childsGenotype[i] = weakerParent.genotype[i];
+                    childsGenotype.add(weakerParent.genotype.get(i));
                 }
 
             }
@@ -180,15 +180,15 @@ public class Animal implements IMapElement, Comparable<Animal> {
         else{
             for(int i=0;i<32;i++){
                 if(i<32-gensTakenFromStronger){
-                    childsGenotype[i] = weakerParent.genotype[i];
+                    childsGenotype.add(weakerParent.genotype.get(i));
                 }
                 else{
-                    childsGenotype[i] = strongerParent.genotype[i];
+                    childsGenotype.add(strongerParent.genotype.get(i));
                 }
 
             }
         }
-        Arrays.sort(childsGenotype);
+        Collections.sort(childsGenotype);
         return childsGenotype;
     }
 
@@ -205,7 +205,7 @@ public class Animal implements IMapElement, Comparable<Animal> {
     }
 
 
-    public int[] getGenotype() {
+    public ArrayList<Integer> getGenotype() {
         return genotype;
     }
 }

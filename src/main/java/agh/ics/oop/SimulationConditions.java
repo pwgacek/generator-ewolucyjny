@@ -5,7 +5,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class SimulationConditions {
 
     private final int moveDelay;
-    private boolean isRunning;
+    private AtomicBoolean isRunning;
     private final int startEnergy;
     private final int moveEnergy;
     private final int plantEnergy;
@@ -13,7 +13,7 @@ public class SimulationConditions {
 
     public SimulationConditions(int moveDelay, boolean isRunning, int startEnergy, int moveEnergy, int plantEnergy, int animalQuantity) {
         this.moveDelay = moveDelay;
-        this.isRunning = isRunning;
+        this.isRunning= new AtomicBoolean(isRunning);
         this.startEnergy = startEnergy;
         this.moveEnergy = moveEnergy;
         this.plantEnergy = plantEnergy;
@@ -25,11 +25,15 @@ public class SimulationConditions {
     }
 
     public boolean IsRunning() {
+        return isRunning.get();
+    }
+
+    public AtomicBoolean getIsRunning() {
         return isRunning;
     }
 
     public void setIsRunning(boolean isRunning){
-        this.isRunning=isRunning;
+        this.isRunning.set(isRunning);
     }
 
     public int getStartEnergy() {

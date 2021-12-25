@@ -16,6 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class GuiElementBox extends VBox {
@@ -25,7 +26,7 @@ public class GuiElementBox extends VBox {
     private double cellSize;
 
 
-    public GuiElementBox(double cellSize,boolean isSawanna, Label chosenGenotype){
+    public GuiElementBox(double cellSize, boolean isSawanna, Label chosenGenotype, AtomicBoolean isRunning){
         imageViewSelector = new ImageViewSelector();
         //setImageView(mapElement);
         this.cellSize = cellSize;
@@ -42,13 +43,16 @@ public class GuiElementBox extends VBox {
 
 
         this.setOnMouseClicked((click)->{
-            if(this.element!=null){
-                if(this.element.getClass() == Animal.class){
-                    Animal animal = (Animal) element;
-                    chosenGenotype.setText(Arrays.toString(animal.getGenotype()));
+            if(!isRunning.get()){
+                if(element!=null){
+                    if(this.element.getClass() == Animal.class){
+                        Animal animal = (Animal) element;
+                        chosenGenotype.setText(animal.getGenotype().toString());
 
+                    }
                 }
             }
+
         });
     }
 

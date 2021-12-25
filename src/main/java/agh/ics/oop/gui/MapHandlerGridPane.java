@@ -1,9 +1,6 @@
 package agh.ics.oop.gui;
 
-import agh.ics.oop.AbstractWorldMap;
-import agh.ics.oop.MyThread;
-import agh.ics.oop.SimulationConditions;
-import agh.ics.oop.SimulationEngine;
+import agh.ics.oop.*;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -12,6 +9,8 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MapHandlerGridPane extends GridPane {
     private final MyThread engineThread;
@@ -34,9 +33,10 @@ public class MapHandlerGridPane extends GridPane {
         this.getChildren().add(stopStartBtn);
         this.getChildren().add(chosenGenotype);
 
-
-        MapVisualizer mapVisualizer = new MapVisualizer(mapGridPane,map,chosenGenotype,cellSize);
-        engineThread =  new SimulationEngine(map, mapVisualizer, conditions);
+        AtomicBoolean isRunning = conditions.getIsRunning();
+        Statistics statistics = new Statistics();
+        MapVisualizer mapVisualizer = new MapVisualizer(mapGridPane,map,chosenGenotype,cellSize,isRunning);
+        engineThread =  new SimulationEngine(map, mapVisualizer, conditions,statistics);
 
 
         this.getColumnConstraints().add(new ColumnConstraints(320));

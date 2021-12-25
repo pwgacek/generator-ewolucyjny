@@ -7,10 +7,12 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
+
+import java.util.concurrent.atomic.AtomicBoolean;
+
 
 public class MapVisualizer {
-    private GridPane gridPane;
+
     private final AbstractWorldMap map;
     private final GuiElementBox[][] guiElementBoxArray;
 
@@ -18,8 +20,7 @@ public class MapVisualizer {
 
 
 
-    MapVisualizer(GridPane gridPane, AbstractWorldMap map,Label chosenGenotype,double cellSize){
-        this.gridPane = gridPane;
+    MapVisualizer(GridPane gridPane, AbstractWorldMap map, Label chosenGenotype, double cellSize, AtomicBoolean isRunning){
 
         for(int x=0;x<=map.getWidth()+1;x++){
             gridPane.getColumnConstraints().add(new ColumnConstraints(cellSize));
@@ -53,7 +54,7 @@ public class MapVisualizer {
             for(int x=0;x<=map.getWidth();x++){
                 Vector2d cords = new Vector2d(x,y);
                 boolean isJungle = map.jungleBottomLeftCords.precedes(cords) && map.jungleUpperRightCords.follows(cords);
-                guiElementBoxArray[x][y] = new GuiElementBox(cellSize,isJungle,chosenGenotype);
+                guiElementBoxArray[x][y] = new GuiElementBox(cellSize,isJungle,chosenGenotype,isRunning);
                 gridPane.add(guiElementBoxArray[x][y],x+1,map.getHeight()-y +1);
                 GridPane.setHalignment(guiElementBoxArray[x][y], HPos.CENTER);
             }

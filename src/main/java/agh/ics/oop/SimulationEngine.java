@@ -14,15 +14,17 @@ public class SimulationEngine  extends MyThread{
 
     private final MapVisualizer observer;
     private final SimulationConditions conditions;
+    private final Statistics statistics;
 
 
 
 
-    public SimulationEngine(AbstractWorldMap map,MapVisualizer mapVisualizer,SimulationConditions simulationConditions) {
+    public SimulationEngine(AbstractWorldMap map,MapVisualizer mapVisualizer,SimulationConditions simulationConditions,Statistics statistics) {
 
         this.map = map;
         this.observer = mapVisualizer;
         this.conditions = simulationConditions;
+        this.statistics = statistics;
 
         ArrayList<Vector2d> positionsWithoutAnimal = new ArrayList<>();
         for(int x=0; x<=map.getWidth();x++){
@@ -33,6 +35,18 @@ public class SimulationEngine  extends MyThread{
         for(int i=0;i<conditions.getAnimalQuantity();i++){
             map.place(new Animal(this.map,positionsWithoutAnimal.remove(new Random().nextInt((positionsWithoutAnimal.size()))),conditions.getStartEnergy()));
         }
+        statistics.setAnimalQuantity(conditions.getAnimalQuantity());
+        statistics.setGrassQuantity(0);
+        statistics.setGenotypeDominant(map.animals);
+        statistics.setAverageAnimalEnergy(map.animals);
+        System.out.println("ilość zwierząt: "+statistics.getAnimalQuantity());
+        System.out.println("ilość trawy: "+statistics.getGrassQuantity());
+        System.out.println("Dominujący genotyp: "+statistics.getGenotypeDominant().toString());
+        System.out.println("srednia ilosc energi zwierzecia: "+ statistics.getAverageAnimalEnergy());
+
+
+
+
 
 
     }
@@ -51,6 +65,8 @@ public class SimulationEngine  extends MyThread{
             if(!conditions.IsRunning()){
                 suspendMe();
             }
+
+
 
             System.out.println("********DZIEN NR " + dayCounter + "********");
             System.out.println();
@@ -179,6 +195,16 @@ public class SimulationEngine  extends MyThread{
 
             waitForRunLater();
             System.out.println(map);
+
+            statistics.setAnimalQuantity(map.animals.size());
+            System.out.println("ilość zwierząt: "+statistics.getAnimalQuantity());
+            statistics.setGrassQuantity(map.grassAtJungle.size() + map.grassAtSawanna.size());
+            System.out.println("ilość trawy: "+statistics.getGrassQuantity());
+            statistics.setGenotypeDominant(map.animals);
+            if(statistics.getGenotypeDominant()!=null) System.out.println("Dominujący genotyp: "+statistics.getGenotypeDominant().toString());
+            statistics.setAverageAnimalEnergy(map.animals);
+            System.out.println("srednia ilosc energi zwierzecia: "+ statistics.getAverageAnimalEnergy());
+
             System.out.println("*******KONIEC DNIA NR: "+ dayCounter++ + "**********");
         }
 

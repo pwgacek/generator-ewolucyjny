@@ -9,7 +9,7 @@ public class Statistics {
     private int grassQuantity;
     private ArrayList<Integer> genotypeDominant;
     private double averageAnimalEnergy;
-    private double avarageLifeSpan;
+    private double avarageLifeSpan = 0;
     private double avarageChildrenQuantity;
 
 
@@ -88,15 +88,27 @@ public class Statistics {
         return avarageLifeSpan;
     }
 
-    public void setAvarageLifeSpan(double avarageLifeSpan) {
-        this.avarageLifeSpan = avarageLifeSpan;
+    public void setAvarageLifeSpan(int deathCounter,int date,Animal animal) {
+        int lifeSpan = date-animal.getDateOfBirth();
+        double tmp = deathCounter*getAvarageLifeSpan() + lifeSpan;
+        this.avarageLifeSpan = tmp/(deathCounter+1);
     }
 
     public double getAvarageChildrenQuantity() {
         return avarageChildrenQuantity;
     }
 
-    public void setAvarageChildrenQuantity(double avarageChildrenQuantity) {
-        this.avarageChildrenQuantity = avarageChildrenQuantity;
+    public void setAvarageChildrenQuantity(ArrayList<Animal> animals) {
+        if(animals.size() > 0){
+            int sumOfChildren = 0;
+            for(Animal animal:animals){
+                sumOfChildren+=animal.getChildrenCounter();
+            }
+            avarageChildrenQuantity = (double)sumOfChildren/animals.size();
+        }
+        else{
+            avarageChildrenQuantity = 0;
+        }
     }
+
 }

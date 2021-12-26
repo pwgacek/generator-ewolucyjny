@@ -12,6 +12,9 @@ public class Animal implements IMapElement, Comparable<Animal> {
     public ArrayList<String> reports;
     private static int id = 0;
     public final int myID;
+    private final int startEnergy;
+    private final int dateOfBirth;
+    private int childrenCounter;
 
 
     public Animal(AbstractWorldMap map, Vector2d initialPosition, int startEnergy){
@@ -24,10 +27,13 @@ public class Animal implements IMapElement, Comparable<Animal> {
         System.out.println(this.genotype.toString());
         this.reports = new ArrayList<>();
         this.myID = setID();
+        this.dateOfBirth =0;
+        this.startEnergy = startEnergy;
+        this.childrenCounter = 0;
         reports.add("ID: "+ this.myID +"--genotype: "+ this.genotype.toString() + "position: " + position.toString() + "energy: " + this.energy );
 
     }
-    public Animal(AbstractWorldMap map, Vector2d initialPosition,Animal strongerParent,Animal weakerParent){
+    public Animal(AbstractWorldMap map, Vector2d initialPosition,Animal strongerParent,Animal weakerParent,int dateOfBirth,int startEnergy){
         this.map = map;
         this.position = initialPosition;
         this.direction = MapDirection.NORTH.generateMapDirection();
@@ -36,9 +42,12 @@ public class Animal implements IMapElement, Comparable<Animal> {
         strongerParent.changeEnergy(-(int)(strongerParent.getEnergy()/4));
         weakerParent.changeEnergy(-(int)(weakerParent.getEnergy()/4));
         this.genotype = getChildsGenotype(strongerParent,weakerParent);
+        this.dateOfBirth = dateOfBirth;
+        this.startEnergy = startEnergy;
 
         this.reports = new ArrayList<>();
         this.myID = setID();
+        this.childrenCounter = 0;
         reports.add("ID: " + this.myID + "--genotype: "+ this.genotype.toString() + "position: " + position.toString() + "energy: " + this.energy );
 
 
@@ -49,7 +58,17 @@ public class Animal implements IMapElement, Comparable<Animal> {
     }
 
 
+    public int getDateOfBirth() {
+        return dateOfBirth;
+    }
 
+    public int getChildrenCounter() {
+        return childrenCounter;
+    }
+
+    public void incrementChildrenCounter() {
+        this.childrenCounter+=1;
+    }
 
     public MapDirection getDirection() { return direction; }
     public Vector2d getPosition() {
@@ -82,10 +101,10 @@ public class Animal implements IMapElement, Comparable<Animal> {
 
     @Override
     public String getImgPath() {
-        if (this.energy > 40) return "src/main/resources/yellow.png";
-        if (this.energy > 30) return "src/main/resources/light_orange.png";
-        if (this.energy > 20) return "src/main/resources/orange.png";
-        if (this.energy > 10) return "src/main/resources/red.png";
+        if (this.energy > this.startEnergy*0.8) return "src/main/resources/yellow.png";
+        if (this.energy > this.startEnergy*0.6) return "src/main/resources/light_orange.png";
+        if (this.energy > this.startEnergy*0.4) return "src/main/resources/orange.png";
+        if (this.energy > this.startEnergy*0.2) return "src/main/resources/red.png";
         return "src/main/resources/brown.png";
 
 
@@ -163,7 +182,7 @@ public class Animal implements IMapElement, Comparable<Animal> {
 
         int energySum = weakerParent.getEnergy() + strongerParent.getEnergy();
         int gensTakenFromStronger = (32*strongerParent.getEnergy()/energySum);
-        //System.out.println("biore od silniejszego: "+ gensTakenFromStronger + " genow");
+        System.out.println("biore od silniejszego: "+ gensTakenFromStronger + " genow");
         boolean takeLeftSideFromStronger = new Random().nextBoolean();
 
         if(takeLeftSideFromStronger){

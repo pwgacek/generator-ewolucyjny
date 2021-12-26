@@ -15,6 +15,7 @@ public class SimulationEngine  extends MyThread{
     private final MapVisualizer observer;
     private final SimulationConditions conditions;
     private final Statistics statistics;
+    private int deathCounter;
 
 
 
@@ -25,6 +26,7 @@ public class SimulationEngine  extends MyThread{
         this.observer = mapVisualizer;
         this.conditions = simulationConditions;
         this.statistics = statistics;
+        this.deathCounter = 0;
 
         ArrayList<Vector2d> positionsWithoutAnimal = new ArrayList<>();
         for(int x=0; x<=map.getWidth();x++){
@@ -35,18 +37,6 @@ public class SimulationEngine  extends MyThread{
         for(int i=0;i<conditions.getAnimalQuantity();i++){
             map.place(new Animal(this.map,positionsWithoutAnimal.remove(new Random().nextInt((positionsWithoutAnimal.size()))),conditions.getStartEnergy()));
         }
-        statistics.setAnimalQuantity(conditions.getAnimalQuantity());
-        statistics.setGrassQuantity(0);
-        statistics.setGenotypeDominant(map.animals);
-        statistics.setAverageAnimalEnergy(map.animals);
-        System.out.println("ilość zwierząt: "+statistics.getAnimalQuantity());
-        System.out.println("ilość trawy: "+statistics.getGrassQuantity());
-        System.out.println("Dominujący genotyp: "+statistics.getGenotypeDominant().toString());
-        System.out.println("srednia ilosc energi zwierzecia: "+ statistics.getAverageAnimalEnergy());
-
-
-
-
 
 
     }
@@ -55,6 +45,19 @@ public class SimulationEngine  extends MyThread{
 
     @Override
     public void  run() {
+
+        statistics.setAnimalQuantity(conditions.getAnimalQuantity());
+        statistics.setGrassQuantity(0);
+        statistics.setGenotypeDominant(map.animals);
+        statistics.setAverageAnimalEnergy(map.animals);
+        statistics.setAvarageChildrenQuantity(map.animals);
+
+        System.out.println("ilość zwierząt: "+statistics.getAnimalQuantity());
+        System.out.println("ilość trawy: "+statistics.getGrassQuantity());
+        System.out.println("Dominujący genotyp: "+statistics.getGenotypeDominant().toString());
+        System.out.println("srednia ilosc energi zwierzecia: "+ statistics.getAverageAnimalEnergy());
+        System.out.println("srednia dlugosc zycia zwierzecia: "+ statistics.getAvarageLifeSpan());
+        System.out.println("srednia ilość dzieci: "+ statistics.getAvarageChildrenQuantity());
 
         Platform.runLater(observer::positionChanged);
         waitForRunLater();
@@ -76,7 +79,11 @@ public class SimulationEngine  extends MyThread{
             // usuwanie martwych zwierząt
             System.out.println("***USUWANIE MARTWYCH***");
             for(Animal animal : map.animals){
-                if(animal.getEnergy()-conditions.getMoveEnergy() < 0) animalsToRemove.add(animal);
+                if(animal.getEnergy()-conditions.getMoveEnergy() < 0){
+                    animalsToRemove.add(animal);
+                    statistics.setAvarageLifeSpan(deathCounter,dayCounter,animal);
+                    deathCounter++;
+                }
             }
             for(Animal deadAnimal : animalsToRemove){
 
@@ -158,9 +165,11 @@ public class SimulationEngine  extends MyThread{
                     }
                     breedingReportBuilder.append("WYBRANO: ").append(strongerParent.myID).append(", ").append(weakerParent.myID);
 
-                    if(weakerParent.getEnergy() >= (conditions.getStartEnergy()/2)){
+                    if(weakerParent.getEnergy() >= (conditions.getStartEnergy()/2) && strongerParent.getEnergy()>0){
                         breedingReportBuilder.append(" ZWIERZETA ROZMNAZAJA SIE! ");
-                        Animal child = new Animal(map,position,strongerParent,weakerParent);
+                        weakerParent.incrementChildrenCounter();
+                        strongerParent.incrementChildrenCounter();
+                        Animal child = new Animal(map,position,strongerParent,weakerParent,dayCounter,conditions.getStartEnergy());
                         breedingReportBuilder.append("id dziecka: ").append(child.myID).append(" energia dziecka: ").append(child.getEnergy()).append(" kierunek dziecka: ").append(child.getDirection());
                         map.animals.add(child);
                         map.animalsMap.get(position).add(child);
@@ -204,6 +213,9 @@ public class SimulationEngine  extends MyThread{
             if(statistics.getGenotypeDominant()!=null) System.out.println("Dominujący genotyp: "+statistics.getGenotypeDominant().toString());
             statistics.setAverageAnimalEnergy(map.animals);
             System.out.println("srednia ilosc energi zwierzecia: "+ statistics.getAverageAnimalEnergy());
+            System.out.println("srednia dlugosc zycia zwierzecia: : "+ statistics.getAvarageLifeSpan());
+            statistics.setAvarageChildrenQuantity(map.animals);
+            System.out.println("srednia ilość dzieci: "+ statistics.getAvarageChildrenQuantity());
 
             System.out.println("*******KONIEC DNIA NR: "+ dayCounter++ + "**********");
         }

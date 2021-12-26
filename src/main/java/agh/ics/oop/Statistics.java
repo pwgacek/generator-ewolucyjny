@@ -1,7 +1,5 @@
 package agh.ics.oop;
 
-import com.sun.javafx.image.IntPixelGetter;
-
 import java.util.*;
 
 public class Statistics {
@@ -9,8 +7,8 @@ public class Statistics {
     private int grassQuantity;
     private ArrayList<Integer> genotypeDominant;
     private double averageAnimalEnergy;
-    private double avarageLifeSpan = 0;
-    private double avarageChildrenQuantity;
+    private double averageLifeSpan = 0;
+    private double averageChildrenQuantity;
 
 
 
@@ -76,7 +74,8 @@ public class Statistics {
             for(Animal animal :animals){
                 energySum+=animal.getEnergy();
             }
-            this.averageAnimalEnergy = (double)energySum/animals.size();
+            double result = (double)energySum/animals.size();
+            this.averageAnimalEnergy = Math.round(result*100.0)/100.0;
         }
         else{
             this.averageAnimalEnergy = 0;
@@ -84,30 +83,32 @@ public class Statistics {
 
     }
 
-    public double getAvarageLifeSpan() {
-        return avarageLifeSpan;
+    public double getAverageLifeSpan() {
+        return averageLifeSpan;
     }
 
-    public void setAvarageLifeSpan(int deathCounter,int date,Animal animal) {
+    public void setAverageLifeSpan(int deathCounter, int date, Animal animal) {
         int lifeSpan = date-animal.getDateOfBirth();
-        double tmp = deathCounter*getAvarageLifeSpan() + lifeSpan;
-        this.avarageLifeSpan = tmp/(deathCounter+1);
+        double tmp = deathCounter* getAverageLifeSpan() + lifeSpan;
+        double result = tmp/(deathCounter+1);
+        this.averageLifeSpan = Math.round(result*100.0)/100.0;
     }
 
-    public double getAvarageChildrenQuantity() {
-        return avarageChildrenQuantity;
+    public double getAverageChildrenQuantity() {
+        return averageChildrenQuantity;
     }
 
-    public void setAvarageChildrenQuantity(ArrayList<Animal> animals) {
+    public void setAverageChildrenQuantity(ArrayList<Animal> animals) {
         if(animals.size() > 0){
             int sumOfChildren = 0;
             for(Animal animal:animals){
                 sumOfChildren+=animal.getChildrenCounter();
             }
-            avarageChildrenQuantity = (double)sumOfChildren/animals.size();
+            double result = (double)sumOfChildren/animals.size();
+            averageChildrenQuantity =Math.round(result*100.0)/100.0;
         }
         else{
-            avarageChildrenQuantity = 0;
+            averageChildrenQuantity = 0;
         }
     }
 

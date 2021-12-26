@@ -24,7 +24,7 @@ public class SimulationConditions {
         return moveDelay;
     }
 
-    public boolean IsRunning() {
+    public boolean isRunning() {
         return isRunning.get();
     }
 

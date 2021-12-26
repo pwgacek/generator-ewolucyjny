@@ -61,8 +61,8 @@ public class GuiElementBox extends VBox {
         removeImageView();
         this.element = element;
         ImageView imageView = imageViewSelector.getImageView(element.getImgPath());
-        imageView.setFitWidth(cellSize);
-        imageView.setFitHeight(cellSize);
+        imageView.setFitWidth(0.9*cellSize);
+        imageView.setFitHeight(0.9*cellSize);
         this.getChildren().add(imageView);
 
     }

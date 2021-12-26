@@ -1,15 +1,15 @@
-agh/ics/oop/SimulationConditions.java
- agh.ics.oop.SimulationConditions
+agh/ics/oop/gui/GuiElementBox.java
+ agh.ics.oop.gui.GuiElementBox
 agh/ics/oop/gui/OptionsGridPane.java
  agh.ics.oop.gui.OptionsGridPane
-agh/ics/oop/World.java
- agh.ics.oop.World
+agh/ics/oop/Statistician.java
+ agh.ics.oop.Statistician
 agh/ics/oop/Genotype.java
  agh.ics.oop.Genotype
 agh/ics/oop/Vector2d.java
  agh.ics.oop.Vector2d
-agh/ics/oop/gui/App.java
- agh.ics.oop.gui.App
+agh/ics/oop/SimulationConditions.java
+ agh.ics.oop.SimulationConditions
 agh/ics/oop/IEngine.java
  agh.ics.oop.IEngine
 agh/ics/oop/MyThread.java
@@ -27,28 +27,33 @@ agh/ics/oop/Grass.java
 agh/ics/oop/MapDirection.java
  agh.ics.oop.MapDirection
  agh.ics.oop.MapDirection$1
+agh/ics/oop/TorusGrassField.java
+ agh.ics.oop.TorusGrassField
+agh/ics/oop/Statistics.java
+ agh.ics.oop.Statistics
 agh/ics/oop/MapVisualizer.java
  agh.ics.oop.MapVisualizer
 agh/ics/oop/IWorldMap.java
  agh.ics.oop.IWorldMap
+agh/ics/oop/gui/MapVisualizer.java
+ agh.ics.oop.gui.MapVisualizer
 agh/ics/oop/IPositionChangeObserver.java
  agh.ics.oop.IPositionChangeObserver
 agh/ics/oop/Animal.java
  agh.ics.oop.Animal
  agh.ics.oop.Animal$1
-agh/ics/oop/TorusGrassField.java
- agh.ics.oop.TorusGrassField
 agh/ics/oop/AbstractWorldMap.java
  agh.ics.oop.AbstractWorldMap
-agh/ics/oop/Statistics.java
- agh.ics.oop.Statistics
-agh/ics/oop/gui/GuiElementBox.java
- agh.ics.oop.gui.GuiElementBox
 agh/ics/oop/GrassField.java
  agh.ics.oop.GrassField
-agh/ics/oop/gui/MapVisualizer.java
- agh.ics.oop.gui.MapVisualizer
+agh/ics/oop/Snapshot.java
+ agh.ics.oop.Snapshot
+agh/ics/oop/World.java
+ agh.ics.oop.World
 agh/ics/oop/SimulationEngine.java
  agh.ics.oop.SimulationEngine
 agh/ics/oop/gui/MapHandlerGridPane.java
  agh.ics.oop.gui.MapHandlerGridPane
+agh/ics/oop/gui/App.java
+ agh.ics.oop.gui.App
+ agh.ics.oop.gui.App$1

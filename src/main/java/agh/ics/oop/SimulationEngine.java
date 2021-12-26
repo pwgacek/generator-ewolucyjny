@@ -1,11 +1,11 @@
 package agh.ics.oop;
 
+import agh.ics.oop.gui.MapHandlerGridPane;
 import agh.ics.oop.gui.MapVisualizer;
 import javafx.application.Platform;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 public class SimulationEngine  extends MyThread{
@@ -16,13 +16,17 @@ public class SimulationEngine  extends MyThread{
     private final SimulationConditions conditions;
     private final Statistics statistics;
     private int deathCounter;
+    private final Statistician statistician;
+    private boolean isTerminated;
+    private final MapHandlerGridPane mapHandlerGridPane;
 
 
 
 
-    public SimulationEngine(AbstractWorldMap map,MapVisualizer mapVisualizer,SimulationConditions simulationConditions,Statistics statistics) {
-
+    public SimulationEngine(MapHandlerGridPane mapHandlerGridPane, AbstractWorldMap map, MapVisualizer mapVisualizer, SimulationConditions simulationConditions, Statistics statistics) {
+        isTerminated=false;
         this.map = map;
+        this.mapHandlerGridPane = mapHandlerGridPane;
         this.observer = mapVisualizer;
         this.conditions = simulationConditions;
         this.statistics = statistics;
@@ -38,6 +42,7 @@ public class SimulationEngine  extends MyThread{
             map.place(new Animal(this.map,positionsWithoutAnimal.remove(new Random().nextInt((positionsWithoutAnimal.size()))),conditions.getStartEnergy()));
         }
 
+        statistician = new Statistician(map.getMyID());
 
     }
 
@@ -50,14 +55,18 @@ public class SimulationEngine  extends MyThread{
         statistics.setGrassQuantity(0);
         statistics.setGenotypeDominant(map.animals);
         statistics.setAverageAnimalEnergy(map.animals);
-        statistics.setAvarageChildrenQuantity(map.animals);
+        statistics.setAverageChildrenQuantity(map.animals);
 
-        System.out.println("ilość zwierząt: "+statistics.getAnimalQuantity());
-        System.out.println("ilość trawy: "+statistics.getGrassQuantity());
-        System.out.println("Dominujący genotyp: "+statistics.getGenotypeDominant().toString());
-        System.out.println("srednia ilosc energi zwierzecia: "+ statistics.getAverageAnimalEnergy());
-        System.out.println("srednia dlugosc zycia zwierzecia: "+ statistics.getAvarageLifeSpan());
-        System.out.println("srednia ilość dzieci: "+ statistics.getAvarageChildrenQuantity());
+        statistician.addSnapshot(new Snapshot(0,statistics));
+
+
+
+//        System.out.println("ilość zwierząt: "+statistics.getAnimalQuantity());
+//        System.out.println("ilość trawy: "+statistics.getGrassQuantity());
+//        System.out.println("Dominujący genotyp: "+statistics.getGenotypeDominant().toString());
+//        System.out.println("srednia ilosc energi zwierzecia: "+ statistics.getAverageAnimalEnergy());
+//        System.out.println("srednia dlugosc zycia zwierzecia: "+ statistics.getAvarageLifeSpan());
+//        System.out.println("srednia ilość dzieci: "+ statistics.getAvarageChildrenQuantity());
 
         Platform.runLater(observer::positionChanged);
         waitForRunLater();
@@ -65,8 +74,11 @@ public class SimulationEngine  extends MyThread{
         int dayCounter = 1;
         while(!map.animals.isEmpty()){
 
-            if(!conditions.IsRunning()){
+            if(!conditions.isRunning()){
+                statistician.writeStatisticsHistoryToFile();
                 suspendMe();
+                System.out.println("wychodze");
+                if(isTerminated)break;
             }
 
 
@@ -81,7 +93,7 @@ public class SimulationEngine  extends MyThread{
             for(Animal animal : map.animals){
                 if(animal.getEnergy()-conditions.getMoveEnergy() < 0){
                     animalsToRemove.add(animal);
-                    statistics.setAvarageLifeSpan(deathCounter,dayCounter,animal);
+                    statistics.setAverageLifeSpan(deathCounter,dayCounter,animal);
                     deathCounter++;
                 }
             }
@@ -206,18 +218,28 @@ public class SimulationEngine  extends MyThread{
             System.out.println(map);
 
             statistics.setAnimalQuantity(map.animals.size());
-            System.out.println("ilość zwierząt: "+statistics.getAnimalQuantity());
+            //System.out.println("ilość zwierząt: "+statistics.getAnimalQuantity());
             statistics.setGrassQuantity(map.grassAtJungle.size() + map.grassAtSawanna.size());
-            System.out.println("ilość trawy: "+statistics.getGrassQuantity());
+            //System.out.println("ilość trawy: "+statistics.getGrassQuantity());
             statistics.setGenotypeDominant(map.animals);
             if(statistics.getGenotypeDominant()!=null) System.out.println("Dominujący genotyp: "+statistics.getGenotypeDominant().toString());
             statistics.setAverageAnimalEnergy(map.animals);
-            System.out.println("srednia ilosc energi zwierzecia: "+ statistics.getAverageAnimalEnergy());
-            System.out.println("srednia dlugosc zycia zwierzecia: : "+ statistics.getAvarageLifeSpan());
-            statistics.setAvarageChildrenQuantity(map.animals);
-            System.out.println("srednia ilość dzieci: "+ statistics.getAvarageChildrenQuantity());
-
+            //System.out.println("srednia ilosc energi zwierzecia: "+ statistics.getAverageAnimalEnergy());
+            //System.out.println("srednia dlugosc zycia zwierzecia: : "+ statistics.getAverageLifeSpan());
+            statistics.setAverageChildrenQuantity(map.animals);
+            //System.out.println("srednia ilość dzieci: "+ statistics.getAverageChildrenQuantity());
+            statistician.addSnapshot(new Snapshot(dayCounter,statistics));
             System.out.println("*******KONIEC DNIA NR: "+ dayCounter++ + "**********");
+        }
+
+        if(!isTerminated){
+            System.out.println("wyszedłem sam");
+            statistician.writeStatisticsHistoryToFile();
+            conditions.setIsRunning(false);
+            this.mapHandlerGridPane.disableStopStartBtn();
+        }
+        else{
+            System.out.println("wyszedłem bo zamkniekto okno");
         }
 
 
@@ -247,8 +269,8 @@ public class SimulationEngine  extends MyThread{
 
     }
 
-
-
-
-
+    public void setTerminated(boolean terminated) {
+        isTerminated = terminated;
+        resumeMe();
+    }
 }

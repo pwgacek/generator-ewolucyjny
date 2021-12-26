@@ -3,13 +3,15 @@ package agh.ics.oop.gui;
 import agh.ics.oop.*;
 import javafx.application.Application;
 
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 
 public class  App extends Application  {
@@ -17,7 +19,10 @@ public class  App extends Application  {
 
     public void start(Stage primaryStage){
 
+
         try{
+
+
             GridPane startGridPane = new GridPane();
             OptionsGridPane firstMapOptionsGridPane = new OptionsGridPane("First Map");
             OptionsGridPane secondMapOptionsGridPane = new OptionsGridPane("Second Map");
@@ -94,6 +99,32 @@ public class  App extends Application  {
                     primaryStage.setScene(simulationScene);
                     firstMapPane.startSimulation();
                     secondMapPane.startSimulation();
+
+
+
+
+                    primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                        @Override
+                        public void handle(WindowEvent t) {
+                            if(firstSimulationConditions.isRunning() || secondSimulationConditions.isRunning())
+                            {
+                                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                alert.setTitle("Sth went wrong...");
+                                alert.setContentText("Please, stop simulation before you close the window!");
+                                alert.showAndWait();
+                                t.consume();
+                            }
+                            else{
+                                firstMapPane.terminateSimulation();
+                                secondMapPane.terminateSimulation();
+                                Platform.exit();
+                                System.exit(0);
+                            }
+
+                        }
+                    });
+
+
 
 
                 }catch(Exception exception){

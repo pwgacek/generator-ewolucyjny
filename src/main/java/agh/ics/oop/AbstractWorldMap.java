@@ -2,6 +2,8 @@ package agh.ics.oop;
 import java.util.*;
 
 public abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObserver{
+    private  int myID;
+    protected static int idCounter = 1;
     protected  int height;
     protected  int width;
     public ArrayList<Animal> animals;
@@ -16,7 +18,7 @@ public abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObser
     public Map<Vector2d,Grass> emptyAtJungle;
 
     public AbstractWorldMap(MapConditions mapConditions) {
-
+        myID = idCounter++;
         animals = new ArrayList<>();
         this.animalsMap = new HashMap<>();
 
@@ -47,6 +49,9 @@ public abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObser
 
     }
 
+    public int getMyID() {
+        return myID;
+    }
 
 
 

@@ -9,18 +9,21 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
+import org.w3c.dom.ls.LSOutput;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MapHandlerGridPane extends GridPane {
-    private final MyThread engineThread;
+    private final SimulationEngine engineThread;
     private final int horizontalMargin = 30;
+    private final Button stopStartBtn;
 
     public MapHandlerGridPane(AbstractWorldMap map, SimulationConditions conditions){
         double cellSize = Math.min(640/(map.getWidth()+2),400/(map.getHeight()+2));
         GridPane mapGridPane = new GridPane();
         mapGridPane.setAlignment(Pos.CENTER);
-        Button stopStartBtn = new Button("START");
+        stopStartBtn = new Button("START");
         Label chosenGenotype = new Label();
         chosenGenotype.setFont(new Font(8));
         GridPane.setHalignment(chosenGenotype,HPos.RIGHT);
@@ -36,7 +39,8 @@ public class MapHandlerGridPane extends GridPane {
         AtomicBoolean isRunning = conditions.getIsRunning();
         Statistics statistics = new Statistics();
         MapVisualizer mapVisualizer = new MapVisualizer(mapGridPane,map,chosenGenotype,cellSize,isRunning);
-        engineThread =  new SimulationEngine(map, mapVisualizer, conditions,statistics);
+        engineThread =  new SimulationEngine(this,map, mapVisualizer, conditions,statistics);
+
 
 
         this.getColumnConstraints().add(new ColumnConstraints(320));
@@ -49,7 +53,7 @@ public class MapHandlerGridPane extends GridPane {
 
 
         stopStartBtn.setOnAction(e2 -> {
-            if(conditions.IsRunning()) {
+            if(conditions.isRunning()) {
                 conditions.setIsRunning(false);
                 stopStartBtn.setText("START");
             }
@@ -62,10 +66,25 @@ public class MapHandlerGridPane extends GridPane {
         });
 
 
+
+
+
     }
 
     public void startSimulation(){
         this.engineThread.start();
+    }
+
+   public void terminateSimulation(){
+        if(this.engineThread.isAlive()) this.engineThread.setTerminated(true);
+        else System.out.println("wątek juz nie zyje");
+   }
+
+   
+
+    public void disableStopStartBtn(){
+
+        stopStartBtn.setDisable(true);
     }
 
 

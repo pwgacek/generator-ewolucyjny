@@ -1,6 +1,7 @@
-package agh.ics.oop;
+package agh.ics.oop.statistics;
 
-import javafx.scene.control.Alert;
+import agh.ics.oop.gui.MapHandlerGridPane;
+import javafx.application.Platform;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,15 +12,19 @@ import java.util.ArrayList;
 public class Statistician {
     private final int mapID;
     private final ArrayList<Snapshot> statisticsHistory;
+    private final MapHandlerGridPane mapHandlerGridPane;
 
-    public Statistician(int mapID) {
+
+    public Statistician(int mapID, MapHandlerGridPane mapHandlerGridPane) {
         this.mapID = mapID;
         this.statisticsHistory = new ArrayList<>();
+        this.mapHandlerGridPane = mapHandlerGridPane;
     }
 
     public void addSnapshot(Snapshot snapshot){
 
         statisticsHistory.add(snapshot);
+        updateCharts(snapshot);
     }
 
 
@@ -87,6 +92,12 @@ public class Statistician {
 
             e.printStackTrace();
         }
+    }
+
+    public void updateCharts(Snapshot snapshot){
+
+        Platform.runLater(() -> {this.mapHandlerGridPane.updateCharts(snapshot);});
+
     }
 
 

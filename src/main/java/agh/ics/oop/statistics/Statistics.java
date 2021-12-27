@@ -1,4 +1,6 @@
-package agh.ics.oop;
+package agh.ics.oop.statistics;
+
+import agh.ics.oop.Animal;
 
 import java.util.*;
 

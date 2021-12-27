@@ -1,7 +1,4 @@
-package agh.ics.oop;
-
-import java.util.ArrayList;
-import java.util.Map;
+package agh.ics.oop.statistics;
 
 public class Snapshot {
     private final int date;

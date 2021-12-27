@@ -1,7 +1,11 @@
 package agh.ics.oop;
 
+import agh.ics.oop.conditions.SimulationConditions;
 import agh.ics.oop.gui.MapHandlerGridPane;
 import agh.ics.oop.gui.MapVisualizer;
+import agh.ics.oop.statistics.Snapshot;
+import agh.ics.oop.statistics.Statistician;
+import agh.ics.oop.statistics.Statistics;
 import javafx.application.Platform;
 
 import java.util.*;
@@ -42,7 +46,7 @@ public class SimulationEngine  extends MyThread{
             map.place(new Animal(this.map,positionsWithoutAnimal.remove(new Random().nextInt((positionsWithoutAnimal.size()))),conditions.getStartEnergy()));
         }
 
-        statistician = new Statistician(map.getMyID());
+        statistician = new Statistician(map.getMyID(),mapHandlerGridPane);
 
     }
 
@@ -58,6 +62,7 @@ public class SimulationEngine  extends MyThread{
         statistics.setAverageChildrenQuantity(map.animals);
 
         statistician.addSnapshot(new Snapshot(0,statistics));
+
 
 
 
@@ -212,8 +217,6 @@ public class SimulationEngine  extends MyThread{
                 e.printStackTrace();
                 System.out.println(e.getMessage());
             }
-
-
             waitForRunLater();
             System.out.println(map);
 
@@ -229,6 +232,7 @@ public class SimulationEngine  extends MyThread{
             statistics.setAverageChildrenQuantity(map.animals);
             //System.out.println("srednia ilość dzieci: "+ statistics.getAverageChildrenQuantity());
             statistician.addSnapshot(new Snapshot(dayCounter,statistics));
+
             System.out.println("*******KONIEC DNIA NR: "+ dayCounter++ + "**********");
         }
 

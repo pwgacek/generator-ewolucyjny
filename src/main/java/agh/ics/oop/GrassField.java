@@ -1,7 +1,6 @@
 package agh.ics.oop;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import agh.ics.oop.conditions.MapConditions;
 
 
 public class GrassField extends AbstractWorldMap {

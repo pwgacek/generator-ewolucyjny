@@ -1,4 +1,6 @@
 package agh.ics.oop;
+import agh.ics.oop.conditions.MapConditions;
+
 import java.util.*;
 
 public abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObserver{

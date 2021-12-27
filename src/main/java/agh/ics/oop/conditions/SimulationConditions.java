@@ -1,4 +1,4 @@
-package agh.ics.oop;
+package agh.ics.oop.conditions;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 

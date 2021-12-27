@@ -1,6 +1,8 @@
 package agh.ics.oop.gui;
 
 import agh.ics.oop.*;
+import agh.ics.oop.conditions.MapConditions;
+import agh.ics.oop.conditions.SimulationConditions;
 import javafx.application.Application;
 
 import javafx.application.Platform;

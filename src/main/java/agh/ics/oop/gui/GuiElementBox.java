@@ -4,32 +4,32 @@ import agh.ics.oop.IMapElement;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.ContextMenu;
+import javafx.scene.control.*;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
+
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 
-import java.util.Arrays;
+import javafx.scene.paint.Color;
+import javafx.util.Duration;
+
 import java.util.concurrent.atomic.AtomicBoolean;
 
 
-public class GuiElementBox extends VBox {
+public class GuiElementBox extends Label {
 
     ImageViewSelector imageViewSelector;
     private IMapElement element;
-    private double cellSize;
+    private final double cellSize;
 
 
-    public GuiElementBox(double cellSize, boolean isSawanna, Label chosenGenotype, AtomicBoolean isRunning){
+    public GuiElementBox(double cellSize, boolean isSawanna, AtomicBoolean isRunning){
         imageViewSelector = new ImageViewSelector();
-        //setImageView(mapElement);
+
         this.cellSize = cellSize;
+        this.setPrefSize(cellSize*0.9,cellSize*0.9);
         this.setAlignment(Pos.CENTER);
         BackgroundFill fill;
         if(isSawanna){
@@ -40,20 +40,32 @@ public class GuiElementBox extends VBox {
         }
         this.setBackground(new Background(fill));
 
+        Tooltip tooltip = new Tooltip();
+        tooltip.setShowDelay(new Duration(0));
 
 
-        this.setOnMouseClicked((click)->{
+        this.setOnMouseEntered((event)->{
             if(!isRunning.get()){
                 if(element!=null){
                     if(this.element.getClass() == Animal.class){
-                        Animal animal = (Animal) element;
-                        chosenGenotype.setText(animal.getGenotype().toString());
+
+                        tooltip.setText("genotype: "+((Animal) element).getGenotype().toString());
+                        this.setTooltip(tooltip);
 
                     }
                 }
             }
-
         });
+
+        this.setOnMouseExited((event -> {
+            if(this.getTooltip()!=null){
+                this.setTooltip(null);
+
+            }
+        }));
+
+
+
     }
 
 
@@ -63,6 +75,7 @@ public class GuiElementBox extends VBox {
         ImageView imageView = imageViewSelector.getImageView(element.getImgPath());
         imageView.setFitWidth(0.9*cellSize);
         imageView.setFitHeight(0.9*cellSize);
+
         this.getChildren().add(imageView);
 
     }

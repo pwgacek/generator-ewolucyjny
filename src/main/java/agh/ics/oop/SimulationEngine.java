@@ -240,7 +240,8 @@ public class SimulationEngine  extends MyThread{
             System.out.println("wyszedłem sam");
             statistician.writeStatisticsHistoryToFile();
             conditions.setIsRunning(false);
-            this.mapHandlerGridPane.disableStopStartBtn();
+            Platform.runLater(this.mapHandlerGridPane::disableStopStartBtn);
+
         }
         else{
             System.out.println("wyszedłem bo zamkniekto okno");

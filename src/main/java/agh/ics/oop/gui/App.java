@@ -44,6 +44,7 @@ public class  App extends Application  {
 
 
             Scene startScene = new Scene(startGridPane,400,600);
+            primaryStage.setResizable(false);
 
             primaryStage.setScene(startScene);
             primaryStage.show();
@@ -59,8 +60,8 @@ public class  App extends Application  {
                     if(secondMapOptionsGridPane.getAnimalQuantityCondition()<10)throw new IllegalArgumentException("Minimum animal quantity is 10");
 
 
-                    SimulationConditions firstSimulationConditions = new SimulationConditions(50,false,firstMapOptionsGridPane.getStartEnergyCondition(),firstMapOptionsGridPane.getMoveEnergyCondition(),firstMapOptionsGridPane.getPlantEnergyCondition(),firstMapOptionsGridPane.getAnimalQuantityCondition());
-                    SimulationConditions secondSimulationConditions = new SimulationConditions(50,false,secondMapOptionsGridPane.getStartEnergyCondition(),secondMapOptionsGridPane.getMoveEnergyCondition(),secondMapOptionsGridPane.getPlantEnergyCondition(),secondMapOptionsGridPane.getAnimalQuantityCondition());
+                    SimulationConditions firstSimulationConditions = new SimulationConditions(20,false,firstMapOptionsGridPane.getStartEnergyCondition(),firstMapOptionsGridPane.getMoveEnergyCondition(),firstMapOptionsGridPane.getPlantEnergyCondition(),firstMapOptionsGridPane.getAnimalQuantityCondition());
+                    SimulationConditions secondSimulationConditions = new SimulationConditions(20,false,secondMapOptionsGridPane.getStartEnergyCondition(),secondMapOptionsGridPane.getMoveEnergyCondition(),secondMapOptionsGridPane.getPlantEnergyCondition(),secondMapOptionsGridPane.getAnimalQuantityCondition());
 
                     MapConditions firstMapConditions = new MapConditions(firstMapOptionsGridPane.getWidthCondition(), firstMapOptionsGridPane.getHeightCondition(), firstMapOptionsGridPane.getJungleRatio());
                     MapConditions secondMapConditions = new MapConditions(secondMapOptionsGridPane.getWidthCondition(), secondMapOptionsGridPane.getHeightCondition(), secondMapOptionsGridPane.getJungleRatio());

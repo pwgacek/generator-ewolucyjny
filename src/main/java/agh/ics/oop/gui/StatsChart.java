@@ -6,10 +6,12 @@ import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.text.Font;
 
+import javax.sound.sampled.Line;
+
 public class StatsChart  {
 
 
-    private final ScatterChart<Number,Number> chart;
+    private final LineChart<Number,Number> chart;
     private final XYChart.Series<Number,Number> series;
     private final NumberAxis xAxis,yAxis;
     private int minX,maxX,x;
@@ -19,16 +21,19 @@ public class StatsChart  {
         yAxis = new NumberAxis();
         xAxis.setForceZeroInRange(false);
         xAxis.setAutoRanging(false);
-        
+
 
         xAxis.setTickMarkVisible(false);
         yAxis.setTickMarkVisible(false);
         xAxis.setMinorTickVisible(false);
         yAxis.setMinorTickVisible(false);
+        xAxis.setAnimated(false);
+        yAxis.setAnimated(false);
         xAxis.setLabel(name);
-        this.chart = new ScatterChart<>(xAxis,yAxis);
-        this.chart.setPrefSize(240,100);
 
+        this.chart = new LineChart<>(xAxis,yAxis);
+        this.chart.setPrefSize(240,100);
+        this.chart.setCreateSymbols(false);
         series = new XYChart.Series<>();
         //chart.setTitle(name);
 
@@ -59,7 +64,7 @@ public class StatsChart  {
 
     }
 
-    public ScatterChart<Number,Number> getChart(){
+    public LineChart<Number,Number> getChart(){
         return chart;
     }
 }

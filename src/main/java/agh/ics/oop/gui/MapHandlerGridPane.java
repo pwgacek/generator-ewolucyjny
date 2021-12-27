@@ -32,7 +32,7 @@ public class MapHandlerGridPane extends GridPane {
         stopStartBtn = new Button("START");
         Label chosenGenotype = new Label();
         chosenGenotype.setFont(new Font(8));
-        animalAndGrassChart = new DoubleStatsChart("quantity of animals & grass");
+        animalAndGrassChart = new DoubleStatsChart("quantity of animals(red) & grass(orange)");
         energyChart = new StatsChart("average animal energy");
         lifeSpanChart = new StatsChart("average life span");
         childrenQuantityChart = new StatsChart("average children quantity");
@@ -99,7 +99,7 @@ public class MapHandlerGridPane extends GridPane {
 
 
     public void disableStopStartBtn(){
-
+        stopStartBtn.setText("STOP");
         stopStartBtn.setDisable(true);
     }
 

@@ -1,12 +1,13 @@
 package agh.ics.oop.gui;
 
+import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
 public class DoubleStatsChart {
 
 
-    private final ScatterChart<Number,Number> chart;
+    private final LineChart<Number,Number> chart;
     private final XYChart.Series<Number,Number> firstSeries;
     private final XYChart.Series<Number,Number> secondSeries;
     private final NumberAxis xAxis,yAxis;
@@ -17,14 +18,16 @@ public class DoubleStatsChart {
         yAxis = new NumberAxis();
         xAxis.setForceZeroInRange(false);
         xAxis.setAutoRanging(false);
-
         xAxis.setTickMarkVisible(false);
         yAxis.setTickMarkVisible(false);
         xAxis.setMinorTickVisible(false);
         yAxis.setMinorTickVisible(false);
+        xAxis.setAnimated(false);
+        yAxis.setAnimated(false);
 
-        this.chart = new ScatterChart<>(xAxis,yAxis);
+        this.chart = new LineChart<>(xAxis,yAxis);
         this.chart.setPrefSize(240,100);
+        this.chart.setCreateSymbols(false);
 
         firstSeries = new XYChart.Series<>();
         secondSeries = new XYChart.Series<>();
@@ -33,6 +36,7 @@ public class DoubleStatsChart {
 
         this.chart.getData().add(firstSeries);
         this.chart.getData().add(secondSeries);
+
         minX=0;
         maxX=200;
         x=0;
@@ -64,7 +68,7 @@ public class DoubleStatsChart {
 
     }
 
-    public ScatterChart<Number,Number> getChart(){
+    public LineChart<Number,Number> getChart(){
         return chart;
     }
 }

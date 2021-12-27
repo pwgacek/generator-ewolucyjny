@@ -54,7 +54,7 @@ public class MapVisualizer {
             for(int x=0;x<=map.getWidth();x++){
                 Vector2d cords = new Vector2d(x,y);
                 boolean isJungle = map.jungleBottomLeftCords.precedes(cords) && map.jungleUpperRightCords.follows(cords);
-                guiElementBoxArray[x][y] = new GuiElementBox(cellSize,isJungle,chosenGenotype,isRunning);
+                guiElementBoxArray[x][y] = new GuiElementBox(cellSize,isJungle,isRunning);
                 gridPane.add(guiElementBoxArray[x][y],x+1,map.getHeight()-y +1);
                 GridPane.setHalignment(guiElementBoxArray[x][y], HPos.CENTER);
             }

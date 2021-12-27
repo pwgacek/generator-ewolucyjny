@@ -57,7 +57,7 @@ public class SimulationEngine  extends MyThread{
 
         statistics.setAnimalQuantity(conditions.getAnimalQuantity());
         statistics.setGrassQuantity(0);
-        statistics.setGenotypeDominant(map.animals);
+        statistics.setDominantGenotype(map.animals);
         statistics.setAverageAnimalEnergy(map.animals);
         statistics.setAverageChildrenQuantity(map.animals);
 
@@ -81,9 +81,10 @@ public class SimulationEngine  extends MyThread{
 
             if(!conditions.isRunning()){
                 statistician.writeStatisticsHistoryToFile();
-                suspendMe();
-                System.out.println("wychodze");
-                if(isTerminated)break;
+                suspendMe(conditions.getIsRunning());
+
+                if(isTerminated){System.out.println("wychodze");break;}
+
             }
 
 
@@ -224,8 +225,8 @@ public class SimulationEngine  extends MyThread{
             //System.out.println("ilość zwierząt: "+statistics.getAnimalQuantity());
             statistics.setGrassQuantity(map.grassAtJungle.size() + map.grassAtSawanna.size());
             //System.out.println("ilość trawy: "+statistics.getGrassQuantity());
-            statistics.setGenotypeDominant(map.animals);
-            if(statistics.getGenotypeDominant()!=null) System.out.println("Dominujący genotyp: "+statistics.getGenotypeDominant().toString());
+            statistics.setDominantGenotype(map.animals);
+            if(statistics.getDominantGenotype()!=null) System.out.println("Dominujący genotyp: "+statistics.getDominantGenotype().toString());
             statistics.setAverageAnimalEnergy(map.animals);
             //System.out.println("srednia ilosc energi zwierzecia: "+ statistics.getAverageAnimalEnergy());
             //System.out.println("srednia dlugosc zycia zwierzecia: : "+ statistics.getAverageLifeSpan());
@@ -276,6 +277,7 @@ public class SimulationEngine  extends MyThread{
 
     public void setTerminated(boolean terminated) {
         isTerminated = terminated;
+        conditions.setIsRunning(true);
         resumeMe();
     }
 }

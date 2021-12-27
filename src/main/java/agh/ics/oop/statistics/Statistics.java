@@ -7,7 +7,7 @@ import java.util.*;
 public class Statistics {
     private int animalQuantity;
     private int grassQuantity;
-    private ArrayList<Integer> genotypeDominant;
+    private ArrayList<Integer> dominantGenotype;
     private double averageAnimalEnergy;
     private double averageLifeSpan = 0;
     private double averageChildrenQuantity;
@@ -30,11 +30,11 @@ public class Statistics {
         this.grassQuantity = grassQuantity;
     }
 
-    public ArrayList<Integer> getGenotypeDominant() {
-        return genotypeDominant;
+    public ArrayList<Integer> getDominantGenotype() {
+        return dominantGenotype;
     }
 
-    public void setGenotypeDominant(ArrayList<Animal> animals) {
+    public void setDominantGenotype(ArrayList<Animal> animals) {
         Map<ArrayList<Integer>, Integer> genotypeCount = new HashMap<>();
         for(Animal animal : animals){
 
@@ -58,10 +58,10 @@ public class Statistics {
         }
         if(maxEntry!=null) System.out.println(maxEntry.getValue()+ " zwierząt ma dominujący genotyp");
 
-        if(maxEntry!=null)this.genotypeDominant = maxEntry.getKey();
+        if(maxEntry!=null)this.dominantGenotype = maxEntry.getKey();
         else{
 
-            this.genotypeDominant = null;
+            this.dominantGenotype = null;
         }
 
     }

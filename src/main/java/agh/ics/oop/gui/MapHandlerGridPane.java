@@ -6,11 +6,11 @@ import agh.ics.oop.statistics.Snapshot;
 import agh.ics.oop.statistics.Statistics;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
-import javafx.scene.chart.Chart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 
@@ -18,8 +18,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MapHandlerGridPane extends GridPane {
     private final SimulationEngine engineThread;
-    private final int horizontalMargin = 30;
     private final Button stopStartBtn;
+    private final Label dominantGenotypeLabel;
     private final DoubleStatsChart animalAndGrassChart;
     private final StatsChart energyChart;
     private final StatsChart lifeSpanChart;
@@ -30,8 +30,12 @@ public class MapHandlerGridPane extends GridPane {
         GridPane mapGridPane = new GridPane();
         mapGridPane.setAlignment(Pos.CENTER);
         stopStartBtn = new Button("START");
-        Label chosenGenotype = new Label();
-        chosenGenotype.setFont(new Font(8));
+        stopStartBtn.setPrefWidth(70);
+        dominantGenotypeLabel = new Label("dominant genotype: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]");
+        HBox hBox = new HBox(stopStartBtn, dominantGenotypeLabel);
+        hBox.setAlignment(Pos.CENTER);
+        hBox.setSpacing(15);
+        dominantGenotypeLabel.setFont(new Font(12));
         animalAndGrassChart = new DoubleStatsChart("quantity of animals(red) & grass(orange)");
         energyChart = new StatsChart("average animal energy");
         lifeSpanChart = new StatsChart("average life span");
@@ -39,21 +43,20 @@ public class MapHandlerGridPane extends GridPane {
 
 
         ChartsHolder chartsHolder = new ChartsHolder(animalAndGrassChart,energyChart,lifeSpanChart,childrenQuantityChart);
-        GridPane.setHalignment(chosenGenotype,HPos.RIGHT);
-        GridPane.setHalignment(stopStartBtn, HPos.CENTER);
+
+        GridPane.setHalignment(hBox, HPos.CENTER);
 
         GridPane.setConstraints(mapGridPane,0,0,2,1);
-        GridPane.setConstraints(stopStartBtn,0,1);
-        GridPane.setConstraints(chosenGenotype,0,1,2,1);
+
+        GridPane.setConstraints(hBox,0,1,2,1);
         GridPane.setConstraints(chartsHolder,0,2,2,1);
         this.getChildren().add(mapGridPane);
-        this.getChildren().add(stopStartBtn);
-        this.getChildren().add(chosenGenotype);
+        this.getChildren().add(hBox);
         this.getChildren().add(chartsHolder);
 
         AtomicBoolean isRunning = conditions.getIsRunning();
         Statistics statistics = new Statistics();
-        MapVisualizer mapVisualizer = new MapVisualizer(mapGridPane,map,chosenGenotype,cellSize,isRunning);
+        MapVisualizer mapVisualizer = new MapVisualizer(mapGridPane,map,cellSize,isRunning);
         engineThread =  new SimulationEngine(this,map, mapVisualizer, conditions,statistics);
 
 
@@ -109,8 +112,12 @@ public class MapHandlerGridPane extends GridPane {
         this.energyChart.update(snapshot.getAverageAnimalEnergy());
         this.lifeSpanChart.update(snapshot.getAverageLifeSpan());
         this.childrenQuantityChart.update(snapshot.getAverageChildrenQuantity());
+        if(snapshot.getDominantGenotype()!=null) this.dominantGenotypeLabel.setText("dominant genotype: "+snapshot.getDominantGenotype().toString());
+        else this.dominantGenotypeLabel.setText("dominant genotype: none");
 
     }
+
+
 
 
 

@@ -20,7 +20,7 @@ public class MapVisualizer {
 
 
 
-    MapVisualizer(GridPane gridPane, AbstractWorldMap map, Label chosenGenotype, double cellSize, AtomicBoolean isRunning){
+    MapVisualizer(GridPane gridPane, AbstractWorldMap map, double cellSize, AtomicBoolean isRunning){
 
         for(int x=0;x<=map.getWidth()+1;x++){
             gridPane.getColumnConstraints().add(new ColumnConstraints(cellSize));

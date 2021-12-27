@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 public class SimulationEngine  extends MyThread{
 
     private final AbstractWorldMap map;
+    private int dayCounter;
 
     private final MapVisualizer observer;
     private final SimulationConditions conditions;
@@ -23,6 +24,7 @@ public class SimulationEngine  extends MyThread{
     private final Statistician statistician;
     private boolean isTerminated;
     private final MapHandlerGridPane mapHandlerGridPane;
+    private int evolutionCounter;
 
 
 
@@ -35,6 +37,7 @@ public class SimulationEngine  extends MyThread{
         this.conditions = simulationConditions;
         this.statistics = statistics;
         this.deathCounter = 0;
+        this.evolutionCounter = 0;
 
         ArrayList<Vector2d> positionsWithoutAnimal = new ArrayList<>();
         for(int x=0; x<=map.getWidth();x++){
@@ -62,6 +65,7 @@ public class SimulationEngine  extends MyThread{
         statistics.setAverageChildrenQuantity(map.animals);
 
         statistician.addSnapshot(new Snapshot(0,statistics));
+        statistician.updateDominantGenotypeLabel(statistics.getDominantGenotype());
 
 
 
@@ -76,7 +80,7 @@ public class SimulationEngine  extends MyThread{
         Platform.runLater(observer::positionChanged);
         waitForRunLater();
         System.out.println(map);
-        int dayCounter = 1;
+        dayCounter = 1;
         while(!map.animals.isEmpty()){
 
             if(!conditions.isRunning()){
@@ -104,10 +108,10 @@ public class SimulationEngine  extends MyThread{
                 }
             }
             for(Animal deadAnimal : animalsToRemove){
-
                 System.out.println("USUWAM: " +deadAnimal.reports);
                 deadAnimal.removeObserver(this.map);
                 map.removeAnimal(deadAnimal);
+                if(conditions.isEvolutionMagical()&& evolutionCounter < 3 && map.animals.size() == 5) cloneAnimals();
             }
 
             // ruch albo skręt zwierzęcia
@@ -233,6 +237,7 @@ public class SimulationEngine  extends MyThread{
             statistics.setAverageChildrenQuantity(map.animals);
             //System.out.println("srednia ilość dzieci: "+ statistics.getAverageChildrenQuantity());
             statistician.addSnapshot(new Snapshot(dayCounter,statistics));
+            statistician.updateDominantGenotypeLabel(statistics.getDominantGenotype());
 
             System.out.println("*******KONIEC DNIA NR: "+ dayCounter++ + "**********");
         }
@@ -262,6 +267,29 @@ public class SimulationEngine  extends MyThread{
         return result;
     }
 
+    private void cloneAnimals(){
+        ArrayList<Vector2d> positionsWithoutAnimal = new ArrayList<>();
+        for(int x=0; x<=map.getWidth();x++){
+            for(int y=0;y<= map.getHeight();y++){
+                Vector2d position = new Vector2d(x,y);
+                if(!map.animalsMap.containsKey(position)){
+                    positionsWithoutAnimal.add(position);
+                }
+
+            }
+        }
+        ArrayList<Animal> clones = new ArrayList<>();
+        for(Animal clonedAnimal:map.animals){
+            clones.add( new Animal(this.map,positionsWithoutAnimal.remove(new Random().nextInt((positionsWithoutAnimal.size()))),conditions.getStartEnergy(),clonedAnimal,dayCounter));
+        }
+        for(Animal clone:clones){
+            map.place(clone);
+        }
+
+        showMagicalEvolutionInfo(++this.evolutionCounter);
+    }
+
+
 
 
     public static void waitForRunLater()  {
@@ -279,5 +307,10 @@ public class SimulationEngine  extends MyThread{
         isTerminated = terminated;
         conditions.setIsRunning(true);
         resumeMe();
+    }
+
+    private void showMagicalEvolutionInfo(int evolutionCounter){
+
+        Platform.runLater(() -> {this.mapHandlerGridPane.showMagicalEvolutionInfo(evolutionCounter);});
     }
 }

@@ -46,7 +46,7 @@ public class Statistician {
                 double sumAverageLifeSpan=0;
                 int lifeSpanCounter=0;
                 double sumAverageChildrenQuantity=0;
-                writer.println("date;animal quantity;grass quantity;average animal energy;average animal life span;average children quantity;dominant genotype;");
+                writer.println("date;animal quantity;grass quantity;average animal energy;average animal life span;average children quantity;");
 
                 for(Snapshot snapshot: statisticsHistory){
                     sumAnimalQuantity+= snapshot.getAnimalQuantity();
@@ -62,12 +62,7 @@ public class Statistician {
                             snapshot.getAverageAnimalEnergy() + ";" +
                             snapshot.getAverageLifeSpan() + ";" +
                             snapshot.getAverageChildrenQuantity() + ";";
-                    if(snapshot.getDominantGenotype()!=null){
-                        string+=snapshot.getDominantGenotype().toString()+";";
-                    }
-                    else{
-                        string+="none;";
-                    }
+
                     writer.println(string);
                 }
 
@@ -102,11 +97,16 @@ public class Statistician {
 
 
 
-    public void updateCharts(Snapshot snapshot){
+    private void updateCharts(Snapshot snapshot){
 
         Platform.runLater(() -> {this.mapHandlerGridPane.updateCharts(snapshot);});
 
     }
+
+    public void updateDominantGenotypeLabel(ArrayList<Integer> dominantGenotype){
+        Platform.runLater(() -> {this.mapHandlerGridPane.updateDominantGenotypeLabel(dominantGenotype);});
+    }
+
 
 
 }

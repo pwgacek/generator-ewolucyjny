@@ -1,38 +1,42 @@
 agh/ics/oop/gui/OptionsGridPane.java
  agh.ics.oop.gui.OptionsGridPane
-agh/ics/oop/gui/GuiElementBox.java
- agh.ics.oop.gui.GuiElementBox
-agh/ics/oop/gui/ChartsHolder.java
- agh.ics.oop.gui.ChartsHolder
-agh/ics/oop/gui/StatsChart.java
- agh.ics.oop.gui.StatsChart
+agh/ics/oop/World.java
+ agh.ics.oop.World
 agh/ics/oop/gui/MapVisualizer.java
  agh.ics.oop.gui.MapVisualizer
-agh/ics/oop/conditions/SimulationConditions.java
- agh.ics.oop.conditions.SimulationConditions
+agh/ics/oop/statistics/Statistics.java
+ agh.ics.oop.statistics.Statistics
+agh/ics/oop/statistics/Snapshot.java
+ agh.ics.oop.statistics.Snapshot
+agh/ics/oop/IWorldMap.java
+ agh.ics.oop.IWorldMap
 agh/ics/oop/IPositionChangeObserver.java
  agh.ics.oop.IPositionChangeObserver
 agh/ics/oop/Animal.java
  agh.ics.oop.Animal
  agh.ics.oop.Animal$1
-agh/ics/oop/statistics/Statistician.java
- agh.ics.oop.statistics.Statistician
+agh/ics/oop/MyThread.java
+ agh.ics.oop.MyThread
 agh/ics/oop/IMapElement.java
  agh.ics.oop.IMapElement
 agh/ics/oop/AbstractWorldMap.java
  agh.ics.oop.AbstractWorldMap
-agh/ics/oop/IWorldMap.java
- agh.ics.oop.IWorldMap
-agh/ics/oop/gui/DoubleStatsChart.java
- agh.ics.oop.gui.DoubleStatsChart
+agh/ics/oop/gui/GuiElementBox.java
+ agh.ics.oop.gui.GuiElementBox
+agh/ics/oop/gui/StatsChart.java
+ agh.ics.oop.gui.StatsChart
 agh/ics/oop/GrassField.java
  agh.ics.oop.GrassField
+agh/ics/oop/gui/ChartsHolder.java
+ agh.ics.oop.gui.ChartsHolder
 agh/ics/oop/IEngine.java
  agh.ics.oop.IEngine
 agh/ics/oop/MapVisualizer.java
  agh.ics.oop.MapVisualizer
-agh/ics/oop/Genotype.java
- agh.ics.oop.Genotype
+agh/ics/oop/conditions/SimulationConditions.java
+ agh.ics.oop.conditions.SimulationConditions
+agh/ics/oop/gui/DoubleStatsChart.java
+ agh.ics.oop.gui.DoubleStatsChart
 agh/ics/oop/TorusGrassField.java
  agh.ics.oop.TorusGrassField
 agh/ics/oop/gui/ImageViewSelector.java
@@ -48,18 +52,12 @@ agh/ics/oop/conditions/MapConditions.java
  agh.ics.oop.conditions.MapConditions
 agh/ics/oop/Grass.java
  agh.ics.oop.Grass
-agh/ics/oop/World.java
- agh.ics.oop.World
-agh/ics/oop/statistics/Statistics.java
- agh.ics.oop.statistics.Statistics
-agh/ics/oop/statistics/Snapshot.java
- agh.ics.oop.statistics.Snapshot
 agh/ics/oop/gui/App.java
  agh.ics.oop.gui.App
  agh.ics.oop.gui.App$1
+agh/ics/oop/statistics/Statistician.java
+ agh.ics.oop.statistics.Statistician
 agh/ics/oop/SimulationEngine.java
  agh.ics.oop.SimulationEngine
-agh/ics/oop/MyThread.java
- agh.ics.oop.MyThread
 agh/ics/oop/gui/MapHandlerGridPane.java
  agh.ics.oop.gui.MapHandlerGridPane

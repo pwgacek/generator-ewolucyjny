@@ -1,6 +1,7 @@
 package agh.ics.oop.gui;
 
 import javafx.geometry.HPos;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.ColumnConstraints;
@@ -17,6 +18,7 @@ public class OptionsGridPane extends GridPane {
     private final OptionsElementVBox moveEnergyVBox;
     private final OptionsElementVBox plantEnergyVBox;
     private final OptionsElementVBox animalQuantityVBox;
+    private final OptionsElementVBox magicalEvolutionVBox;
 
     public OptionsGridPane(String name){
 
@@ -44,6 +46,8 @@ public class OptionsGridPane extends GridPane {
         this.addElement(plantEnergyVBox,6);
         animalQuantityVBox = new OptionsElementVBox(new Label("animal quantity:"),new TextField("20"),true);
         this.addElement(animalQuantityVBox,7);
+        magicalEvolutionVBox = new OptionsElementVBox(new Label("evolution options:"), new ChoiceBox<>());
+        this.addElement(magicalEvolutionVBox,8);
 
     }
 
@@ -87,6 +91,11 @@ public class OptionsGridPane extends GridPane {
 
         return Integer.parseInt(this.animalQuantityVBox.textField.getText());
     }
+
+    public boolean isEvolutionMagical(){
+        return magicalEvolutionVBox.choiceBox.getValue().equals("magical evolution");
+    }
+
 
 
 

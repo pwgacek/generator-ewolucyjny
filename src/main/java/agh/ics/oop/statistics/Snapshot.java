@@ -9,7 +9,7 @@ public class Snapshot {
     private final double averageAnimalEnergy;
     private final double averageLifeSpan;
     private final double averageChildrenQuantity;
-    private final ArrayList<Integer> dominantGenotype;
+
 
     public Snapshot(int date, Statistics statistics) {
         this.date = date;
@@ -18,7 +18,7 @@ public class Snapshot {
         this.averageAnimalEnergy =  statistics.getAverageAnimalEnergy();
         this.averageLifeSpan = statistics.getAverageLifeSpan();
         this.averageChildrenQuantity =statistics.getAverageChildrenQuantity();
-        this.dominantGenotype = statistics.getDominantGenotype();
+
     }
 
     public int getDate() {
@@ -45,7 +45,5 @@ public class Snapshot {
         return averageChildrenQuantity;
     }
 
-    public ArrayList<Integer> getDominantGenotype() {
-        return dominantGenotype;
-    }
+
 }

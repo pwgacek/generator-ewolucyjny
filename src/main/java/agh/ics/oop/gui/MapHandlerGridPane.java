@@ -6,6 +6,7 @@ import agh.ics.oop.statistics.Snapshot;
 import agh.ics.oop.statistics.Statistics;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
@@ -14,6 +15,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MapHandlerGridPane extends GridPane {
@@ -112,10 +114,23 @@ public class MapHandlerGridPane extends GridPane {
         this.energyChart.update(snapshot.getAverageAnimalEnergy());
         this.lifeSpanChart.update(snapshot.getAverageLifeSpan());
         this.childrenQuantityChart.update(snapshot.getAverageChildrenQuantity());
-        if(snapshot.getDominantGenotype()!=null) this.dominantGenotypeLabel.setText("dominant genotype: "+snapshot.getDominantGenotype().toString());
-        else this.dominantGenotypeLabel.setText("dominant genotype: none");
 
     }
+
+    public void updateDominantGenotypeLabel(ArrayList<Integer> dominantGenotype){
+        if(dominantGenotype!=null)this.dominantGenotypeLabel.setText("dominant genotype: "+dominantGenotype);
+        else this.dominantGenotypeLabel.setText("dominant genotype: none");
+    }
+
+    public void showMagicalEvolutionInfo(int evolutionCounter){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information");
+        alert.setHeaderText("Magical evolution happened");
+        alert.setContentText("Already performed "+evolutionCounter+" evolutions");
+        alert.showAndWait();
+
+    }
+
 
 
 

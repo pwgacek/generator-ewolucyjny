@@ -33,6 +33,22 @@ public class Animal implements IMapElement, Comparable<Animal> {
         reports.add("ID: "+ this.myID +"--genotype: "+ this.genotype.toString() + "position: " + position.toString() + "energy: " + this.energy );
 
     }
+    public Animal(AbstractWorldMap map, Vector2d initialPosition, int startEnergy,Animal clonedAnimal,int dateOfBirth){
+        this.map = map;
+        this.position = initialPosition;
+        this.direction = MapDirection.NORTH.generateMapDirection();
+        observerList = new ArrayList<>();
+        this.energy =startEnergy; //40+ new Random().nextInt(10);
+        this.genotype = clonedAnimal.getGenotype();
+        System.out.println(this.genotype.toString());
+        this.reports = new ArrayList<>();
+        this.myID = setID();
+        this.dateOfBirth =dateOfBirth;
+        this.startEnergy = startEnergy;
+        this.childrenCounter = 0;
+        reports.add("ID: "+ this.myID +"--genotype: "+ this.genotype.toString() + "position: " + position.toString() + "energy: " + this.energy );
+
+    }
     public Animal(AbstractWorldMap map, Vector2d initialPosition,Animal strongerParent,Animal weakerParent,int dateOfBirth,int startEnergy){
         this.map = map;
         this.position = initialPosition;

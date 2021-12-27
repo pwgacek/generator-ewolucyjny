@@ -5,19 +5,21 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class SimulationConditions {
 
     private final int moveDelay;
-    private AtomicBoolean isRunning;
+    private final AtomicBoolean isRunning;
     private final int startEnergy;
     private final int moveEnergy;
     private final int plantEnergy;
     private final int animalQuantity;
+    private final boolean evolutionIsMagical;
 
-    public SimulationConditions(int moveDelay, boolean isRunning, int startEnergy, int moveEnergy, int plantEnergy, int animalQuantity) {
+    public SimulationConditions(int moveDelay, boolean isRunning, int startEnergy, int moveEnergy, int plantEnergy, int animalQuantity,boolean evolutionIsMagical) {
         this.moveDelay = moveDelay;
         this.isRunning= new AtomicBoolean(isRunning);
         this.startEnergy = startEnergy;
         this.moveEnergy = moveEnergy;
         this.plantEnergy = plantEnergy;
         this.animalQuantity = animalQuantity;
+        this.evolutionIsMagical = evolutionIsMagical;
     }
 
     public int getMoveDelay() {
@@ -50,5 +52,9 @@ public class SimulationConditions {
 
     public int getAnimalQuantity() {
         return animalQuantity;
+    }
+
+    public boolean isEvolutionMagical() {
+        return evolutionIsMagical;
     }
 }

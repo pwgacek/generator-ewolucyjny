@@ -1,4 +1,4 @@
-package agh.ics.oop;
+package agh.ics.oop.map_elements;
 
 import java.util.Random;
 

@@ -1,6 +1,5 @@
 package agh.ics.oop.statistics;
 
-import java.util.ArrayList;
 
 public class Snapshot {
     private final int date;
@@ -13,11 +12,11 @@ public class Snapshot {
 
     public Snapshot(int date, Statistics statistics) {
         this.date = date;
-        this.animalQuantity = statistics.getAnimalQuantity();
-        this.grassQuantity = statistics.getGrassQuantity();
-        this.averageAnimalEnergy =  statistics.getAverageAnimalEnergy();
-        this.averageLifeSpan = statistics.getAverageLifeSpan();
-        this.averageChildrenQuantity =statistics.getAverageChildrenQuantity();
+        animalQuantity = statistics.getAnimalQuantity();
+        grassQuantity = statistics.getGrassQuantity();
+        averageAnimalEnergy =  statistics.getAverageAnimalEnergy();
+        averageLifeSpan = statistics.getAverageLifeSpan();
+        averageChildrenQuantity =statistics.getAverageChildrenQuantity();
 
     }
 

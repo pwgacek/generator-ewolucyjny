@@ -1,4 +1,4 @@
-package agh.ics.oop.gui;
+package agh.ics.oop.gui.charts;
 
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;

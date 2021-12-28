@@ -1,6 +1,6 @@
-package agh.ics.oop.gui;
-import agh.ics.oop.Animal;
-import agh.ics.oop.IMapElement;
+package agh.ics.oop.gui.map_visualization;
+import agh.ics.oop.map_elements.Animal;
+import agh.ics.oop.map_elements.IMapElement;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 
@@ -57,12 +57,12 @@ public class GuiElementBox extends Label {
             }
         });
 
-        this.setOnMouseExited((event -> {
+        this.setOnMouseExited(event -> {
             if(this.getTooltip()!=null){
                 this.setTooltip(null);
 
             }
-        }));
+        });
 
 
 

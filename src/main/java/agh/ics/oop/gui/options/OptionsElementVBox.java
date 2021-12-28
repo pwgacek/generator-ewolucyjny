@@ -1,13 +1,12 @@
-package agh.ics.oop.gui;
+package agh.ics.oop.gui.options;
 
-import javafx.beans.value.ChangeListener;
+
 import javafx.collections.FXCollections;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.VBox;
-import javafx.util.StringConverter;
 
 import java.util.function.UnaryOperator;
 

@@ -1,4 +1,6 @@
-package agh.ics.oop;
+package agh.ics.oop.map_elements;
+import agh.ics.oop.maps.AbstractWorldMap;
+
 import java.util.*;
 
 public class Animal implements IMapElement, Comparable<Animal> {
@@ -11,7 +13,7 @@ public class Animal implements IMapElement, Comparable<Animal> {
     private final ArrayList<Integer> genotype;
     public ArrayList<String> reports;
     private static int id = 0;
-    public final int myID;
+    private final int myID;
     private final int startEnergy;
     private final int dateOfBirth;
     private int childrenCounter;
@@ -22,14 +24,14 @@ public class Animal implements IMapElement, Comparable<Animal> {
         this.position = initialPosition;
         this.direction = MapDirection.NORTH.generateMapDirection();
         observerList = new ArrayList<>();
-        this.energy =startEnergy; //40+ new Random().nextInt(10);
-        this.genotype = generateGenotype();
+        energy =startEnergy; //40+ new Random().nextInt(10);
+        genotype = generateGenotype();
         System.out.println(this.genotype.toString());
         this.reports = new ArrayList<>();
-        this.myID = setID();
-        this.dateOfBirth =0;
+        myID = setID();
+        dateOfBirth =0;
         this.startEnergy = startEnergy;
-        this.childrenCounter = 0;
+        childrenCounter = 0;
         reports.add("ID: "+ this.myID +"--genotype: "+ this.genotype.toString() + "position: " + position.toString() + "energy: " + this.energy );
 
     }
@@ -38,14 +40,14 @@ public class Animal implements IMapElement, Comparable<Animal> {
         this.position = initialPosition;
         this.direction = MapDirection.NORTH.generateMapDirection();
         observerList = new ArrayList<>();
-        this.energy =startEnergy; //40+ new Random().nextInt(10);
-        this.genotype = clonedAnimal.getGenotype();
+        energy =startEnergy; //40+ new Random().nextInt(10);
+        genotype = clonedAnimal.getGenotype();
         System.out.println(this.genotype.toString());
         this.reports = new ArrayList<>();
-        this.myID = setID();
+        myID = setID();
         this.dateOfBirth =dateOfBirth;
         this.startEnergy = startEnergy;
-        this.childrenCounter = 0;
+        childrenCounter = 0;
         reports.add("ID: "+ this.myID +"--genotype: "+ this.genotype.toString() + "position: " + position.toString() + "energy: " + this.energy );
 
     }
@@ -54,16 +56,16 @@ public class Animal implements IMapElement, Comparable<Animal> {
         this.position = initialPosition;
         this.direction = MapDirection.NORTH.generateMapDirection();
         observerList = new ArrayList<>();
-        this.energy = getChildsEnergy(strongerParent,weakerParent);
+        energy = getChildsEnergy(strongerParent,weakerParent);
         strongerParent.changeEnergy(-(int)(strongerParent.getEnergy()/4));
         weakerParent.changeEnergy(-(int)(weakerParent.getEnergy()/4));
-        this.genotype = getChildsGenotype(strongerParent,weakerParent);
+        genotype = getChildsGenotype(strongerParent,weakerParent);
         this.dateOfBirth = dateOfBirth;
         this.startEnergy = startEnergy;
 
         this.reports = new ArrayList<>();
-        this.myID = setID();
-        this.childrenCounter = 0;
+        myID = setID();
+        childrenCounter = 0;
         reports.add("ID: " + this.myID + "--genotype: "+ this.genotype.toString() + "position: " + position.toString() + "energy: " + this.energy );
 
 
@@ -73,6 +75,9 @@ public class Animal implements IMapElement, Comparable<Animal> {
 
     }
 
+    public int getMyID() {
+        return myID;
+    }
 
     public int getDateOfBirth() {
         return dateOfBirth;
@@ -117,10 +122,10 @@ public class Animal implements IMapElement, Comparable<Animal> {
 
     @Override
     public String getImgPath() {
-        if (this.energy > this.startEnergy*0.8) return "src/main/resources/yellow.png";
-        if (this.energy > this.startEnergy*0.6) return "src/main/resources/light_orange.png";
-        if (this.energy > this.startEnergy*0.4) return "src/main/resources/orange.png";
-        if (this.energy > this.startEnergy*0.2) return "src/main/resources/red.png";
+        if (energy > startEnergy*0.8) return "src/main/resources/yellow.png";
+        if (energy > startEnergy*0.6) return "src/main/resources/light_orange.png";
+        if (energy > startEnergy*0.4) return "src/main/resources/orange.png";
+        if (energy > startEnergy*0.2) return "src/main/resources/red.png";
         return "src/main/resources/brown.png";
 
 
@@ -130,30 +135,29 @@ public class Animal implements IMapElement, Comparable<Animal> {
     public void move(int rotation){
         int x = this.getPosition().x;
         int y = this.getPosition().y;
-        MapDirection oldDirection = this.direction;
 
         switch (rotation) {
             case 0 -> {
-                if (map.canMoveTo(this.position.add(this.direction.toUnitVector())) )
+                if (map.canMoveTo(position.add(direction.toUnitVector())) )
                 {
-                    this.position = this.position.add(this.direction.toUnitVector());
+                    position = position.add(direction.toUnitVector());
                     maintainOnMap();
                 }
 
 
             }
             case 4 -> {
-                if (map.canMoveTo(this.position.subtract(this.direction.toUnitVector()))) {
-                    this.position = this.position.subtract(this.direction.toUnitVector());
+                if (map.canMoveTo(position.subtract(direction.toUnitVector()))) {
+                    position = position.subtract(direction.toUnitVector());
                     maintainOnMap();
                 }
             }
 
-            default ->this.direction = this.direction.rotate(rotation);
+            default ->direction = direction.rotate(rotation);
         }
 
         positionChanged(new Vector2d(x,y));
-        reports.add("---rotation: " + rotation+" oldDirection: " + oldDirection + " newDirection:" +this.direction +" oldPosition: "+ new Vector2d(x,y) +" newPosition: " + position + " energy: " + this.energy );
+        //reports.add("---rotation: " + rotation+" oldDirection: " + oldDirection + " newDirection:" +this.direction +" oldPosition: "+ new Vector2d(x,y) +" newPosition: " + position + " energy: " + this.energy );
     }
 
     public void addObserver(IPositionChangeObserver observer){

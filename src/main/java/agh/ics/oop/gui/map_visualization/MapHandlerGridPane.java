@@ -1,9 +1,12 @@
-package agh.ics.oop.gui;
+package agh.ics.oop.gui.map_visualization;
 
-import agh.ics.oop.*;
 import agh.ics.oop.conditions.SimulationConditions;
+import agh.ics.oop.gui.charts.ChartsHolder;
+import agh.ics.oop.gui.charts.DoubleStatsChart;
+import agh.ics.oop.gui.charts.StatsChart;
+import agh.ics.oop.maps.AbstractWorldMap;
+import agh.ics.oop.simulation.SimulationEngine;
 import agh.ics.oop.statistics.Snapshot;
-import agh.ics.oop.statistics.Statistics;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
@@ -19,6 +22,7 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MapHandlerGridPane extends GridPane {
+
     private final SimulationEngine engineThread;
     private final Button stopStartBtn;
     private final Label dominantGenotypeLabel;
@@ -26,40 +30,51 @@ public class MapHandlerGridPane extends GridPane {
     private final StatsChart energyChart;
     private final StatsChart lifeSpanChart;
     private final StatsChart childrenQuantityChart;
+    private final SimulationConditions conditions;
 
     public MapHandlerGridPane(AbstractWorldMap map, SimulationConditions conditions){
+
+        this.conditions = conditions;
         double cellSize = Math.min(640/(map.getWidth()+2),300/(map.getHeight()+2));
+        AtomicBoolean isRunning = this.conditions.getIsRunning();
+
         GridPane mapGridPane = new GridPane();
         mapGridPane.setAlignment(Pos.CENTER);
+
+
         stopStartBtn = new Button("START");
         stopStartBtn.setPrefWidth(70);
-        dominantGenotypeLabel = new Label("dominant genotype: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]");
+        dominantGenotypeLabel = new Label();
+        dominantGenotypeLabel.setFont(new Font(12));
+
+
         HBox hBox = new HBox(stopStartBtn, dominantGenotypeLabel);
         hBox.setAlignment(Pos.CENTER);
         hBox.setSpacing(15);
-        dominantGenotypeLabel.setFont(new Font(12));
+        GridPane.setHalignment(hBox, HPos.CENTER);
+
+
         animalAndGrassChart = new DoubleStatsChart("quantity of animals(red) & grass(orange)");
         energyChart = new StatsChart("average animal energy");
         lifeSpanChart = new StatsChart("average life span");
         childrenQuantityChart = new StatsChart("average children quantity");
 
-
         ChartsHolder chartsHolder = new ChartsHolder(animalAndGrassChart,energyChart,lifeSpanChart,childrenQuantityChart);
 
-        GridPane.setHalignment(hBox, HPos.CENTER);
+
 
         GridPane.setConstraints(mapGridPane,0,0,2,1);
-
         GridPane.setConstraints(hBox,0,1,2,1);
         GridPane.setConstraints(chartsHolder,0,2,2,1);
+
         this.getChildren().add(mapGridPane);
         this.getChildren().add(hBox);
         this.getChildren().add(chartsHolder);
 
-        AtomicBoolean isRunning = conditions.getIsRunning();
-        Statistics statistics = new Statistics();
+
+
         MapVisualizer mapVisualizer = new MapVisualizer(mapGridPane,map,cellSize,isRunning);
-        engineThread =  new SimulationEngine(this,map, mapVisualizer, conditions,statistics);
+        engineThread =  new SimulationEngine(this,map, mapVisualizer);
 
 
 
@@ -70,7 +85,7 @@ public class MapHandlerGridPane extends GridPane {
         this.getRowConstraints().add(new RowConstraints(300));
 
         this.setWidth(640);
-        this.setHeight(800);
+        this.setHeight(670);
 
 
         stopStartBtn.setOnAction(e2 -> {
@@ -86,10 +101,6 @@ public class MapHandlerGridPane extends GridPane {
 
         });
 
-
-
-
-
     }
 
     public void startSimulation(){
@@ -101,7 +112,9 @@ public class MapHandlerGridPane extends GridPane {
         else System.out.println("wątek juz nie zyje");
    }
 
-
+    public SimulationConditions getConditions() {
+        return conditions;
+    }
 
     public void disableStopStartBtn(){
         stopStartBtn.setText("STOP");
@@ -122,10 +135,10 @@ public class MapHandlerGridPane extends GridPane {
         else this.dominantGenotypeLabel.setText("dominant genotype: none");
     }
 
-    public void showMagicalEvolutionInfo(int evolutionCounter){
+    public void showMagicalEvolutionInfo(int evolutionCounter,int mapID){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Information");
-        alert.setHeaderText("Magical evolution happened");
+        alert.setHeaderText("Magical evolution happened on map "+mapID+"!");
         alert.setContentText("Already performed "+evolutionCounter+" evolutions");
         alert.showAndWait();
 

@@ -1,6 +1,6 @@
 package agh.ics.oop.statistics;
 
-import agh.ics.oop.Animal;
+import agh.ics.oop.map_elements.Animal;
 
 import java.util.*;
 
@@ -35,21 +35,21 @@ public class Statistics {
     }
 
     public void setDominantGenotype(ArrayList<Animal> animals) {
-        Map<ArrayList<Integer>, Integer> genotypeCount = new HashMap<>();
+        Map<ArrayList<Integer>, Integer> genotypeCounter = new HashMap<>();
         for(Animal animal : animals){
 
-            if(genotypeCount.containsKey(animal.getGenotype())){
-                int num = genotypeCount.get(animal.getGenotype());
-                genotypeCount.put(animal.getGenotype(),num+1);
+            if(genotypeCounter.containsKey(animal.getGenotype())){
+                int num = genotypeCounter.get(animal.getGenotype());
+                genotypeCounter.put(animal.getGenotype(),num+1);
             }
             else{
-                genotypeCount.put(animal.getGenotype(),1);
+                genotypeCounter.put(animal.getGenotype(),1);
             }
         }
 
         HashMap.Entry<ArrayList<Integer>,Integer> maxEntry = null;
 
-        for (Map.Entry<ArrayList<Integer>,Integer> entry : genotypeCount.entrySet())
+        for (Map.Entry<ArrayList<Integer>,Integer> entry : genotypeCounter.entrySet())
         {
             if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0)
             {
@@ -58,10 +58,10 @@ public class Statistics {
         }
         if(maxEntry!=null) System.out.println(maxEntry.getValue()+ " zwierząt ma dominujący genotyp");
 
-        if(maxEntry!=null)this.dominantGenotype = maxEntry.getKey();
+        if(maxEntry!=null)dominantGenotype = maxEntry.getKey();
         else{
 
-            this.dominantGenotype = null;
+            dominantGenotype = null;
         }
 
     }
@@ -77,10 +77,10 @@ public class Statistics {
                 energySum+=animal.getEnergy();
             }
             double result = (double)energySum/animals.size();
-            this.averageAnimalEnergy = Math.round(result*100.0)/100.0;
+            averageAnimalEnergy = Math.round(result*100.0)/100.0;
         }
         else{
-            this.averageAnimalEnergy = 0;
+            averageAnimalEnergy = 0;
         }
 
     }
@@ -93,7 +93,7 @@ public class Statistics {
         int lifeSpan = date-animal.getDateOfBirth();
         double tmp = deathCounter* getAverageLifeSpan() + lifeSpan;
         double result = tmp/(deathCounter+1);
-        this.averageLifeSpan = Math.round(result*100.0)/100.0;
+        averageLifeSpan = Math.round(result*100.0)/100.0;
     }
 
     public double getAverageChildrenQuantity() {

@@ -1,4 +1,4 @@
-package agh.ics.oop;
+package agh.ics.oop.map_elements;
 
 public class Grass implements IMapElement{
     private final Vector2d position;

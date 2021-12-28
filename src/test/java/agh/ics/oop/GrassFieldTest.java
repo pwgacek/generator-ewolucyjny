@@ -1,4 +1,8 @@
 package agh.ics.oop;
+import agh.ics.oop.map_elements.Vector2d;
+import agh.ics.oop.maps.GrassField;
+import agh.ics.oop.maps.IWorldMap;
+import agh.ics.oop.simulation.SimulationEngine;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;

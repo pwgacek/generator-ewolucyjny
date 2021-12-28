@@ -1,4 +1,7 @@
 package agh.ics.oop;
+import agh.ics.oop.map_elements.Animal;
+import agh.ics.oop.map_elements.MapDirection;
+import agh.ics.oop.map_elements.Vector2d;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -12,7 +15,7 @@ public class AnimalTest {
         for(int i=0;i<100;i++){
             pies.move(MoveDirection.LEFT);
         }
-        assertEquals(pies.getDirection(),MapDirection.NORTH);
+        assertEquals(pies.getDirection(), MapDirection.NORTH);
 
 
         for(int i =0;i<5;i++){

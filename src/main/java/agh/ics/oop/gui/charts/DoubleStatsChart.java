@@ -1,8 +1,7 @@
-package agh.ics.oop.gui;
+package agh.ics.oop.gui.charts;
 
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
 public class DoubleStatsChart {
 
@@ -25,17 +24,17 @@ public class DoubleStatsChart {
         xAxis.setAnimated(false);
         yAxis.setAnimated(false);
 
-        this.chart = new LineChart<>(xAxis,yAxis);
-        this.chart.setPrefSize(240,100);
-        this.chart.setCreateSymbols(false);
+        chart = new LineChart<>(xAxis,yAxis);
+        chart.setPrefSize(240,100);
+        chart.setCreateSymbols(false);
 
         firstSeries = new XYChart.Series<>();
         secondSeries = new XYChart.Series<>();
 
         xAxis.setLabel(name);
 
-        this.chart.getData().add(firstSeries);
-        this.chart.getData().add(secondSeries);
+        chart.getData().add(firstSeries);
+        chart.getData().add(secondSeries);
 
         minX=0;
         maxX=200;
@@ -43,9 +42,6 @@ public class DoubleStatsChart {
     }
 
     public void update(int firstValue,int secondValue){
-
-
-        //Double maxY = (Double) Collections.max(series.getData().toArray(new Double[] a));
 
         firstSeries.getData().add(new XYChart.Data<>(x,firstValue));
         secondSeries.getData().add(new XYChart.Data<>(x,secondValue));

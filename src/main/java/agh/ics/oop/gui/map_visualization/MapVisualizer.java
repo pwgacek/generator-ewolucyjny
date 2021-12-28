@@ -1,6 +1,8 @@
-package agh.ics.oop.gui;
+package agh.ics.oop.gui.map_visualization;
 
-import agh.ics.oop.*;
+import agh.ics.oop.map_elements.IMapElement;
+import agh.ics.oop.map_elements.Vector2d;
+import agh.ics.oop.maps.AbstractWorldMap;
 import javafx.geometry.HPos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
@@ -53,12 +55,14 @@ public class MapVisualizer {
         for(int y=0;y<=map.getHeight();y++){
             for(int x=0;x<=map.getWidth();x++){
                 Vector2d cords = new Vector2d(x,y);
-                boolean isJungle = map.jungleBottomLeftCords.precedes(cords) && map.jungleUpperRightCords.follows(cords);
+                boolean isJungle = map.getJungleBottomLeftCords().precedes(cords) && map.getJungleUpperRightCords().follows(cords);
                 guiElementBoxArray[x][y] = new GuiElementBox(cellSize,isJungle,isRunning);
                 gridPane.add(guiElementBoxArray[x][y],x+1,map.getHeight()-y +1);
                 GridPane.setHalignment(guiElementBoxArray[x][y], HPos.CENTER);
             }
         }
+
+
         gridPane.setGridLinesVisible(true);
         this.map = map;
 

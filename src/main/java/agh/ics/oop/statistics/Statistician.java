@@ -1,6 +1,6 @@
 package agh.ics.oop.statistics;
 
-import agh.ics.oop.gui.MapHandlerGridPane;
+import agh.ics.oop.gui.map_visualization.MapHandlerGridPane;
 import javafx.application.Platform;
 
 import java.io.File;
@@ -17,7 +17,7 @@ public class Statistician {
 
     public Statistician(int mapID, MapHandlerGridPane mapHandlerGridPane) {
         this.mapID = mapID;
-        this.statisticsHistory = new ArrayList<>();
+        statisticsHistory = new ArrayList<>();
         this.mapHandlerGridPane = mapHandlerGridPane;
     }
 
@@ -32,13 +32,15 @@ public class Statistician {
 
         String path = "src/main/statistics/map" + mapID + "statistics.csv";
         File file = new File(path);
-        boolean writerOpen = false;
+
         PrintWriter writer = null;
+
         try {
             file.createNewFile();
+
             try{
                 writer = new PrintWriter(path);
-                writerOpen = true;
+
 
                 int sumAnimalQuantity=0;
                 int sumGrassQuantity=0;
@@ -82,9 +84,13 @@ public class Statistician {
                 writer.println("mean;"+meanAnimalQuantity+";"+meanGrassQuantity+";"+meanAverageAnimalEnergy+";"+meanAverageAnimalLifeSpan+";"+meanAverageChildrenQuantity+";");
                 writer.close();
             }catch (FileNotFoundException e){
-                if(writerOpen)writer.close();
+
                 System.out.println(e.getMessage());
 
+            }finally {
+                if(writer!=null){
+                    writer.close();
+                }
             }
 
 

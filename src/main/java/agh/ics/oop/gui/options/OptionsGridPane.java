@@ -1,4 +1,4 @@
-package agh.ics.oop.gui;
+package agh.ics.oop.gui.options;
 
 import javafx.geometry.HPos;
 import javafx.scene.control.ChoiceBox;

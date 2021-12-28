@@ -1,12 +1,8 @@
-package agh.ics.oop.gui;
+package agh.ics.oop.gui.charts;
 
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.text.Font;
-
-import javax.sound.sampled.Line;
 
 public class StatsChart  {
 
@@ -31,12 +27,10 @@ public class StatsChart  {
         yAxis.setAnimated(false);
         xAxis.setLabel(name);
 
-        this.chart = new LineChart<>(xAxis,yAxis);
-        this.chart.setPrefSize(240,100);
-        this.chart.setCreateSymbols(false);
+        chart = new LineChart<>(xAxis,yAxis);
+        chart.setPrefSize(240,100);
+        chart.setCreateSymbols(false);
         series = new XYChart.Series<>();
-        //chart.setTitle(name);
-
 
         this.chart.getData().add(series);
         minX=0;

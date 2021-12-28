@@ -1,5 +1,4 @@
 package agh.ics.oop.maps;
-import agh.ics.oop.*;
 import agh.ics.oop.conditions.MapConditions;
 import agh.ics.oop.map_elements.Animal;
 import agh.ics.oop.map_elements.Grass;
@@ -153,10 +152,7 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
         return null;
     }
 
-    @Override
-    public String toString() {
-        return  (new MapVisualizer(this).draw(new Vector2d(0,0),new Vector2d(width,height)));
-    }
+
     @Override
     public void positionChanged(Vector2d oldPosition,Animal animal){
 

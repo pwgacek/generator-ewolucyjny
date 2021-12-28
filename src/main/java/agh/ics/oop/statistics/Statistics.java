@@ -56,8 +56,6 @@ public class Statistics {
                 maxEntry = entry;
             }
         }
-        if(maxEntry!=null) System.out.println(maxEntry.getValue()+ " zwierząt ma dominujący genotyp");
-
         if(maxEntry!=null)dominantGenotype = maxEntry.getKey();
         else{
 

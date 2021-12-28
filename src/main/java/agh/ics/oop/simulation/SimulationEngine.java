@@ -43,6 +43,7 @@ public class SimulationEngine  extends Thread{
         this.statistics = new Statistics();
         this.deathCounter = 0;
         this.evolutionCounter = 0;
+        this.dayCounter = 0;
 
         ArrayList<Vector2d> positionsWithoutAnimal = new ArrayList<>();
         for(int x=0; x<=map.getWidth();x++){
@@ -64,30 +65,22 @@ public class SimulationEngine  extends Thread{
     public void  run() {
 
         updateStatistics();
-        statistician.addSnapshot(new Snapshot(0,statistics));
+        statistician.addSnapshot(new Snapshot(dayCounter,statistics));
         statistician.updateDominantGenotypeLabel(statistics.getDominantGenotype());
 
 
         Platform.runLater(observer::positionChanged);
         waitForRunLater();
-        System.out.println(map);
-        dayCounter = 1;
-        while(!map.getAnimals().isEmpty()){
 
+        while(!map.getAnimals().isEmpty()){
+            dayCounter++;
             if(!conditions.isRunning()){
                 statistician.writeStatisticsHistoryToFile();
                 suspendMe(conditions.getIsRunning());
 
-                if(isTerminated){System.out.println("wychodze");break;}
+                if(isTerminated){break;}
 
             }
-
-
-
-            System.out.println("********DZIEN NR " + dayCounter + "********");
-            System.out.println();
-
-
 
 
             removeDeadAnimals();// usuwanie martwych zwierząt
@@ -105,26 +98,22 @@ public class SimulationEngine  extends Thread{
                 System.out.println(e.getMessage());
             }
             waitForRunLater();
-            System.out.println(map);
+
 
             updateStatistics();
             statistician.addSnapshot(new Snapshot(dayCounter,statistics));
             statistician.updateDominantGenotypeLabel(statistics.getDominantGenotype());
 
-            System.out.println("*******KONIEC DNIA NR: "+ dayCounter++ + "**********");
+
         }
 
         if(!isTerminated){
-            System.out.println("wyszedłem sam");
+
             statistician.writeStatisticsHistoryToFile();
             conditions.setIsRunning(false);
             Platform.runLater(this.mapHandlerGridPane::disableStopStartBtn);
 
         }
-        else{
-            System.out.println("wyszedłem bo zamkniekto okno");
-        }
-
 
 
     }
@@ -143,78 +132,52 @@ public class SimulationEngine  extends Thread{
     }
 
     private void breedAnimals() {
-        System.out.println("***ROZMNAŻANIE***");
+
         for(Vector2d position : map.getAnimalsHashMap().keySet()){
             if(map.getAnimalsHashMap().get(position).size() > 1){
-                StringBuilder breedingReportBuilder = new StringBuilder();
-                breedingReportBuilder.append("Na pozycji: ").append(position).append("stoją zwierzęta: ");
-                for(Animal a :map.getAnimalsHashMap().get(position)){
-                    breedingReportBuilder.append(a.getMyID()).append(" energia: ").append(a.getEnergy()).append(", ");
-                }
+
                 Animal strongerParent,weakerParent;
                 int maxEnergy = map.getAnimalsHashMap().get(position).get(0).getEnergy();
-                ArrayList<Animal> candidats = (ArrayList<Animal>) map.getAnimalsHashMap().get(position).stream().filter(a -> a.getEnergy() == maxEnergy).collect(Collectors.toList());
-                if (candidats.size() >= 2){
-                    ArrayList<Animal> parents = drawParents(candidats,2);
+                ArrayList<Animal> candidates = (ArrayList<Animal>) map.getAnimalsHashMap().get(position).stream().filter(a -> a.getEnergy() == maxEnergy).collect(Collectors.toList());
+                if (candidates.size() >= 2){
+                    ArrayList<Animal> parents = drawParents(candidates,2);
                     strongerParent = parents.get(0);
                     weakerParent = parents.get(1);
 
                 }
                 else{
                     int secondMaxEnergy = map.getAnimalsHashMap().get(position).get(1).getEnergy();
-                    strongerParent = candidats.get(0);
-                    candidats = (ArrayList<Animal>) map.getAnimalsHashMap().get(position).stream().filter(a -> a.getEnergy() == secondMaxEnergy).collect(Collectors.toList());
-                    weakerParent = drawParents(candidats,1).get(0);
+                    strongerParent = candidates.get(0);
+                    candidates = (ArrayList<Animal>) map.getAnimalsHashMap().get(position).stream().filter(a -> a.getEnergy() == secondMaxEnergy).collect(Collectors.toList());
+                    weakerParent = drawParents(candidates,1).get(0);
 
                 }
-                breedingReportBuilder.append("WYBRANO: ").append(strongerParent.getMyID()).append(", ").append(weakerParent.getMyID());
 
                 if(weakerParent.getEnergy() >= (conditions.getStartEnergy()/2) && strongerParent.getEnergy()>0){
-                    breedingReportBuilder.append(" ZWIERZETA ROZMNAZAJA SIE! ");
                     weakerParent.incrementChildrenCounter();
                     strongerParent.incrementChildrenCounter();
                     Animal child = new Animal(map,position,strongerParent,weakerParent,dayCounter,conditions.getStartEnergy());
-                    breedingReportBuilder.append("id dziecka: ").append(child.getMyID()).append(" energia dziecka: ").append(child.getEnergy()).append(" kierunek dziecka: ").append(child.getDirection());
                     map.getAnimals().add(child);
                     map.getAnimalsHashMap().get(position).add(child);
                     Collections.sort(map.getAnimalsHashMap().get(position));
                     child.addObserver(map);
                 }
-                else{
-                    breedingReportBuilder.append(" NIE ROZMNAZAJA SIE!");
-                }
-                System.out.println(breedingReportBuilder);
-
 
             }
         }
     }
 
     private void feedAnimals() {
-        System.out.println("***JEDZENIE ROSLIN***");
 
         for(Vector2d position : map.getAnimalsHashMap().keySet()){
             if(map.getGrassInJungle().containsKey(position) || map.getGrassInSavanna().containsKey(position)){
 
-                StringBuilder eatingReportBuilder = new StringBuilder();
-                eatingReportBuilder.append("jemy na pozycji: ").append(position).append(" Obecni: ");
-                for(Animal a :map.getAnimalsHashMap().get(position)){
-                    eatingReportBuilder.append(a.getMyID()).append(", ");
-                }
-
-
                 int maxEnergy = map.getAnimalsHashMap().get(position).get(0).getEnergy();
-                eatingReportBuilder.append(" potrzebna energia: ").append(maxEnergy);
                 List<Animal> banqueters = map.getAnimalsHashMap().get(position).stream().filter(a -> a.getEnergy() == maxEnergy).collect(Collectors.toList());
-                eatingReportBuilder.append(" kto je: ");
-                for( Animal a :banqueters){
-                    eatingReportBuilder.append(a.getMyID()).append(", ");
-                }
+
                 for(Animal animal:banqueters){
                     animal.changeEnergy(conditions.getPlantEnergy()/banqueters.size());
                 }
-                eatingReportBuilder.append(" zyskują: ").append(conditions.getPlantEnergy() / banqueters.size()).append(" energi");
-                System.out.println(eatingReportBuilder);
                 if(map.getGrassInSavanna().containsKey(position))map.removeGrassFromSavanna(position);
                 if(map.getGrassInJungle().containsKey(position))map.removeGrassFromJungle(position);
 
@@ -223,21 +186,16 @@ public class SimulationEngine  extends Thread{
     }
 
     private void moveAnimals() {
-        System.out.println("***RUCH ZWIERZAT***");
-
         for(Animal animal : map.getAnimals()){
             animal.move(animal.getRandomGen());
 
         }
         for(Animal animal :map.getAnimals()){
             animal.changeEnergy(-conditions.getMoveEnergy());
-            System.out.println("ID: "+animal.getMyID()+" nowa pozycja: "+ animal.getPosition()+ " nowy kierunek: "+ animal.getDirection() + " pozostało energii: " + (animal.getEnergy()));
-
         }
     }
 
     private void removeDeadAnimals() {
-        System.out.println("***USUWANIE MARTWYCH***");
         ArrayList<Animal> animalsToRemove = new ArrayList<>();
         for(Animal animal : map.getAnimals()){
             if(animal.getEnergy()-conditions.getMoveEnergy() < 0){
@@ -247,19 +205,18 @@ public class SimulationEngine  extends Thread{
             }
         }
         for(Animal deadAnimal : animalsToRemove){
-            System.out.println("USUWAM: " +deadAnimal.reports);
             deadAnimal.removeObserver(this.map);
             map.removeAnimal(deadAnimal);
             if(conditions.isEvolutionMagical()&& evolutionCounter < 3 && map.getAnimals().size() == 5) cloneAnimals();
         }
     }
 
-    private ArrayList<Animal> drawParents(ArrayList <Animal> candidats,int quantity){
+    private ArrayList<Animal> drawParents(ArrayList <Animal> candidates,int quantity){
         Random rd = new Random();
         ArrayList <Animal> result = new ArrayList<>();
         Animal chosenOne;
         for(int i =0;i<quantity;i++){
-             chosenOne= candidats.remove(rd.nextInt(candidats.size()));
+             chosenOne= candidates.remove(rd.nextInt(candidates.size()));
             result.add(chosenOne);
         }
         return result;

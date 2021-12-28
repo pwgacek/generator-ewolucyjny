@@ -1,4 +1,4 @@
-package agh.ics.oop.gui.map_visualization;
+package agh.ics.oop.gui.visualization;
 import agh.ics.oop.map_elements.Animal;
 import agh.ics.oop.map_elements.IMapElement;
 import javafx.geometry.Insets;

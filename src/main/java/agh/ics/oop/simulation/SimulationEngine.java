@@ -1,8 +1,8 @@
 package agh.ics.oop.simulation;
 
 import agh.ics.oop.conditions.SimulationConditions;
-import agh.ics.oop.gui.map_visualization.MapHandlerGridPane;
-import agh.ics.oop.gui.map_visualization.MapVisualizer;
+import agh.ics.oop.gui.visualization.MapHandlerGridPane;
+import agh.ics.oop.gui.visualization.MapVisualizer;
 import agh.ics.oop.map_elements.Animal;
 import agh.ics.oop.map_elements.Vector2d;
 import agh.ics.oop.maps.AbstractWorldMap;

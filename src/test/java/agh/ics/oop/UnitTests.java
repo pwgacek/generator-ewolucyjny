@@ -51,7 +51,7 @@ public class UnitTests {
 
         Vector2d position = new Vector2d(4,4);
         Animal a0 = new Animal(map,position, 24);
-        
+
 
         map.place(a0);
         a0.move(0);

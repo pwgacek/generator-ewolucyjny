@@ -1,4 +1,4 @@
-package agh.ics.oop.gui.map_visualization;
+package agh.ics.oop.gui.visualization;
 
 import agh.ics.oop.conditions.SimulationConditions;
 import agh.ics.oop.gui.charts.ChartsHolder;

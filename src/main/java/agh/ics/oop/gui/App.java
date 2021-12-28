@@ -2,7 +2,7 @@ package agh.ics.oop.gui;
 
 import agh.ics.oop.conditions.MapConditions;
 import agh.ics.oop.conditions.SimulationConditions;
-import agh.ics.oop.gui.map_visualization.MapHandlerGridPane;
+import agh.ics.oop.gui.visualization.MapHandlerGridPane;
 import agh.ics.oop.gui.options.OptionsGridPane;
 import agh.ics.oop.maps.AbstractWorldMap;
 import agh.ics.oop.maps.GrassField;

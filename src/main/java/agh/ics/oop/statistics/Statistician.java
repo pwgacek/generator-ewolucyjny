@@ -1,6 +1,6 @@
 package agh.ics.oop.statistics;
 
-import agh.ics.oop.gui.map_visualization.MapHandlerGridPane;
+import agh.ics.oop.gui.visualization.MapHandlerGridPane;
 import javafx.application.Platform;
 
 import java.io.File;

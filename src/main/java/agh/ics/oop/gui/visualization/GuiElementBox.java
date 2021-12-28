@@ -12,27 +12,32 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
 
-public class GuiElementBox extends Label {
+public class GuiElementBox extends VBox {
 
     ImageViewSelector imageViewSelector;
     private IMapElement element;
     private final double cellSize;
+    private boolean hasTooltip;
 
 
-    public GuiElementBox(double cellSize, boolean isSawanna, AtomicBoolean isRunning){
+    public GuiElementBox(double cellSize, boolean isSavanna, AtomicBoolean isRunning){
         imageViewSelector = new ImageViewSelector();
 
+
         this.cellSize = cellSize;
-        this.setPrefSize(cellSize*0.9,cellSize*0.9);
-        this.setAlignment(Pos.CENTER);
+        this.hasTooltip = false;
+
+        this.setPrefSize(cellSize,cellSize);
+        this.setAlignment(Pos.TOP_CENTER);
         BackgroundFill fill;
-        if(isSawanna){
+        if(isSavanna){
             fill = new BackgroundFill(Color.LIGHTGREEN, CornerRadii.EMPTY, Insets.EMPTY);
         }
         else{
@@ -50,7 +55,8 @@ public class GuiElementBox extends Label {
                     if(this.element.getClass() == Animal.class){
 
                         tooltip.setText("genotype: "+((Animal) element).getGenotype().toString());
-                        this.setTooltip(tooltip);
+                        Tooltip.install(this,tooltip);
+                        hasTooltip = true;
 
                     }
                 }
@@ -58,10 +64,12 @@ public class GuiElementBox extends Label {
         });
 
         this.setOnMouseExited(event -> {
-            if(this.getTooltip()!=null){
-                this.setTooltip(null);
-
+            if(hasTooltip){
+                Tooltip.uninstall(this,tooltip);
+                hasTooltip = false;
             }
+
+
         });
 
 
@@ -73,8 +81,9 @@ public class GuiElementBox extends Label {
         removeImageView();
         this.element = element;
         ImageView imageView = imageViewSelector.getImageView(element.getImgPath());
-        imageView.setFitWidth(0.9*cellSize);
-        imageView.setFitHeight(0.9*cellSize);
+        imageView.setFitWidth(cellSize);
+        imageView.setFitHeight(cellSize);
+
 
         this.getChildren().add(imageView);
 

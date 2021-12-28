@@ -1,55 +1,55 @@
 agh/ics/oop/gui/options/OptionsGridPane.java
  agh.ics.oop.gui.options.OptionsGridPane
-agh/ics/oop/map_elements/IMapElement.java
- agh.ics.oop.map_elements.IMapElement
-agh/ics/oop/gui/charts/DoubleStatsChart.java
- agh.ics.oop.gui.charts.DoubleStatsChart
-agh/ics/oop/map_elements/Grass.java
- agh.ics.oop.map_elements.Grass
-agh/ics/oop/map_elements/MapDirection.java
- agh.ics.oop.map_elements.MapDirection
- agh.ics.oop.map_elements.MapDirection$1
-agh/ics/oop/maps/AbstractWorldMap.java
- agh.ics.oop.maps.AbstractWorldMap
-agh/ics/oop/conditions/SimulationConditions.java
- agh.ics.oop.conditions.SimulationConditions
-agh/ics/oop/gui/charts/ChartsHolder.java
- agh.ics.oop.gui.charts.ChartsHolder
-agh/ics/oop/gui/charts/StatsChart.java
- agh.ics.oop.gui.charts.StatsChart
-agh/ics/oop/conditions/MapConditions.java
- agh.ics.oop.conditions.MapConditions
-agh/ics/oop/gui/options/OptionsElementVBox.java
- agh.ics.oop.gui.options.OptionsElementVBox
-agh/ics/oop/map_elements/Vector2d.java
- agh.ics.oop.map_elements.Vector2d
-agh/ics/oop/maps/TorusGrassField.java
- agh.ics.oop.maps.TorusGrassField
-agh/ics/oop/maps/IWorldMap.java
- agh.ics.oop.maps.IWorldMap
-agh/ics/oop/map_elements/Animal.java
- agh.ics.oop.map_elements.Animal
-agh/ics/oop/map_elements/IPositionChangeObserver.java
- agh.ics.oop.map_elements.IPositionChangeObserver
-agh/ics/oop/maps/GrassField.java
- agh.ics.oop.maps.GrassField
-agh/ics/oop/statistics/Statistics.java
- agh.ics.oop.statistics.Statistics
-agh/ics/oop/statistics/Snapshot.java
- agh.ics.oop.statistics.Snapshot
 agh/ics/oop/gui/visualization/MapHandlerGridPane.java
  agh.ics.oop.gui.visualization.MapHandlerGridPane
 agh/ics/oop/gui/visualization/MapVisualizer.java
  agh.ics.oop.gui.visualization.MapVisualizer
-agh/ics/oop/gui/visualization/ImageViewSelector.java
- agh.ics.oop.gui.visualization.ImageViewSelector
+agh/ics/oop/map_elements/Animal.java
+ agh.ics.oop.map_elements.Animal
 agh/ics/oop/World.java
  agh.ics.oop.World
+agh/ics/oop/map_elements/MapDirection.java
+ agh.ics.oop.map_elements.MapDirection
+ agh.ics.oop.map_elements.MapDirection$1
+agh/ics/oop/statistics/Statistics.java
+ agh.ics.oop.statistics.Statistics
+agh/ics/oop/statistics/Snapshot.java
+ agh.ics.oop.statistics.Snapshot
+agh/ics/oop/gui/charts/ChartsHolder.java
+ agh.ics.oop.gui.charts.ChartsHolder
+agh/ics/oop/maps/TorusGrassField.java
+ agh.ics.oop.maps.TorusGrassField
+agh/ics/oop/maps/GrassField.java
+ agh.ics.oop.maps.GrassField
+agh/ics/oop/maps/IWorldMap.java
+ agh.ics.oop.maps.IWorldMap
+agh/ics/oop/map_elements/Grass.java
+ agh.ics.oop.map_elements.Grass
+agh/ics/oop/gui/App.java
+ agh.ics.oop.gui.App
+agh/ics/oop/gui/options/OptionsElementVBox.java
+ agh.ics.oop.gui.options.OptionsElementVBox
+agh/ics/oop/gui/visualization/ImageViewSelector.java
+ agh.ics.oop.gui.visualization.ImageViewSelector
 agh/ics/oop/gui/visualization/GuiElementBox.java
  agh.ics.oop.gui.visualization.GuiElementBox
 agh/ics/oop/statistics/Statistician.java
  agh.ics.oop.statistics.Statistician
-agh/ics/oop/gui/App.java
- agh.ics.oop.gui.App
+agh/ics/oop/conditions/MapConditions.java
+ agh.ics.oop.conditions.MapConditions
 agh/ics/oop/simulation/SimulationEngine.java
  agh.ics.oop.simulation.SimulationEngine
+agh/ics/oop/map_elements/Vector2d.java
+ agh.ics.oop.map_elements.Vector2d
+agh/ics/oop/conditions/SimulationConditions.java
+ agh.ics.oop.conditions.SimulationConditions
+agh/ics/oop/maps/AbstractWorldMap.java
+ agh.ics.oop.maps.AbstractWorldMap
+agh/ics/oop/map_elements/IPositionChangeObserver.java
+ agh.ics.oop.map_elements.IPositionChangeObserver
+agh/ics/oop/map_elements/IMapElement.java
+ agh.ics.oop.map_elements.IMapElement
+agh/ics/oop/gui/charts/StatsChart.java
+ agh.ics.oop.gui.charts.StatsChart
+agh/ics/oop/gui/charts/DoubleStatsChart.java
+ agh.ics.oop.gui.charts.DoubleStatsChart

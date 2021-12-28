@@ -4,6 +4,7 @@ import agh.ics.oop.map_elements.IMapElement;
 import agh.ics.oop.map_elements.Vector2d;
 import agh.ics.oop.maps.AbstractWorldMap;
 import javafx.geometry.HPos;
+import javafx.geometry.VPos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -59,6 +60,7 @@ public class MapVisualizer {
                 guiElementBoxArray[x][y] = new GuiElementBox(cellSize,isJungle,isRunning);
                 gridPane.add(guiElementBoxArray[x][y],x+1,map.getHeight()-y +1);
                 GridPane.setHalignment(guiElementBoxArray[x][y], HPos.CENTER);
+                GridPane.setValignment(guiElementBoxArray[x][y], VPos.CENTER);
             }
         }
 
